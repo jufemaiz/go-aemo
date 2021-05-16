@@ -1,0 +1,33 @@
+---
+version: '3.8'
+services:
+  app:
+    build:
+      args:
+        SSH_KEY: ${ARG_SSH_KEY}
+      context: .
+      dockerfile: Dockerfile
+    command: ['make', 'build']
+    container_name: go-aemo
+    environment:
+      AWS_VAULT:
+      AWS_DEFAULT_REGION:
+      AWS_REGION:
+      AWS_ACCESS_KEY_ID:
+      AWS_SECRET_ACCESS_KEY:
+      AWS_SESSION_TOKEN:
+      AWS_SECURITY_TOKEN:
+      AWS_SESSION_EXPIRATION:
+      ENV: development
+      # SSH Support
+      SSH_AUTH_SOCK: /ssh-agent
+    secrets:
+    - id_rsa
+    working_dir: /app
+    volumes:
+    - .:/app
+    - ${HOME}/.ssh/known_hosts:/root/.ssh/known_hosts:ro
+    - /run/host-services/ssh-auth.sock:/ssh-agent
+secrets:
+   id_rsa:
+     file: ~/.ssh/id_rsa
