@@ -15,6 +15,8 @@ const (
 	NmiLength = 10
 	// NmiValidPattern the pattern for valid Nmis.
 	NmiValidPattern = `^([A-HJ-NP-Z\d]{10})`
+	// nilstr nil in string form.
+	nilstr = "nil"
 )
 
 var (
@@ -25,7 +27,6 @@ var (
 // Nmi is a national meter identifier as per AEMO.
 // Ref:
 // - https://aemo.com.au/-/media/files/electricity/nem/retail_and_metering/metering-procedures/2016/0610-0008-pdf.pdf
-// -
 type Nmi struct {
 	Identifier                 string `json:"identifier"`
 	MSATSDetail                string `json:"msatsDetail"`
@@ -42,8 +43,8 @@ type Nmi struct {
 	// Roles       []*Role
 }
 
-// NmiChecksum calculates a Nmi's checksum.
-func NmiChecksum(s string) int {
+// Checksum calculates a Nmi's checksum.
+func Checksum(s string) int {
 	n, err := NewNmi(s)
 	if err != nil {
 		return NMICHECKSUMINVALID
@@ -69,7 +70,7 @@ func (n *Nmi) GoString() string {
 
 // String meets the stringer interface.
 func (n *Nmi) String() string {
-	return string(n.Identifier)
+	return n.Identifier
 }
 
 // Checksum returns the checksum of the provided Nmi.
@@ -81,25 +82,25 @@ func (n *Nmi) Checksum() int {
 	var c, s int64
 
 	sumDig := func(n int64) int64 {
-		var s int64
+		var sum int64
 
 		for n != 0 {
-			s += n % 10
-			n = n / 10
+			sum += n % 10
+			n /= 10
 		}
 
-		return s
+		return sum
 	}
 
 	chrs := []rune(n.Identifier)
 
-	for i := len(chrs) - 1; i >= 0; i = i - 1 {
+	for i := len(chrs) - 1; i >= 0; i-- {
 		v := int64(chrs[i])
 		if i%2 != 0 {
-			v = v * 2
+			v *= 2
 		}
 
-		s = s + sumDig(v)
+		s += sumDig(v)
 	}
 
 	c = (10 - (s % 10)) % 10
@@ -146,6 +147,7 @@ func (n *Nmi) AllMeters() ([]*Meter, error) {
 	}
 
 	meters := []*Meter{}
+
 	for _, m := range n.Meters {
 		if m == nil {
 			continue
@@ -175,8 +177,7 @@ func (n *Nmi) AddMeter(m *Meter) error {
 		return ErrNmiMeterIdentifierEmpty
 	}
 
-	_, ok := n.Meters[m.Identifier]
-	if ok {
+	if _, ok := n.Meters[m.Identifier]; ok {
 		return fmt.Errorf("adding meter '%#v': %w", m, ErrNmiMeterFound)
 	}
 

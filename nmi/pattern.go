@@ -10,8 +10,7 @@ type Pattern string
 
 // NewPattern validates a new pattern, return invalid pattern if required.
 func NewPattern(s string) (Pattern, error) {
-	_, err := regexp.Compile(s)
-	if err != nil {
+	if _, err := regexp.Compile(s); err != nil {
 		return Pattern(s), fmt.Errorf("pattern '%s': %w", s, ErrPatternInvalid)
 	}
 
@@ -20,7 +19,12 @@ func NewPattern(s string) (Pattern, error) {
 
 // Compile compiles the pattern, returning the regexp and an error.
 func (p Pattern) Compile() (*regexp.Regexp, error) {
-	return regexp.Compile(p.String())
+	r, err := regexp.Compile(p.String())
+	if err != nil {
+		return r, fmt.Errorf("Compile: %w", err)
+	}
+
+	return r, nil
 }
 
 // String returns the pattern as a string.

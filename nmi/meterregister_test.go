@@ -8,10 +8,6 @@ import (
 )
 
 func TestMeterRegisterGoString(t *testing.T) {
-	// additionalSiteInformation := "Additional site information."
-	// now := time.Now()
-	// serialNumber := "ABC123"
-
 	Convey("meterregister.GoString()", t, func() {
 		tests := map[string]struct {
 			arg      *MeterRegister
@@ -25,16 +21,6 @@ func TestMeterRegisterGoString(t *testing.T) {
 				arg:      &MeterRegister{RegisterID: "123"},
 				expected: "MeterRegister{RegisterID: \"123\", MeasurementStream: \"\", NetworkTariffCode: \"\", UnitOfMeasure: \"\", TimeOfDay: \"\", Multiplier: 0, DialFormat: \"\", ControlledLoad: false, ConsumptionType: \"\", Status: \"\"}",
 			},
-			// "with all": {
-			// 	arg: &Meter{
-			// 		Nmi:        "4123456789",
-			// 		Identifier: "1",
-			// 		Registers: []*MeterRegister{
-			// 			{RegisterID: "123", MeasurementStream: "E1", UnitOfMeasure: "KWH"},
-			// 		},
-			// 	},
-			// 	expected: "MeterRegister{Nmi: \"4123456789\", Identifier: \"1\", Registers: []*nmi.MeterRegister{MeterRegister{RegisterID: \"123\", MeasurementStream: \"E1\", NetworkTariffCode: \"\", UnitOfMeasure: \"KWH\", TimeOfDay: \"\", Multiplier: 0, DialFormat: \"\", ControlledLoad: false, ConsumptionType: \"\", Status: \"\"}}}",
-			// },
 		}
 
 		for name, tc := range tests {

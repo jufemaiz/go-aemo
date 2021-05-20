@@ -1,6 +1,5 @@
-// Package nmi.
-package nmi
-
+// Package nmi delivers nmi capabilities to the aemo library.
+//
 // From: https://aemo.com.au/-/media/files/electricity/nem/retail_and_metering/metering-procedures/2016/0610-0008-pdf.pdf
 //
 // NMI Structure
@@ -64,3 +63,4 @@ package nmi
 //
 // The range 9 XXX XXX XXX has been reserved as a “break-out” if it becomes
 // necessary to move to an 11 character NMI.
+package nmi

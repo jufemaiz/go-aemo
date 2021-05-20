@@ -79,27 +79,27 @@ var (
 		Pattern(`^(NJJJNR[A-HJ-NP-Z\d]{4})$`),
 	}
 
-	allocationsGAS_NSW = Allocations{
+	allocationsGASNSW = Allocations{
 		Pattern(`^(52\d{8})$`),
 	}
 
-	allocationsGAS_QLD = Allocations{
+	allocationsGASQLD = Allocations{
 		Pattern(`^(54\d{8})$`),
 	}
 
-	allocationsGAS_SA = Allocations{
+	allocationsGASSA = Allocations{
 		Pattern(`^(55\d{8})$`),
 	}
 
-	allocationsGAS_TAS = Allocations{
+	allocationsGASTAS = Allocations{
 		Pattern(`^(57\d{8})$`),
 	}
 
-	allocationsGAS_VIC = Allocations{
+	allocationsGASVIC = Allocations{
 		Pattern(`^(53\d{8})$`),
 	}
 
-	allocationsGAS_WA = Allocations{
+	allocationsGASWA = Allocations{
 		Pattern(`^(56\d{8})$`),
 	}
 
@@ -117,7 +117,7 @@ var (
 		Pattern(`^(431\d{7})$`),
 	}
 
-	allocationsNT_RESERVED = Allocations{
+	allocationsNTRESERVED = Allocations{
 		Pattern(`^(250\d{7})$`),
 	}
 
@@ -168,7 +168,7 @@ var (
 	}
 )
 
-// Allocations is an allocation of the NMI
+// Allocations is an allocation of the NMI.
 type Allocations []Pattern
 
 // Compile compiles all patterns.

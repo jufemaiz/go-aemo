@@ -1,22 +1,37 @@
+// Package region provides access to region information used by AEMO.
 package region
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const (
+	// RegionUndefined is the undefined region.
 	RegionUndefined Region = iota
+	// RegionAAT is the AAT.
 	RegionAAT
+	// RegionACT is the ACT.
 	RegionACT
+	// RegionNSW is NSW.
 	RegionNSW
+	// RegionNT is the NT.
 	RegionNT
+	// RegionQLD is QLD.
 	RegionQLD
+	// RegionSA is SA.
 	RegionSA
+	// RegionTAS is RegionTAS.
 	RegionTAS
+	// RegionVIC is VIC.
 	RegionVIC
+	// RegionWA is WA.
 	RegionWA
 )
 
 var (
-	Region_name = map[Region]string{
+	// RegionName mapping Region to the string.
+	RegionName = map[Region]string{
 		RegionUndefined: "UNDEFINED",
 		RegionAAT:       "AAT",
 		RegionACT:       "ACT",
@@ -29,7 +44,8 @@ var (
 		RegionWA:        "WA",
 	}
 
-	Region_value = map[string]Region{
+	// RegionValue mapping string of a Region to the Region.
+	RegionValue = map[string]Region{
 		"UNDEFINED": RegionUndefined,
 		"AAT":       RegionAAT,
 		"ACT":       RegionACT,
@@ -111,8 +127,8 @@ var (
 // Region represents one of the regions that AEMO operates in.
 type Region int32
 
-// RegionInfo holds a structured set of data for a region.
-type RegionInfo struct {
+// Info holds a structured set of data for a region.
+type Info struct {
 	Region     Region `json:"-"`
 	MarketNode Region `json:"marketNode"`
 	Name       string `json:"name"`
@@ -122,7 +138,7 @@ type RegionInfo struct {
 
 // NewRegion returns a region for a string (matching short name).
 func NewRegion(s string) (Region, error) {
-	r, ok := Region_value[s]
+	r, ok := RegionValue[strings.ToUpper(s)]
 	if !ok {
 		return RegionUndefined, ErrRegionInvalid
 	}
@@ -144,12 +160,12 @@ func (r Region) GoString() string {
 }
 
 // Info struct for a region.
-func (r Region) Info() (*RegionInfo, error) {
+func (r Region) Info() (*Info, error) {
 	if r == RegionUndefined {
 		return nil, fmt.Errorf("region '%d': %w", r, ErrRegionInvalid)
 	}
 
-	return &RegionInfo{
+	return &Info{
 		Region:     r,
 		MarketNode: regionMarketNodes[r],
 		Name:       regionNames[r],
@@ -158,22 +174,22 @@ func (r Region) Info() (*RegionInfo, error) {
 	}, nil
 }
 
-// MarketNode retuns the market node fo the region.
+// MarketNode returns the market node fo the region.
 func (r Region) MarketNode() Region {
 	return regions[regionMarketNodes[r]]
 }
 
-// Name retuns the name of the region.
+// Name returns the name of the region.
 func (r Region) Name() string {
 	return regionNames[r]
 }
 
-// LongName retuns the long (full) name of the region.
+// LongName returns the long (full) name of the region.
 func (r Region) LongName() string {
 	return regionLongNames[r]
 }
 
-// ISOCode retuns the ISO code of the region.
+// ISOCode returns the ISO code of the region.
 func (r Region) ISOCode() string {
 	return regionISOCodes[r]
 }

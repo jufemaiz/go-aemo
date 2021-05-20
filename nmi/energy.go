@@ -6,8 +6,11 @@ import (
 )
 
 const (
+	// EnergyUndefined is undefined.
 	EnergyUndefined Energy = iota
+	// EnergyElectricity is electricity.
 	EnergyElectricity
+	// EnergyGas is gas.
 	EnergyGas
 )
 
@@ -18,13 +21,15 @@ var (
 		EnergyGas,
 	}
 
-	Energy_name = map[Energy]string{
+	// EnergyName maps Energy to strings.
+	EnergyName = map[Energy]string{
 		EnergyUndefined:   "UNDEFINED",
 		EnergyElectricity: "ELECTRICITY",
 		EnergyGas:         "GAS",
 	}
 
-	Energy_value = map[string]Energy{
+	// EnergyValue maps strings to Energy.
+	EnergyValue = map[string]Energy{
 		"UNDEFINED":   EnergyUndefined,
 		"ELECTRICITY": EnergyElectricity,
 		"GAS":         EnergyGas,
@@ -36,7 +41,7 @@ type Energy int32
 
 // NewEnergy returns an energy based on the string provided.
 func NewEnergy(s string) (Energy, error) {
-	e, ok := Energy_value[strings.ToUpper(s)]
+	e, ok := EnergyValue[strings.ToUpper(s)]
 	if !ok {
 		return EnergyUndefined, ErrEnergyInvalid
 	}
@@ -44,16 +49,16 @@ func NewEnergy(s string) (Energy, error) {
 	return e, nil
 }
 
-// String satisfies the stringer interface.
+// GoString satisfies the GoString interface.
 func (e Energy) GoString() string {
 	return fmt.Sprintf("\"%s\"", e.String())
 }
 
 // String satisfies the stringer interface.
 func (e Energy) String() string {
-	s, ok := Energy_name[e]
+	s, ok := EnergyName[e]
 	if !ok {
-		return Energy_name[EnergyUndefined]
+		return EnergyName[EnergyUndefined]
 	}
 
 	return s

@@ -21,16 +21,16 @@ const (
 	ParticipantETSATP
 	ParticipantEXEMPTNETWORKS
 	ParticipantFEDAIRPORTS
-	ParticipantGAS_NSW
-	ParticipantGAS_QLD
-	ParticipantGAS_SA
-	ParticipantGAS_TAS
-	ParticipantGAS_VIC
-	ParticipantGAS_WA
+	ParticipantGASNSW
+	ParticipantGASQLD
+	ParticipantGASSA
+	ParticipantGASTAS
+	ParticipantGASVIC
+	ParticipantGASWA
 	ParticipantGPUPP
 	ParticipantHORIZONPOWER
 	ParticipantINTEGP
-	ParticipantNT_RESERVED
+	ParticipantNTRESERVED
 	ParticipantPLINKP
 	ParticipantPOWCP
 	ParticipantSNOWY
@@ -56,16 +56,16 @@ var (
 		ParticipantETSATP,
 		ParticipantEXEMPTNETWORKS,
 		ParticipantFEDAIRPORTS,
-		ParticipantGAS_NSW,
-		ParticipantGAS_QLD,
-		ParticipantGAS_SA,
-		ParticipantGAS_TAS,
-		ParticipantGAS_VIC,
-		ParticipantGAS_WA,
+		ParticipantGASNSW,
+		ParticipantGASQLD,
+		ParticipantGASSA,
+		ParticipantGASTAS,
+		ParticipantGASVIC,
+		ParticipantGASWA,
 		ParticipantGPUPP,
 		ParticipantHORIZONPOWER,
 		ParticipantINTEGP,
-		ParticipantNT_RESERVED,
+		ParticipantNTRESERVED,
 		ParticipantPLINKP,
 		ParticipantPOWCP,
 		ParticipantSNOWY,
@@ -77,7 +77,8 @@ var (
 		ParticipantWESTERNPOWER,
 	}
 
-	Participant_name = map[Participant]string{
+	// ParticipantName maps Participants to strings.
+	ParticipantName = map[Participant]string{
 		ParticipantUndefined:      "UNDEFINED",
 		ParticipantACTEWP:         "ACTEWP",
 		ParticipantAEMORESERVED:   "AEMORESERVED",
@@ -91,16 +92,16 @@ var (
 		ParticipantETSATP:         "ETSATP",
 		ParticipantEXEMPTNETWORKS: "EXEMPTNETWORKS",
 		ParticipantFEDAIRPORTS:    "FEDAIRPORTS",
-		ParticipantGAS_NSW:        "GAS_NSW",
-		ParticipantGAS_QLD:        "GAS_QLD",
-		ParticipantGAS_SA:         "GAS_SA",
-		ParticipantGAS_TAS:        "GAS_TAS",
-		ParticipantGAS_VIC:        "GAS_VIC",
-		ParticipantGAS_WA:         "GAS_WA",
+		ParticipantGASNSW:         "GASNSW",
+		ParticipantGASQLD:         "GASQLD",
+		ParticipantGASSA:          "GASSA",
+		ParticipantGASTAS:         "GASTAS",
+		ParticipantGASVIC:         "GASVIC",
+		ParticipantGASWA:          "GASWA",
 		ParticipantGPUPP:          "GPUPP",
 		ParticipantHORIZONPOWER:   "HORIZONPOWER",
 		ParticipantINTEGP:         "INTEGP",
-		ParticipantNT_RESERVED:    "NT_RESERVED",
+		ParticipantNTRESERVED:     "NTRESERVED",
 		ParticipantPLINKP:         "PLINKP",
 		ParticipantPOWCP:          "POWCP",
 		ParticipantSNOWY:          "SNOWY",
@@ -112,7 +113,8 @@ var (
 		ParticipantWESTERNPOWER:   "WESTERNPOWER",
 	}
 
-	Participant_value = map[string]Participant{
+	// ParticipantValue maps strings to Participants.
+	ParticipantValue = map[string]Participant{
 		"UNDEFINED":      ParticipantUndefined,
 		"ACTEWP":         ParticipantACTEWP,
 		"AEMORESERVED":   ParticipantAEMORESERVED,
@@ -126,16 +128,16 @@ var (
 		"ETSATP":         ParticipantETSATP,
 		"EXEMPTNETWORKS": ParticipantEXEMPTNETWORKS,
 		"FEDAIRPORTS":    ParticipantFEDAIRPORTS,
-		"GAS_NSW":        ParticipantGAS_NSW,
-		"GAS_QLD":        ParticipantGAS_QLD,
-		"GAS_SA":         ParticipantGAS_SA,
-		"GAS_TAS":        ParticipantGAS_TAS,
-		"GAS_VIC":        ParticipantGAS_VIC,
-		"GAS_WA":         ParticipantGAS_WA,
+		"GASNSW":         ParticipantGASNSW,
+		"GASQLD":         ParticipantGASQLD,
+		"GASSA":          ParticipantGASSA,
+		"GASTAS":         ParticipantGASTAS,
+		"GASVIC":         ParticipantGASVIC,
+		"GASWA":          ParticipantGASWA,
 		"GPUPP":          ParticipantGPUPP,
 		"HORIZONPOWER":   ParticipantHORIZONPOWER,
 		"INTEGP":         ParticipantINTEGP,
-		"NT_RESERVED":    ParticipantNT_RESERVED,
+		"NTRESERVED":     ParticipantNTRESERVED,
 		"PLINKP":         ParticipantPLINKP,
 		"POWCP":          ParticipantPOWCP,
 		"SNOWY":          ParticipantSNOWY,
@@ -182,6 +184,7 @@ var (
 		region.RegionWA,
 	}
 
+	// ParticipantIDs lists all participant ids.
 	ParticipantIDs = []string{
 		"UNDEFINED",
 		"ACTEWP",
@@ -196,16 +199,16 @@ var (
 		"ETSATP",
 		"EXEMPTNETWORKS",
 		"FEDAIRPORTS",
-		"GAS_NSW",
-		"GAS_QLD",
-		"GAS_SA",
-		"GAS_TAS",
-		"GAS_VIC",
-		"GAS_WA",
+		"GASNSW",
+		"GASQLD",
+		"GASSA",
+		"GASTAS",
+		"GASVIC",
+		"GASWA",
 		"GPUPP",
 		"HORIZONPOWER",
 		"INTEGP",
-		"NT_RESERVED",
+		"NTRESERVED",
 		"PLINKP",
 		"POWCP",
 		"SNOWY",
@@ -336,16 +339,16 @@ var (
 		allocationsETSATP,
 		allocationsEXEMPTNETWORKS,
 		allocationsFEDAIRPORTS,
-		allocationsGAS_NSW,
-		allocationsGAS_QLD,
-		allocationsGAS_SA,
-		allocationsGAS_TAS,
-		allocationsGAS_VIC,
-		allocationsGAS_WA,
+		allocationsGASNSW,
+		allocationsGASQLD,
+		allocationsGASSA,
+		allocationsGASTAS,
+		allocationsGASVIC,
+		allocationsGASWA,
 		allocationsGPUPP,
 		allocationsHORIZONPOWER,
 		allocationsINTEGP,
-		allocationsNT_RESERVED,
+		allocationsNTRESERVED,
 		allocationsPLINKP,
 		allocationsPOWCP,
 		allocationsSNOWY,
@@ -392,7 +395,7 @@ func ParticipantsForRegion(r region.Region) []Participant {
 
 // NewParticipant returns a participant for a string (AEMO Participant ID).
 func NewParticipant(s string) (Participant, error) {
-	p, ok := Participant_value[strings.ToUpper(s)]
+	p, ok := ParticipantValue[strings.ToUpper(s)]
 	if !ok {
 		return ParticipantUndefined, ErrParticipantInvalid
 	}
@@ -402,7 +405,7 @@ func NewParticipant(s string) (Participant, error) {
 
 // Valid returns true if a valid participant.
 func (p Participant) Valid() bool {
-	if _, ok := Participant_name[p]; !ok {
+	if _, ok := ParticipantName[p]; !ok {
 		return false
 	}
 

@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jufemaiz/go-aemo/region"
 	. "github.com/smartystreets/goconvey/convey"
+
+	"github.com/jufemaiz/go-aemo/region"
 )
 
-func TestFuncNmiChecksumF(t *testing.T) {
-	Convey("NmiChecksum()", t, func() {
+func TestFuncChecksum(t *testing.T) {
+	Convey("Checksum()", t, func() {
 		tests := map[string]struct {
 			arg      string
 			expected int
@@ -52,7 +53,7 @@ func TestFuncNmiChecksumF(t *testing.T) {
 			tc := tc
 
 			Convey(fmt.Sprintf("Given a nmi of '%s'", name), func() {
-				got := NmiChecksum(tc.arg)
+				got := Checksum(tc.arg)
 				So(got, ShouldEqual, tc.expected)
 			})
 		}

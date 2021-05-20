@@ -11,7 +11,7 @@ var (
 	ErrNmiInvalidChar = errors.New("nmi has invalid character")
 	// ErrNmiInvalidLength if nmi has invalid length.
 	ErrNmiInvalidLength = errors.New("nmi has invalid length")
-	// ErrMeterNil if meter is nil
+	// ErrMeterNil if meter is nil.
 	ErrMeterNil = errors.New("meter is nil")
 	// ErrNmiMeterFound if nmi meter is found.
 	ErrNmiMeterFound = errors.New("nmi meter is found")

@@ -54,26 +54,28 @@
 		<div id="topbar">
 			<div id="nav">
 				<select id="files">
-				
+
 				<option value="file0">github.com/jufemaiz/go-aemo/nmi/allocations.go (100.0%)</option>
-				
+
 				<option value="file1">github.com/jufemaiz/go-aemo/nmi/energy.go (100.0%)</option>
-				
+
 				<option value="file2">github.com/jufemaiz/go-aemo/nmi/meter.go (100.0%)</option>
-				
+
 				<option value="file3">github.com/jufemaiz/go-aemo/nmi/meterregister.go (100.0%)</option>
-				
+
 				<option value="file4">github.com/jufemaiz/go-aemo/nmi/nmi.go (100.0%)</option>
-				
+
 				<option value="file5">github.com/jufemaiz/go-aemo/nmi/participant.go (100.0%)</option>
-				
+
 				<option value="file6">github.com/jufemaiz/go-aemo/nmi/pattern.go (100.0%)</option>
-				
+
+				<option value="file7">github.com/jufemaiz/go-aemo/region/region.go (100.0%)</option>
+
 				</select>
 			</div>
 			<div id="legend">
 				<span>not tracked</span>
-			
+
 				<span class="cov0">no coverage</span>
 				<span class="cov1">low coverage</span>
 				<span class="cov2">*</span>
@@ -85,11 +87,11 @@
 				<span class="cov8">*</span>
 				<span class="cov9">*</span>
 				<span class="cov10">high coverage</span>
-			
+
 			</div>
 		</div>
 		<div id="content">
-		
+
 		<pre class="file" id="file0" style="display: none">package nmi
 
 import (
@@ -171,27 +173,27 @@ var (
                 Pattern(`^(NJJJNR[A-HJ-NP-Z\d]{4})$`),
         }
 
-        allocationsGAS_NSW = Allocations{
+        allocationsGASNSW = Allocations{
                 Pattern(`^(52\d{8})$`),
         }
 
-        allocationsGAS_QLD = Allocations{
+        allocationsGASQLD = Allocations{
                 Pattern(`^(54\d{8})$`),
         }
 
-        allocationsGAS_SA = Allocations{
+        allocationsGASSA = Allocations{
                 Pattern(`^(55\d{8})$`),
         }
 
-        allocationsGAS_TAS = Allocations{
+        allocationsGASTAS = Allocations{
                 Pattern(`^(57\d{8})$`),
         }
 
-        allocationsGAS_VIC = Allocations{
+        allocationsGASVIC = Allocations{
                 Pattern(`^(53\d{8})$`),
         }
 
-        allocationsGAS_WA = Allocations{
+        allocationsGASWA = Allocations{
                 Pattern(`^(56\d{8})$`),
         }
 
@@ -209,7 +211,7 @@ var (
                 Pattern(`^(431\d{7})$`),
         }
 
-        allocationsNT_RESERVED = Allocations{
+        allocationsNTRESERVED = Allocations{
                 Pattern(`^(250\d{7})$`),
         }
 
@@ -279,7 +281,7 @@ func (a Allocations) Compile() ([]*regexp.Regexp, error) <span class="cov8" titl
         <span class="cov8" title="32">return resp, nil</span>
 }
 </pre>
-		
+
 		<pre class="file" id="file1" style="display: none">package nmi
 
 import (
@@ -300,13 +302,13 @@ var (
                 EnergyGas,
         }
 
-        Energy_name = map[Energy]string{
+        EnergyName = map[Energy]string{
                 EnergyUndefined:   "UNDEFINED",
                 EnergyElectricity: "ELECTRICITY",
                 EnergyGas:         "GAS",
         }
 
-        Energy_value = map[string]Energy{
+        EnergyValue = map[string]Energy{
                 "UNDEFINED":   EnergyUndefined,
                 "ELECTRICITY": EnergyElectricity,
                 "GAS":         EnergyGas,
@@ -318,7 +320,7 @@ type Energy int32
 
 // NewEnergy returns an energy based on the string provided.
 func NewEnergy(s string) (Energy, error) <span class="cov6" title="5">{
-        e, ok := Energy_value[strings.ToUpper(s)]
+        e, ok := EnergyValue[strings.ToUpper(s)]
         if !ok </span><span class="cov1" title="1">{
                 return EnergyUndefined, ErrEnergyInvalid
         }</span>
@@ -333,9 +335,9 @@ func (e Energy) GoString() string <span class="cov4" title="3">{
 
 // String satisfies the stringer interface.
 func (e Energy) String() string <span class="cov10" title="13">{
-        s, ok := Energy_name[e]
+        s, ok := EnergyName[e]
         if !ok </span><span class="cov3" title="2">{
-                return Energy_name[EnergyUndefined]
+                return EnergyName[EnergyUndefined]
         }</span>
 
         <span class="cov9" title="11">return s</span>
@@ -346,7 +348,7 @@ func Energies() []Energy <span class="cov1" title="1">{
         return energies
 }</span>
 </pre>
-		
+
 		<pre class="file" id="file2" style="display: none">package nmi
 
 import (
@@ -409,7 +411,7 @@ func (m *Meter) String() string <span class="cov3" title="2">{
         <span class="cov1" title="1">return string(m.Identifier)</span>
 }
 </pre>
-		
+
 		<pre class="file" id="file3" style="display: none">package nmi
 
 import "fmt"
@@ -455,7 +457,7 @@ func (mr *MeterRegister) String() string <span class="cov5" title="2">{
         <span class="cov1" title="1">return string(mr.RegisterID)</span>
 }
 </pre>
-		
+
 		<pre class="file" id="file4" style="display: none">package nmi
 
 import (
@@ -694,7 +696,7 @@ func (n *Nmi) Region() (region.Region, error) <span class="cov2" title="3">{
         <span class="cov1" title="1">return p.Region(), nil</span>
 }
 </pre>
-		
+
 		<pre class="file" id="file5" style="display: none">package nmi
 
 import (
@@ -718,16 +720,16 @@ const (
         ParticipantETSATP
         ParticipantEXEMPTNETWORKS
         ParticipantFEDAIRPORTS
-        ParticipantGAS_NSW
-        ParticipantGAS_QLD
-        ParticipantGAS_SA
-        ParticipantGAS_TAS
-        ParticipantGAS_VIC
-        ParticipantGAS_WA
+        ParticipantGASNSW
+        ParticipantGASQLD
+        ParticipantGASSA
+        ParticipantGASTAS
+        ParticipantGASVIC
+        ParticipantGASWA
         ParticipantGPUPP
         ParticipantHORIZONPOWER
         ParticipantINTEGP
-        ParticipantNT_RESERVED
+        ParticipantNTRESERVED
         ParticipantPLINKP
         ParticipantPOWCP
         ParticipantSNOWY
@@ -753,16 +755,16 @@ var (
                 ParticipantETSATP,
                 ParticipantEXEMPTNETWORKS,
                 ParticipantFEDAIRPORTS,
-                ParticipantGAS_NSW,
-                ParticipantGAS_QLD,
-                ParticipantGAS_SA,
-                ParticipantGAS_TAS,
-                ParticipantGAS_VIC,
-                ParticipantGAS_WA,
+                ParticipantGASNSW,
+                ParticipantGASQLD,
+                ParticipantGASSA,
+                ParticipantGASTAS,
+                ParticipantGASVIC,
+                ParticipantGASWA,
                 ParticipantGPUPP,
                 ParticipantHORIZONPOWER,
                 ParticipantINTEGP,
-                ParticipantNT_RESERVED,
+                ParticipantNTRESERVED,
                 ParticipantPLINKP,
                 ParticipantPOWCP,
                 ParticipantSNOWY,
@@ -774,7 +776,7 @@ var (
                 ParticipantWESTERNPOWER,
         }
 
-        Participant_name = map[Participant]string{
+        ParticipantName = map[Participant]string{
                 ParticipantUndefined:      "UNDEFINED",
                 ParticipantACTEWP:         "ACTEWP",
                 ParticipantAEMORESERVED:   "AEMORESERVED",
@@ -788,16 +790,16 @@ var (
                 ParticipantETSATP:         "ETSATP",
                 ParticipantEXEMPTNETWORKS: "EXEMPTNETWORKS",
                 ParticipantFEDAIRPORTS:    "FEDAIRPORTS",
-                ParticipantGAS_NSW:        "GAS_NSW",
-                ParticipantGAS_QLD:        "GAS_QLD",
-                ParticipantGAS_SA:         "GAS_SA",
-                ParticipantGAS_TAS:        "GAS_TAS",
-                ParticipantGAS_VIC:        "GAS_VIC",
-                ParticipantGAS_WA:         "GAS_WA",
+                ParticipantGASNSW:        "GASNSW",
+                ParticipantGASQLD:        "GASQLD",
+                ParticipantGASSA:         "GASSA",
+                ParticipantGASTAS:        "GASTAS",
+                ParticipantGASVIC:        "GASVIC",
+                ParticipantGASWA:         "GASWA",
                 ParticipantGPUPP:          "GPUPP",
                 ParticipantHORIZONPOWER:   "HORIZONPOWER",
                 ParticipantINTEGP:         "INTEGP",
-                ParticipantNT_RESERVED:    "NT_RESERVED",
+                ParticipantNTRESERVED:    "NTRESERVED",
                 ParticipantPLINKP:         "PLINKP",
                 ParticipantPOWCP:          "POWCP",
                 ParticipantSNOWY:          "SNOWY",
@@ -809,7 +811,7 @@ var (
                 ParticipantWESTERNPOWER:   "WESTERNPOWER",
         }
 
-        Participant_value = map[string]Participant{
+        ParticipantValue = map[string]Participant{
                 "UNDEFINED":      ParticipantUndefined,
                 "ACTEWP":         ParticipantACTEWP,
                 "AEMORESERVED":   ParticipantAEMORESERVED,
@@ -823,16 +825,16 @@ var (
                 "ETSATP":         ParticipantETSATP,
                 "EXEMPTNETWORKS": ParticipantEXEMPTNETWORKS,
                 "FEDAIRPORTS":    ParticipantFEDAIRPORTS,
-                "GAS_NSW":        ParticipantGAS_NSW,
-                "GAS_QLD":        ParticipantGAS_QLD,
-                "GAS_SA":         ParticipantGAS_SA,
-                "GAS_TAS":        ParticipantGAS_TAS,
-                "GAS_VIC":        ParticipantGAS_VIC,
-                "GAS_WA":         ParticipantGAS_WA,
+                "GASNSW":        ParticipantGASNSW,
+                "GASQLD":        ParticipantGASQLD,
+                "GASSA":         ParticipantGASSA,
+                "GASTAS":        ParticipantGASTAS,
+                "GASVIC":        ParticipantGASVIC,
+                "GASWA":         ParticipantGASWA,
                 "GPUPP":          ParticipantGPUPP,
                 "HORIZONPOWER":   ParticipantHORIZONPOWER,
                 "INTEGP":         ParticipantINTEGP,
-                "NT_RESERVED":    ParticipantNT_RESERVED,
+                "NTRESERVED":    ParticipantNTRESERVED,
                 "PLINKP":         ParticipantPLINKP,
                 "POWCP":          ParticipantPOWCP,
                 "SNOWY":          ParticipantSNOWY,
@@ -893,16 +895,16 @@ var (
                 "ETSATP",
                 "EXEMPTNETWORKS",
                 "FEDAIRPORTS",
-                "GAS_NSW",
-                "GAS_QLD",
-                "GAS_SA",
-                "GAS_TAS",
-                "GAS_VIC",
-                "GAS_WA",
+                "GASNSW",
+                "GASQLD",
+                "GASSA",
+                "GASTAS",
+                "GASVIC",
+                "GASWA",
                 "GPUPP",
                 "HORIZONPOWER",
                 "INTEGP",
-                "NT_RESERVED",
+                "NTRESERVED",
                 "PLINKP",
                 "POWCP",
                 "SNOWY",
@@ -1033,16 +1035,16 @@ var (
                 allocationsETSATP,
                 allocationsEXEMPTNETWORKS,
                 allocationsFEDAIRPORTS,
-                allocationsGAS_NSW,
-                allocationsGAS_QLD,
-                allocationsGAS_SA,
-                allocationsGAS_TAS,
-                allocationsGAS_VIC,
-                allocationsGAS_WA,
+                allocationsGASNSW,
+                allocationsGASQLD,
+                allocationsGASSA,
+                allocationsGASTAS,
+                allocationsGASVIC,
+                allocationsGASWA,
                 allocationsGPUPP,
                 allocationsHORIZONPOWER,
                 allocationsINTEGP,
-                allocationsNT_RESERVED,
+                allocationsNTRESERVED,
                 allocationsPLINKP,
                 allocationsPOWCP,
                 allocationsSNOWY,
@@ -1089,7 +1091,7 @@ func ParticipantsForRegion(r region.Region) []Participant <span class="cov4" tit
 
 // NewParticipant returns a participant for a string (AEMO Participant ID).
 func NewParticipant(s string) (Participant, error) <span class="cov6" title="33">{
-        p, ok := Participant_value[strings.ToUpper(s)]
+        p, ok := ParticipantValue[strings.ToUpper(s)]
         if !ok </span><span class="cov1" title="1">{
                 return ParticipantUndefined, ErrParticipantInvalid
         }</span>
@@ -1099,7 +1101,7 @@ func NewParticipant(s string) (Participant, error) <span class="cov6" title="33"
 
 // Valid returns true if a valid participant.
 func (p Participant) Valid() bool <span class="cov4" title="11">{
-        if _, ok := Participant_name[p]; !ok </span><span class="cov2" title="3">{
+        if _, ok := ParticipantName[p]; !ok </span><span class="cov2" title="3">{
                 return false
         }</span>
 
@@ -1174,7 +1176,7 @@ func (p Participant) Allocations() Allocations <span class="cov8" title="124">{
         return participantAllocations[p]
 }</span>
 </pre>
-		
+
 		<pre class="file" id="file6" style="display: none">package nmi
 
 import (
@@ -1215,7 +1217,191 @@ func (p Pattern) Match(s string) bool <span class="cov9" title="255">{
         <span class="cov9" title="254">return regex.Match([]byte(s))</span>
 }
 </pre>
-		
+
+		<pre class="file" id="file7" style="display: none">package region
+
+import (
+        "fmt"
+        "strings"
+)
+
+const (
+        RegionUndefined Region = iota
+        RegionAAT
+        RegionACT
+        RegionNSW
+        RegionNT
+        RegionQLD
+        RegionSA
+        RegionTAS
+        RegionVIC
+        RegionWA
+)
+
+var (
+        RegionName = map[Region]string{
+                RegionUndefined: "UNDEFINED",
+                RegionAAT:       "AAT",
+                RegionACT:       "ACT",
+                RegionNSW:       "NSW",
+                RegionNT:        "NT",
+                RegionQLD:       "QLD",
+                RegionSA:        "SA",
+                RegionTAS:       "TAS",
+                RegionVIC:       "VIC",
+                RegionWA:        "WA",
+        }
+
+        RegionValue = map[string]Region{
+                "UNDEFINED": RegionUndefined,
+                "AAT":       RegionAAT,
+                "ACT":       RegionACT,
+                "NSW":       RegionNSW,
+                "NT":        RegionNT,
+                "QLD":       RegionQLD,
+                "SA":        RegionSA,
+                "TAS":       RegionTAS,
+                "VIC":       RegionVIC,
+                "WA":        RegionWA,
+        }
+
+        regions = []Region{
+                RegionUndefined,
+                RegionAAT,
+                RegionACT,
+                RegionNSW,
+                RegionNT,
+                RegionQLD,
+                RegionSA,
+                RegionTAS,
+                RegionVIC,
+                RegionWA,
+        }
+
+        regionLongNames = []string{
+                "Undefined",
+                "Australian Antarctic Territory",
+                "Australian Capital Territory",
+                "New South Wales",
+                "Northern Territory",
+                "Queensland",
+                "South Australia",
+                "Tasmania",
+                "Victoria",
+                "Western Australia",
+        }
+
+        regionNames = []string{
+                "UNDEFINED",
+                "AAT",
+                "ACT",
+                "NSW",
+                "NT",
+                "QLD",
+                "SA",
+                "TAS",
+                "VIC",
+                "WA",
+        }
+
+        regionMarketNodes = []Region{
+                RegionUndefined,
+                RegionUndefined,
+                RegionNSW,
+                RegionNSW,
+                RegionNT,
+                RegionQLD,
+                RegionSA,
+                RegionTAS,
+                RegionVIC,
+                RegionWA,
+        }
+
+        regionISOCodes = []string{
+                "UNDEFINED",
+                "UNDEFINED",
+                "AU-ACT",
+                "AU-NSW",
+                "AU-NT",
+                "AU-QLD",
+                "AU-SA",
+                "AU-TAS",
+                "AU-VIC",
+                "AU-WA",
+        }
+)
+
+// Region represents one of the regions that AEMO operates in.
+type Region int32
+
+// Info holds a structured set of data for a region.
+type Info struct {
+        Region     Region `json:"-"`
+        MarketNode Region `json:"marketNode"`
+        Name       string `json:"name"`
+        LongName   string `json:"longName"`
+        ISOCode    string `json:"isoCode"`
+}
+
+// NewRegion returns a region for a string (matching short name).
+func NewRegion(s string) (Region, error) <span class="cov10" title="15">{
+        r, ok := RegionValue[strings.ToUpper(s)]
+        if !ok </span><span class="cov3" title="2">{
+                return RegionUndefined, ErrRegionInvalid
+        }</span>
+
+        <span class="cov9" title="13">return r, nil</span>
+}
+
+// Regions returns all valid regions.
+func Regions() []Region <span class="cov1" title="1">{
+        return regions[1:]
+}</span>
+
+// GoString meets the gostring interface.
+func (r Region) GoString() string <span class="cov3" title="2">{
+        return fmt.Sprintf(
+                "{Region: %d, MarketNode: \"%s\", Name: \"%s\", LongName: \"%s\", ISOCode: \"%s\"}",
+                r, r.MarketNode().Name(), r.Name(), r.LongName(), r.ISOCode(),
+        )
+}</span>
+
+// Info struct for a region.
+func (r Region) Info() (*Info, error) <span class="cov3" title="2">{
+        if r == RegionUndefined </span><span class="cov1" title="1">{
+                return nil, fmt.Errorf("region '%d': %w", r, ErrRegionInvalid)
+        }</span>
+
+        <span class="cov1" title="1">return &amp;Info{
+                Region:     r,
+                MarketNode: regionMarketNodes[r],
+                Name:       regionNames[r],
+                LongName:   regionLongNames[r],
+                ISOCode:    regionISOCodes[r],
+        }, nil</span>
+}
+
+// MarketNode returns the market node fo the region.
+func (r Region) MarketNode() Region <span class="cov3" title="2">{
+        return regions[regionMarketNodes[r]]
+}</span>
+
+// Name returns the name of the region.
+func (r Region) Name() string <span class="cov5" title="4">{
+        return regionNames[r]
+}</span>
+
+// LongName returns the long (full) name of the region.
+func (r Region) LongName() string <span class="cov3" title="2">{
+        return regionLongNames[r]
+}</span>
+
+// ISOCode returns the ISO code of the region.
+func (r Region) ISOCode() string <span class="cov3" title="2">{
+        return regionISOCodes[r]
+}</span>
+</pre>
+
 		</div>
 	</body>
 	<script>

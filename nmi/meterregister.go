@@ -2,7 +2,7 @@ package nmi
 
 import "fmt"
 
-// MeterRegister for a Meter for a NMI
+// MeterRegister for a Meter for a NMI.
 type MeterRegister struct {
 	RegisterID        string `json:"registerID"`
 	MeasurementStream string `json:"measurementStream"`
@@ -19,7 +19,7 @@ type MeterRegister struct {
 // GoString meets the gostring interface.
 func (mr *MeterRegister) GoString() string {
 	if mr == nil {
-		return "nil"
+		return nilstr
 	}
 
 	return fmt.Sprintf(
@@ -40,5 +40,5 @@ func (mr *MeterRegister) String() string {
 		return ""
 	}
 
-	return string(mr.RegisterID)
+	return mr.RegisterID
 }
