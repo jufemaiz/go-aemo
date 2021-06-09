@@ -1,0 +1,25 @@
+---
+version: '3.8'
+services:
+  app:
+    build:
+      args:
+        SSH_KEY: ${ARG_SSH_KEY}
+      context: .
+      dockerfile: Dockerfile
+    command: ['make', 'build']
+    container_name: go-aemo
+    environment:
+      ENV: development
+      # SSH Support
+      SSH_AUTH_SOCK: /ssh-agent
+    secrets:
+    - id_rsa
+    working_dir: /app
+    volumes:
+    - .:/app
+    - ${HOME}/.ssh/known_hosts:/root/.ssh/known_hosts:ro
+    - /run/host-services/ssh-auth.sock:/ssh-agent
+secrets:
+   id_rsa:
+     file: ~/.ssh/id_rsa
