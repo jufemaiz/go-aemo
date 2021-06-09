@@ -8,42 +8,74 @@ import (
 )
 
 const (
+	// ParticipantUndefined when participant is undefined.
 	ParticipantUndefined Participant = iota
+	// ParticipantACTEWP for the participant code ACTEWP.
 	ParticipantACTEWP
+	// ParticipantAEMORESERVED for the participant code AEMORESERVED.
 	ParticipantAEMORESERVED
+	// ParticipantAURORAP for the participant code AURORAP.
 	ParticipantAURORAP
+	// ParticipantCITIPP for the participant code CITIPP.
 	ParticipantCITIPP
+	// ParticipantCNRGYP for the participant code CNRGYP.
 	ParticipantCNRGYP
+	// ParticipantEASTERN for the participant code EASTERN.
 	ParticipantEASTERN
+	// ParticipantENERGEXP for the participant code ENERGEXP.
 	ParticipantENERGEXP
+	// ParticipantENERGYAP for the participant code ENERGYAP.
 	ParticipantENERGYAP
+	// ParticipantERGONETP for the participant code ERGONETP.
 	ParticipantERGONETP
+	// ParticipantETSATP for the participant code ETSATP.
 	ParticipantETSATP
+	// ParticipantEXEMPTNETWORKS for the participant code EXEMPTNETWORKS.
 	ParticipantEXEMPTNETWORKS
+	// ParticipantFEDAIRPORTS for the participant code FEDAIRPORTS.
 	ParticipantFEDAIRPORTS
+	// ParticipantGASNSW for the participant code GASNSW.
 	ParticipantGASNSW
+	// ParticipantGASQLD for the participant code GASQLD.
 	ParticipantGASQLD
+	// ParticipantGASSA for the participant code GASSA.
 	ParticipantGASSA
+	// ParticipantGASTAS for the participant code GASTAS.
 	ParticipantGASTAS
+	// ParticipantGASVIC for the participant code GASVIC.
 	ParticipantGASVIC
+	// ParticipantGASWA for the participant code GASWA.
 	ParticipantGASWA
+	// ParticipantGPUPP for the participant code GPUPP.
 	ParticipantGPUPP
+	// ParticipantHORIZONPOWER for the participant code HORIZONPOWER.
 	ParticipantHORIZONPOWER
+	// ParticipantINTEGP for the participant code INTEGP.
 	ParticipantINTEGP
+	// ParticipantNTRESERVED for the participant code NTRESERVED.
 	ParticipantNTRESERVED
+	// ParticipantPLINKP for the participant code PLINKP.
 	ParticipantPLINKP
+	// ParticipantPOWCP for the participant code POWCP.
 	ParticipantPOWCP
+	// ParticipantSNOWY for the participant code SNOWY.
 	ParticipantSNOWY
+	// ParticipantSOLARISP for the participant code SOLARISP.
 	ParticipantSOLARISP
+	// ParticipantTRANSEND for the participant code TRANSEND.
 	ParticipantTRANSEND
+	// ParticipantTRANSGP for the participant code TRANSGP.
 	ParticipantTRANSGP
+	// ParticipantUMPLP for the participant code UMPLP.
 	ParticipantUMPLP
+	// ParticipantUNITED for the participant code UNITED.
 	ParticipantUNITED
+	// ParticipantWESTERNPOWER for the participant code WESTERNPOWER.
 	ParticipantWESTERNPOWER
 )
 
 var (
-	participants = []Participant{
+	participants = []Participant{ //nolint:gochecknoglobals
 		ParticipantACTEWP,
 		ParticipantAEMORESERVED,
 		ParticipantAURORAP,
@@ -78,7 +110,7 @@ var (
 	}
 
 	// ParticipantName maps Participants to strings.
-	ParticipantName = map[Participant]string{
+	ParticipantName = map[Participant]string{ //nolint:gochecknoglobals
 		ParticipantUndefined:      "UNDEFINED",
 		ParticipantACTEWP:         "ACTEWP",
 		ParticipantAEMORESERVED:   "AEMORESERVED",
@@ -114,7 +146,7 @@ var (
 	}
 
 	// ParticipantValue maps strings to Participants.
-	ParticipantValue = map[string]Participant{
+	ParticipantValue = map[string]Participant{ //nolint:gochecknoglobals
 		"UNDEFINED":      ParticipantUndefined,
 		"ACTEWP":         ParticipantACTEWP,
 		"AEMORESERVED":   ParticipantAEMORESERVED,
@@ -149,7 +181,7 @@ var (
 		"WESTERNPOWER":   ParticipantWESTERNPOWER,
 	}
 
-	participantRegions = []region.Region{
+	participantRegions = []region.Region{ //nolint:gochecknoglobals
 		region.RegionUndefined,
 		region.RegionACT,
 		region.RegionUndefined,
@@ -185,7 +217,7 @@ var (
 	}
 
 	// ParticipantIDs lists all participant ids.
-	ParticipantIDs = []string{
+	ParticipantIDs = []string{ //nolint:gochecknoglobals
 		"UNDEFINED",
 		"ACTEWP",
 		"AEMORESERVED",
@@ -220,7 +252,7 @@ var (
 		"WESTERNPOWER",
 	}
 
-	participantLongNames = []string{
+	participantLongNames = []string{ //nolint:gochecknoglobals
 		"UNDEFINED",
 		"Icon Distribution Investments Limited and Jemena Networks (ACT) Pty Ltd Trading as Evoenergy – DNSP & TNSP",
 		"AEMO Reserved",
@@ -255,7 +287,7 @@ var (
 		"Western Power",
 	}
 
-	participantShortNames = []string{
+	participantShortNames = []string{ //nolint:gochecknoglobals
 		"UNDEFINED",
 		"Evoenergy",
 		"AEMO Reserved",
@@ -290,7 +322,7 @@ var (
 		"Western Power",
 	}
 
-	participantEnergies = []Energy{
+	participantEnergies = []Energy{ //nolint:gochecknoglobals
 		EnergyUndefined,
 		EnergyElectricity,
 		EnergyElectricity,
@@ -325,7 +357,7 @@ var (
 		EnergyElectricity,
 	}
 
-	participantAllocations = []Allocations{
+	participantAllocations = []Allocations{ //nolint:gochecknoglobals
 		allocationsUndefined,
 		allocationsACTEWP,
 		allocationsAEMORESERVED,

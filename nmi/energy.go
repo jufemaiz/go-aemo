@@ -15,21 +15,21 @@ const (
 )
 
 var (
-	energies = []Energy{
+	energies = []Energy{ //nolint:gochecknoglobals
 		EnergyUndefined,
 		EnergyElectricity,
 		EnergyGas,
 	}
 
 	// EnergyName maps Energy to strings.
-	EnergyName = map[Energy]string{
+	EnergyName = map[Energy]string{ //nolint:gochecknoglobals
 		EnergyUndefined:   "UNDEFINED",
 		EnergyElectricity: "ELECTRICITY",
 		EnergyGas:         "GAS",
 	}
 
 	// EnergyValue maps strings to Energy.
-	EnergyValue = map[string]Energy{
+	EnergyValue = map[string]Energy{ //nolint:gochecknoglobals
 		"UNDEFINED":   EnergyUndefined,
 		"ELECTRICITY": EnergyElectricity,
 		"GAS":         EnergyGas,

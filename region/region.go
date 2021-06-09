@@ -31,7 +31,7 @@ const (
 
 var (
 	// RegionName mapping Region to the string.
-	RegionName = map[Region]string{
+	RegionName = map[Region]string{ //nolint:gochecknoglobals
 		RegionUndefined: "UNDEFINED",
 		RegionAAT:       "AAT",
 		RegionACT:       "ACT",
@@ -45,7 +45,7 @@ var (
 	}
 
 	// RegionValue mapping string of a Region to the Region.
-	RegionValue = map[string]Region{
+	RegionValue = map[string]Region{ //nolint:gochecknoglobals
 		"UNDEFINED": RegionUndefined,
 		"AAT":       RegionAAT,
 		"ACT":       RegionACT,
@@ -58,7 +58,7 @@ var (
 		"WA":        RegionWA,
 	}
 
-	regions = []Region{
+	regions = []Region{ //nolint:gochecknoglobals
 		RegionUndefined,
 		RegionAAT,
 		RegionACT,
@@ -71,7 +71,7 @@ var (
 		RegionWA,
 	}
 
-	regionLongNames = []string{
+	regionLongNames = []string{ //nolint:gochecknoglobals
 		"Undefined",
 		"Australian Antarctic Territory",
 		"Australian Capital Territory",
@@ -84,7 +84,7 @@ var (
 		"Western Australia",
 	}
 
-	regionNames = []string{
+	regionNames = []string{ //nolint:gochecknoglobals
 		"UNDEFINED",
 		"AAT",
 		"ACT",
@@ -97,7 +97,7 @@ var (
 		"WA",
 	}
 
-	regionMarketNodes = []Region{
+	regionMarketNodes = []Region{ //nolint:gochecknoglobals
 		RegionUndefined,
 		RegionUndefined,
 		RegionNSW,
@@ -110,7 +110,7 @@ var (
 		RegionWA,
 	}
 
-	regionISOCodes = []string{
+	regionISOCodes = []string{ //nolint:gochecknoglobals
 		"UNDEFINED",
 		"UNDEFINED",
 		"AU-ACT",
