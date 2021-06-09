@@ -1,4 +1,4 @@
-FROM golang:1.16.4-alpine as builder
+FROM golang:1.16.5-alpine as builder
 
 ARG SSH_KEY
 
@@ -32,7 +32,7 @@ WORKDIR /app
 RUN make dependencies && make dependencies-download
 RUN make tools
 
-FROM golang:1.16.4-alpine
+FROM golang:1.16.5-alpine
 
 LABEL maintainer="Joel Courtney <euphemize@gmail.com>"
 LABEL application="go-aemo"

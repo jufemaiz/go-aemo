@@ -22,38 +22,6 @@ BUILD_VERSION=-ldflags '-X $(MODULE_ROOT)/pkg/version.Version=$(VERSION) -X $(MO
 .PHONY: help
 default: help
 
-.PHONY: $(CMD_DIR)/all
-$(CMD_DIR)/all: \
-	$(CMD_DIR)/worker-ingest-report
-
-.PHONY: $(FUNCTION_DIR)/all
-$(FUNCTION_DIR)/all: \
-	$(FUNCTION_DIR)/ingest-report \
-	$(FUNCTION_DIR)/ingest-report-cloudwatch
-
-.PHONY: $(ZIP_DIR)/all
-$(ZIP_DIR)/all: \
-	$(ZIP_DIR)/ingest-report \
-	$(ZIP_DIR)/ingest-report-cloudwatch
-
-.PHONY: $(FUNCTION_DIR)/ingest-report
-$(FUNCTION_DIR)/ingest-report: ## Creates Linux ELF binary for ingest-report function
-	CGO_ENABLED=0 GOOS=linux go build -o $(BINARY_DIR)/$(@F) $(BUILD_VERSION) $(FUNCTION_DIR)/$(@F)/*.go
-.PHONY: $(ZIP_DIR)/ingest-report
-$(ZIP_DIR)/ingest-report: $(FUNCTION_DIR)/ingest-report
-	zip -j $(ZIP_DIR)/$(@F).zip $(BINARY_DIR)/$(@F)
-
-.PHONY: $(FUNCTION_DIR)/ingest-report-cloudwatch
-$(FUNCTION_DIR)/ingest-report-cloudwatch: ## Creates Linux ELF binary for ingest-report-cloudwatch function
-	CGO_ENABLED=0 GOOS=linux go build -o $(BINARY_DIR)/$(@F) $(BUILD_VERSION) $(FUNCTION_DIR)/$(@F)/*.go
-.PHONY: $(ZIP_DIR)/ingest-report-cloudwatch
-$(ZIP_DIR)/ingest-report-cloudwatch: $(FUNCTION_DIR)/ingest-report-cloudwatch
-	zip -j $(ZIP_DIR)/$(@F).zip $(BINARY_DIR)/$(@F)
-
-.PHONY: $(CMD_DIR)/worker-ingest-report
-$(CMD_DIR)/worker-ingest-report: ## Creates Linux ELF binary for ingest-report function
-	CGO_ENABLED=0 GOOS=linux go build -o $(BINARY_DIR)/$(@F) $(BUILD_VERSION) $(CMD_DIR)/$(@F)/*.go
-
 .PHONY: build
 build:
 	go build ./...
@@ -95,6 +63,7 @@ generate: ## Generate boilerplate and mock code
 
 	# MANUALLY run the following on CLI, in the folder where the mock should be generated, to create a mock implementation
 	# moq -out s3_uploader_mock.go -pkg PACKAGE_NAME $(go list -f '{{.Dir}}' github.com/aws/aws-sdk-go/service/s3/s3manager/s3manageriface) UploaderAPI
+	# moq -out sns_mock.go -pkg PACKAGE_NAME $(go list -f '{{.Dir}}' github.com/aws/aws-sdk-go/service/sns/snsiface) SNSAPI
 	# moq -out sqs_mock.go -pkg PACKAGE_NAME $(go list -f '{{.Dir}}' github.com/aws/aws-sdk-go/service/sqs/sqsiface) SQSAPI
 
 .PHONY: help
