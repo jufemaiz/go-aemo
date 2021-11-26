@@ -2,6 +2,11 @@ package nem12
 
 import "fmt"
 
+const (
+	methodLength  = 2
+	qualityLength = 1
+)
+
 // QualityMethod of the NEM12 interval data record (300) or interval event record
 // (400) row.
 type QualityMethod string
@@ -19,12 +24,14 @@ func NewQualityMethod(s string) (QualityMethod, error) {
 
 // Validate returns an error if a quality method is invalid.
 func (qm QualityMethod) Validate() error {
-	if len(qm) == 0 {
-		return ErrQualityMethodEmpty
+	len := len(qm)
+
+	if len == 0 {
+		return ErrQualityMethodNil
 	}
 
-	if len(qm) != 1 && len(qm) != 3 {
-		return ErrQualityMethodInvalidLength
+	if len != qualityLength && len != (qualityLength+methodLength) {
+		return ErrQualityMethodLengthInvalid
 	}
 
 	q, err := qm.Quality()
@@ -32,12 +39,11 @@ func (qm QualityMethod) Validate() error {
 		return fmt.Errorf("validate '%s': %w", qm, err)
 	}
 
-	switch q {
-	case QualityActual, QualityNull, QualityVariable:
+	if len == qualityLength && (q == QualityActual || q == QualityNull || q == QualityVariable) {
 		return nil
 	}
 
-	if len(qm) != 3 {
+	if len != (qualityLength + methodLength) {
 		return fmt.Errorf("validate '%s': %w", qm, ErrQualityMissingMethod)
 	}
 
@@ -60,8 +66,22 @@ func (qm QualityMethod) Quality() (Quality, error) {
 
 // Method returns the quality for a given Method.
 func (qm QualityMethod) Method() (Method, error) {
-	if len(qm) < 3 {
-		return MethodUndefined, ErrQualityMissingMethod
+	if len(qm) < (qualityLength + methodLength) {
+		q, err := qm.Quality()
+		if err != nil {
+			return MethodUndefined, err
+		}
+
+		switch q {
+		case QualityActual, QualityNull, QualityVariable:
+			return MethodUndefined, nil
+
+		case QualityEstimated, QualitySubstituted, QualityFinal:
+			fallthrough
+
+		default:
+			return MethodUndefined, ErrQualityMissingMethod
+		}
 	}
 
 	m, err := NewMethodFlag(string(qm)[1:3])

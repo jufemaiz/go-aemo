@@ -1,6 +1,17 @@
 package nem12
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/shopspring/decimal"
+)
+
+const (
+	unit     = 1.0
+	thousand = 1000.0
+	million  = 1000000.0
+)
 
 const (
 	// UnitUndefined for undefined units.
@@ -54,8 +65,7 @@ const (
 )
 
 var (
-	units = []UnitOfMeasure{
-		UnitUndefined,
+	units = []UnitOfMeasure{ //nolint:gochecknoglobals
 		UnitMegawattHour,
 		UnitKilowattHour,
 		UnitWattHour,
@@ -161,33 +171,59 @@ var (
 		UnitPowerFactor:                "power factor",
 	}
 
-	unitMultipliers = map[UnitOfMeasure]float64{
-		UnitMegawattHour:               1.0e6,
-		UnitKilowattHour:               1.0e3,
-		UnitWattHour:                   1.0,
-		UnitMegawatt:                   1.0e6,
-		UnitKilowatt:                   1.0e3,
-		UnitWatt:                       1.0,
-		UnitMegavoltAmpereReactiveHour: 1.0e6,
-		UnitKilovoltAmpereReactiveHour: 1.0e3,
-		UnitVoltAmpereReactiveHour:     1.0,
-		UnitMegavoltAmpereReactive:     1.0e6,
-		UnitKilovoltAmpereReactive:     1.0e3,
-		UnitVoltAmpereReactive:         1.0,
-		UnitMegavoltAmpereHour:         1.0e6,
-		UnitKilovoltAmpereHour:         1.0e3,
-		UnitVoltAmpereHour:             1.0,
-		UnitMegavoltAmpere:             1.0e6,
-		UnitKilovoltAmpere:             1.0e3,
-		UnitVoltAmpere:                 1.0,
-		UnitKilovolt:                   1.0e3,
-		UnitVolt:                       1.0,
-		UnitKiloampere:                 1.0e3,
-		UnitAmpere:                     1.0,
-		UnitPowerFactor:                1.0,
+	unitMultipliers = map[UnitOfMeasure]float64{ //nolint:gochecknoglobals
+		UnitMegawattHour:               million,
+		UnitKilowattHour:               thousand,
+		UnitWattHour:                   unit,
+		UnitMegawatt:                   million,
+		UnitKilowatt:                   thousand,
+		UnitWatt:                       unit,
+		UnitMegavoltAmpereReactiveHour: million,
+		UnitKilovoltAmpereReactiveHour: thousand,
+		UnitVoltAmpereReactiveHour:     unit,
+		UnitMegavoltAmpereReactive:     million,
+		UnitKilovoltAmpereReactive:     thousand,
+		UnitVoltAmpereReactive:         unit,
+		UnitMegavoltAmpereHour:         million,
+		UnitKilovoltAmpereHour:         thousand,
+		UnitVoltAmpereHour:             unit,
+		UnitMegavoltAmpere:             million,
+		UnitKilovoltAmpere:             thousand,
+		UnitVoltAmpere:                 unit,
+		UnitKilovolt:                   thousand,
+		UnitVolt:                       unit,
+		UnitKiloampere:                 thousand,
+		UnitAmpere:                     unit,
+		UnitPowerFactor:                unit,
 	}
 
-	unitNames = map[UnitOfMeasure]string{
+	unitDecimalMultipliers = map[UnitOfMeasure]decimal.Decimal{ //nolint:gochecknoglobals
+		UnitMegawattHour:               decimal.NewFromFloat(million),
+		UnitKilowattHour:               decimal.NewFromFloat(thousand),
+		UnitWattHour:                   decimal.NewFromFloat(unit),
+		UnitMegawatt:                   decimal.NewFromFloat(million),
+		UnitKilowatt:                   decimal.NewFromFloat(thousand),
+		UnitWatt:                       decimal.NewFromFloat(unit),
+		UnitMegavoltAmpereReactiveHour: decimal.NewFromFloat(million),
+		UnitKilovoltAmpereReactiveHour: decimal.NewFromFloat(thousand),
+		UnitVoltAmpereReactiveHour:     decimal.NewFromFloat(unit),
+		UnitMegavoltAmpereReactive:     decimal.NewFromFloat(million),
+		UnitKilovoltAmpereReactive:     decimal.NewFromFloat(thousand),
+		UnitVoltAmpereReactive:         decimal.NewFromFloat(unit),
+		UnitMegavoltAmpereHour:         decimal.NewFromFloat(million),
+		UnitKilovoltAmpereHour:         decimal.NewFromFloat(thousand),
+		UnitVoltAmpereHour:             decimal.NewFromFloat(unit),
+		UnitMegavoltAmpere:             decimal.NewFromFloat(million),
+		UnitKilovoltAmpere:             decimal.NewFromFloat(thousand),
+		UnitVoltAmpere:                 decimal.NewFromFloat(unit),
+		UnitKilovolt:                   decimal.NewFromFloat(thousand),
+		UnitVolt:                       decimal.NewFromFloat(unit),
+		UnitKiloampere:                 decimal.NewFromFloat(thousand),
+		UnitAmpere:                     decimal.NewFromFloat(unit),
+		UnitPowerFactor:                decimal.NewFromFloat(unit),
+	}
+
+	unitNames = map[UnitOfMeasure]string{ //nolint:gochecknoglobals
 		UnitMegawattHour:               "MWh",
 		UnitKilowattHour:               "kWh",
 		UnitWattHour:                   "Wh",
@@ -217,13 +253,18 @@ var (
 // A UnitOfMeasure represents a unit of measure as specified by the UOM field of a NMIDataDetails record.
 type UnitOfMeasure int
 
+// Units returns all units.
+func Units() []UnitOfMeasure {
+	return units
+}
+
 // NewUnit returns a new reason, along with errors if not valid.
 func NewUnit(s string) (UnitOfMeasure, error) {
 	if s == "" {
-		return UnitUndefined, ErrUnitOfMeasureEmpty
+		return UnitUndefined, ErrUnitOfMeasureNil
 	}
 
-	u, ok := UnitValue[s]
+	u, ok := UnitValue[strings.ToUpper(s)]
 	if !ok {
 		return UnitUndefined, ErrUnitOfMeasureInvalid
 	}
@@ -233,8 +274,7 @@ func NewUnit(s string) (UnitOfMeasure, error) {
 
 // Validate ensures a reason is valid.
 func (u UnitOfMeasure) Validate() error {
-	_, ok := UnitName[u]
-	if !ok {
+	if _, ok := UnitName[u]; !ok {
 		return ErrUnitOfMeasureInvalid
 	}
 
@@ -251,32 +291,11 @@ func (u UnitOfMeasure) Identifier() string {
 	return id
 }
 
-// String returns a text representation of the reason.
-func (u UnitOfMeasure) String() string {
-	name, err := u.Name()
-	if err != nil {
-		return name
-	}
-
-	desc, err := u.Description()
-	if err != nil {
-		return fmt.Sprintf("%d: %s %s", u.Identifier(), name, desc)
-	}
-
-	return fmt.Sprintf("%d: %s", u.Identifier(), desc)
-}
-
-// GoString returns a text representation of the reason to satisfy the GoStringer
-// interface.
-func (u UnitOfMeasure) GoString() string {
-	return fmt.Sprintf("UnitOfMeasure(%d)", u)
-}
-
 // Name returns the name of the unit.
 func (u UnitOfMeasure) Name() (string, error) {
 	s, ok := unitNames[u]
 	if !ok {
-		return fmt.Sprintf("%!UnitOfMeasure(%d)", u), fmt.Errorf("unit of measure name '%d': ", u, ErrUnitOfMeasureInvalid)
+		return fmt.Sprintf("%%!UnitOfMeasure(%d)", u), fmt.Errorf("unit of measure name '%d': %w", u, ErrUnitOfMeasureInvalid)
 	}
 
 	return s, nil
@@ -287,17 +306,75 @@ func (u UnitOfMeasure) Name() (string, error) {
 func (u UnitOfMeasure) Description() (string, error) {
 	s, ok := unitDescriptions[u]
 	if !ok {
-		return fmt.Sprintf("%!UnitOfMeasure(%d)", u), fmt.Errorf("unit of measure description '%d': ", u, ErrUnitOfMeasureInvalid)
+		return fmt.Sprintf("%%!UnitOfMeasure(%d)", u), fmt.Errorf("unit of measure description '%d': %w", u, ErrUnitOfMeasureInvalid)
 	}
 
 	return s, nil
+}
+
+// MarshalJSON marshals for JSON.
+func (u *UnitOfMeasure) MarshalJSON() ([]byte, error) {
+	id, ok := UnitName[*u]
+	if !ok {
+		return []byte(fmt.Sprintf("\"%d\"", *u)), nil
+	}
+
+	return []byte(fmt.Sprintf("\"%s\"", id)), nil
+}
+
+// UnmarshalJSON unmarshals json string.
+func (u *UnitOfMeasure) UnmarshalJSON(data []byte) error {
+	v, ok := UnitValue[string(data)]
+	if !ok {
+		return ErrSuffixTypeInvalid
+	}
+
+	*u = v
+
+	return nil
+}
+
+// String returns a text representation of the reason.
+func (u UnitOfMeasure) String() string {
+	name, err := u.Name()
+	if err != nil {
+		return name
+	}
+
+	desc, err := u.Description()
+	if err != nil {
+		return fmt.Sprintf("\"%s: %s %s\"", u.Identifier(), name, desc)
+	}
+
+	return fmt.Sprintf("\"%s: %s\"", u.Identifier(), desc)
+}
+
+// GoString returns a text representation of the reason to satisfy the GoStringer
+// interface.
+func (u UnitOfMeasure) GoString() string {
+	_, ok := UnitName[u]
+	if !ok {
+		return fmt.Sprintf("%%!UnitOfMeasure(%d)", u)
+	}
+
+	return fmt.Sprintf("UnitOfMeasure(%d)", u)
 }
 
 // Multiplier for the unit of measure to SI unit.
 func (u UnitOfMeasure) Multiplier() float64 {
 	m, ok := unitMultipliers[u]
 	if !ok {
-		return 1.0
+		return 0.0
+	}
+
+	return m
+}
+
+// DecimalMultiplier for the unit of measure to SI unit, but using the decimal package.
+func (u UnitOfMeasure) DecimalMultiplier() decimal.Decimal {
+	m, ok := unitDecimalMultipliers[u]
+	if !ok {
+		return decimal.Zero
 	}
 
 	return m

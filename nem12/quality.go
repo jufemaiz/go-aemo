@@ -1,27 +1,30 @@
 package nem12
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const (
 	// QualityUndefined is for undefined quality flags.
 	QualityUndefined Quality = iota
-	// Actual is the quality flag value for actual data.
+	// QualityActual is the quality flag value for actual data.
 	QualityActual
-	// Estimated is the quality flag value for forward estimated data.
+	// QualityEstimated is the quality flag value for forward estimated data.
 	QualityEstimated
-	// Final is the quality flag value for final substituted data.
+	// QualityFinal is the quality flag value for final substituted data.
 	QualityFinal
-	// Null is the quality flag value for null data.
+	// QualityNull is the quality flag value for null data.
 	QualityNull
-	// Substituted is the quality flag value for substituted data.
+	// QualitySubstituted is the quality flag value for substituted data.
 	QualitySubstituted
-	// Variable is the quality flag value for variable data.
+	// QualityVariable is the quality flag value for variable data.
 	QualityVariable
 )
 
 var (
+	// qualities lists all qualities.
 	qualities = []Quality{ //nolint:gochecknoglobals
-		QualityUndefined,
 		QualityActual,
 		QualityEstimated,
 		QualityFinal,
@@ -30,7 +33,7 @@ var (
 		QualityVariable,
 	}
 
-	// QualityKey maps a Quality to its name.
+	// QualityName maps a Quality to its name.
 	QualityName = map[Quality]string{ //nolint:gochecknoglobals
 		QualityActual:      "A",
 		QualityEstimated:   "E",
@@ -65,9 +68,18 @@ var (
 // of an NEM12 interval.
 type Quality int
 
+// Qualities returns a slice of all the qualities.
+func Qualities() []Quality {
+	return qualities
+}
+
 // NewQualityFlag returns a new quality flag if valid, and an error if not.
 func NewQualityFlag(s string) (Quality, error) {
-	q, ok := QualityValue[s]
+	if s == "" {
+		return QualityUndefined, ErrQualityNil
+	}
+
+	q, ok := QualityValue[strings.ToUpper(s)]
 
 	if !ok {
 		return q, ErrQualityInvalid
@@ -77,28 +89,41 @@ func NewQualityFlag(s string) (Quality, error) {
 }
 
 // Validate returns an error if the quality flag is invalid.
-func (q Quality) Validate() error {
+func (q Quality) Validate() (err error) {
 	switch q {
 	case QualityActual, QualityEstimated, QualityFinal, QualityNull, QualitySubstituted, QualityVariable:
-		return nil
+		err = nil
+	case QualityUndefined:
+		err = ErrQualityInvalid
+	default:
+		err = ErrQualityInvalid
 	}
 
-	if q == QualityUndefined {
-		return ErrQualityEmpty
-	}
-
-	return ErrQualityInvalid
+	return err
 }
 
 // Identifier to meet the interface specification for a Flag.
 func (q Quality) Identifier() string {
-	return QualityName[q]
+	id, ok := QualityName[q]
+	if !ok {
+		return fmt.Sprintf("Method(%d)", q)
+	}
+
+	return id
 }
 
 // GoString returns a text representation of the Quality to satisfy the GoStringer
 // interface.
 func (q Quality) GoString() string {
-	s, _ := q.Description()
+	return fmt.Sprintf("Quality(%d)", q)
+}
+
+// String returns a text representation of the Quality.
+func (q Quality) String() string {
+	s, err := q.Description()
+	if err != nil {
+		return fmt.Sprintf("\"%s\"", q.Identifier())
+	}
 
 	return fmt.Sprintf("\"%s: %s\"", q.Identifier(), s)
 }
@@ -115,27 +140,57 @@ func (q Quality) Description() (string, error) {
 	return d, nil
 }
 
-// MustNoteHaveReason indicates if a quality flag must not have a reason.
-func (q Quality) MustNoteHaveReason() bool {
+// MarshalJSON marshals for JSON.
+func (q *Quality) MarshalJSON() ([]byte, error) {
+	id, ok := QualityName[*q]
+	if !ok {
+		return []byte(fmt.Sprintf("\"%d\"", *q)), nil
+	}
+
+	return []byte(fmt.Sprintf("\"%s\"", id)), nil
+}
+
+// UnmarshalJSON unmarshals json string.
+func (q *Quality) UnmarshalJSON(data []byte) error {
+	v, ok := QualityValue[string(data)]
+	if !ok {
+		return ErrSuffixTypeInvalid
+	}
+
+	*q = v
+
+	return nil
+}
+
+// MustNotHaveReason indicates if a quality flag must not have a reason.
+func (q Quality) MustNotHaveReason() bool {
 	return q == QualityVariable
 }
 
 // RequiresMethod indicates if a quality flag requires an accompanying method.
-func (q Quality) RequiresMethod() bool {
+func (q Quality) RequiresMethod() (b bool) {
 	switch q {
-	case QualityActual, QualityNull, QualityVariable:
-		return false
+	case QualityEstimated, QualityFinal, QualitySubstituted:
+		b = true
+	case QualityActual, QualityNull, QualityVariable, QualityUndefined:
+		fallthrough
+	default:
+		b = false
 	}
 
-	return true
+	return b
 }
 
 // RequiresReason indicates if a quality flag requires a reason.
-func (q Quality) RequiresReason() bool {
+func (q Quality) RequiresReason() (b bool) {
 	switch q {
-	case QualityActual, QualityNull, QualityEstimated, QualityVariable:
-		return false
+	case QualityFinal, QualitySubstituted:
+		b = true
+	case QualityActual, QualityNull, QualityEstimated, QualityVariable, QualityUndefined:
+		fallthrough
+	default:
+		b = false
 	}
 
-	return true
+	return b
 }

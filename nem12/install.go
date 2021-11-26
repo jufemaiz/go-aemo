@@ -1,6 +1,9 @@
 package nem12
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Reference: https://aemo.com.au/-/media/archive/files/other/msats/msats-procedures-cats-v4-0-final-determination-v1.pdf
 // page 43.
@@ -25,7 +28,7 @@ const (
 )
 
 var (
-	installs = []Install{
+	installs = []Install{ //nolint:gochecknoglobals
 		InstallComms1,
 		InstallComms2,
 		InstallComms3,
@@ -36,7 +39,7 @@ var (
 	}
 
 	// InstallName maps an install to its name.
-	InstallName = map[Install]string{
+	InstallName = map[Install]string{ //nolint:gochecknoglobals
 		InstallComms1:    "COMMS1",
 		InstallComms2:    "COMMS2",
 		InstallComms3:    "COMMS3",
@@ -47,7 +50,7 @@ var (
 	}
 
 	// InstallValue maps an install from its name.
-	InstallValue = map[string]Install{
+	InstallValue = map[string]Install{ //nolint:gochecknoglobals
 		"COMMS1": InstallComms1,
 		"COMMS2": InstallComms2,
 		"COMMS3": InstallComms3,
@@ -71,9 +74,18 @@ var (
 // Install represents an installation type for the metering at a nmi.
 type Install int
 
+// Installs returns all the installs.
+func Installs() []Install {
+	return installs
+}
+
 // NewInstall returns a new install, and error if not found.
 func NewInstall(s string) (Install, error) {
-	i, ok := InstallValue[s]
+	if s == "" {
+		return InstallUndefined, ErrInstallNil
+	}
+
+	i, ok := InstallValue[strings.ToUpper(s)]
 	if !ok {
 		return InstallUndefined, ErrInstallInvalid
 	}
@@ -85,7 +97,7 @@ func NewInstall(s string) (Install, error) {
 func (i Install) Identifier() string {
 	str, ok := InstallName[i]
 	if !ok {
-		return fmt.Sprintf("%!Install(%d)", i)
+		return fmt.Sprintf("%%!Install(%d)", i)
 	}
 
 	return str
@@ -95,7 +107,7 @@ func (i Install) Identifier() string {
 func (i Install) Description() (string, error) {
 	desc, ok := installDescriptions[i]
 	if !ok {
-		return fmt.Sprintf("%!Install(%d)", i), ErrInstallInvalid
+		return fmt.Sprintf("%%!Install(%d)", i), ErrInstallInvalid
 	}
 
 	return desc, nil

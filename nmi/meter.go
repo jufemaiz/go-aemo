@@ -10,14 +10,14 @@ type Meters map[string]*Meter
 
 // Meter for a NMI.
 type Meter struct {
-	Nmi                string           `json:"nmi"`
-	Identifier         string           `json:"idenifier"`
-	Registers          []*MeterRegister `json:"registers"`
-	SerialNumber       *string          `json:"serialNumber"`
-	FromDateTime       *time.Time       `json:"fromDateTime"`
-	ToDateTime         *time.Time       `json:"toDateTime"`
-	LastTestDate       *time.Time       `json:"lastTestDate"`
-	AdditionalSiteInfo *string          `json:"additionalSiteInformation"`
+	Nmi                string           `json:"nmi,omitempty"`
+	Identifier         string           `json:"identifier,omitempty"`
+	Registers          []*MeterRegister `json:"registers,omitempty"`
+	SerialNumber       *string          `json:"serialNumber,omitempty"`
+	FromDateTime       *time.Time       `json:"fromDateTime,omitempty"`
+	ToDateTime         *time.Time       `json:"toDateTime,omitempty"`
+	LastTestDate       *time.Time       `json:"lastTestDate,omitempty"`
+	AdditionalSiteInfo *string          `json:"additionalSiteInformation,omitempty"`
 	// Location                  string
 	// Point                     int
 	// Status                    Status

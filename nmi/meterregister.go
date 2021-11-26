@@ -4,16 +4,16 @@ import "fmt"
 
 // MeterRegister for a Meter for a NMI.
 type MeterRegister struct {
-	RegisterID        string `json:"registerID"`
-	MeasurementStream string `json:"measurementStream"`
-	NetworkTariffCode string `json:"networkTariffCode"`
-	UnitOfMeasure     string `json:"unitOfMeasure"`
-	TimeOfDay         string `json:"timeOfDay"`
-	Multiplier        int    `json:"multiplier"`
-	DialFormat        string `json:"dialFormat"`
-	ControlledLoad    bool   `json:"controlledLoad"`
-	ConsumptionType   string `json:"consumptionType"`
-	Status            string `json:"status"`
+	RegisterID        string `json:"registerID,omitempty"`
+	MeasurementStream string `json:"measurementStream,omitempty"`
+	NetworkTariffCode string `json:"networkTariffCode,omitempty"`
+	UnitOfMeasure     string `json:"unitOfMeasure,omitempty"`
+	TimeOfDay         string `json:"timeOfDay,omitempty"`
+	Multiplier        int    `json:"multiplier,omitempty"`
+	DialFormat        string `json:"dialFormat,omitempty"`
+	ControlledLoad    bool   `json:"controlledLoad,omitempty"`
+	ConsumptionType   string `json:"consumptionType,omitempty"`
+	Status            string `json:"status,omitempty"`
 }
 
 // GoString meets the gostring interface.
