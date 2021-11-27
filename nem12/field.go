@@ -565,8 +565,12 @@ func validateFieldRetServiceOrder(v string) error {
 }
 
 func validateFieldReadDateTime(v string) error {
+	if v == "" {
+		return nil
+	}
+
 	if err := validateDateTime14(v); err != nil {
-		return fmt.Errorf("field update datetime '%s': %w", v, err)
+		return fmt.Errorf("field read datetime '%s': %w", v, err)
 	}
 
 	return nil

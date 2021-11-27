@@ -18,6 +18,38 @@ type IntervalSet struct {
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
+// Normalize returns the interval set in SI units.
+func (is *IntervalSet) Normalize() (*IntervalSet, error) {
+	if is == nil {
+		return nil, nil
+	}
+
+	uomBase := is.Metadata.UnitOfMeasure.Base()
+
+	new := &IntervalSet{
+		Metadata: &IntervalMetadata{
+			Nmi:           is.Metadata.Nmi,
+			Meter:         is.Metadata.Meter,
+			Suffix:        is.Metadata.Suffix,
+			UnitOfMeasure: &uomBase,
+		},
+		Data: Intervals{},
+	}
+
+	uom := is.Metadata.UnitOfMeasure
+
+	for _, v := range is.Data {
+		nv, err := v.Normalize(uom)
+		if err != nil {
+			return nil, err
+		}
+
+		new.Data = append(new.Data, nv)
+	}
+
+	return new, nil
+}
+
 // Interval is duration of time from a start to a finish, with a value.
 type Interval struct {
 	// Data.
@@ -27,6 +59,31 @@ type Interval struct {
 
 	// Metadata, shared.
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
+}
+
+// Normalize returns the interval in SI units.
+func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
+	new := &Interval{
+		Time:           i.Time,
+		IntervalLength: i.IntervalLength,
+		Value: IntervalValue{
+			Value:             i.Value.Value,
+			DecimalValue:      i.Value.DecimalValue,
+			QualityFlag:       i.Value.QualityFlag,
+			MethodFlag:        i.Value.MethodFlag,
+			ReasonCode:        i.Value.ReasonCode,
+			ReasonDescription: i.Value.ReasonDescription,
+			UpdateDateTime:    i.Value.UpdateDateTime,
+			MSATSLoadDateTime: i.Value.MSATSLoadDateTime,
+		},
+	}
+
+	if uom != nil {
+		new.Value.Value = new.Value.Value * uom.Multiplier()
+		new.Value.DecimalValue = new.Value.DecimalValue.Mul(uom.DecimalMultiplier())
+	}
+
+	return new, nil
 }
 
 // Intervals is a slice of Interval.

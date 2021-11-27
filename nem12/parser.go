@@ -190,6 +190,12 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 
 		case parseStateNextIntervalData:
 			switch ri {
+			case RecordB2BDetails:
+				p.state = parseStateNextB2BDetails
+				p.backup()
+
+				continue
+
 			case RecordIntervalEvent:
 				p.state = parseStateNeedIntervalEvent
 				p.backup()
@@ -314,8 +320,47 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 				}
 
 			case RecordNMIDataDetails:
+				p.state = parseStateNeedNMIDataDetails
+
+				// If we have any data, we return it, and set the current record as a lookahead value instead.
+				if len(p.values) > 0 {
+					set, err = p.intervalSet()
+					if err != nil {
+						return nil, err
+					}
+
+					p.resetDay()
+					p.backup()
+
+					return set, nil
+				}
+
+				p.backup()
+
+				continue
+
+			case RecordEnd:
+				p.state = parseStateCheckEnd
+
+				// If we have any data, we return it, and set the current record as a lookahead value instead.
+				if len(p.values) > 0 {
+					set, err = p.intervalSet()
+					if err != nil {
+						return nil, err
+					}
+
+					p.resetDay()
+					p.backup()
+
+					return set, nil
+				}
+
+				p.backup()
+
+				continue
 
 			default:
+				return nil, fmt.Errorf("record indicator '%s': %w", ri.String(), ErrParseRecordNMIDataDetailsMissing)
 			}
 
 		case parseStateNeedB2BDetails:
@@ -339,6 +384,26 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 
 			case RecordNMIDataDetails:
 				p.state = parseStateNextNMIDataDetails
+				p.backup()
+
+				continue
+
+			case RecordEnd:
+				p.state = parseStateCheckEnd
+
+				// If we have any data, we return it, and set the current record as a lookahead value instead.
+				if len(p.values) > 0 {
+					set, err = p.intervalSet()
+					if err != nil {
+						return nil, err
+					}
+
+					p.resetDay()
+					p.backup()
+
+					return set, nil
+				}
+
 				p.backup()
 
 				continue

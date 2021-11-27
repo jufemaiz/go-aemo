@@ -89,37 +89,32 @@ func TestNewParser(t *testing.T) {
 					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
 
 					So(d.Data, ShouldHaveLength, 96)
-					ts := time.Date(2005, 5, 17, 12, 29, 48, 0, nem12.NEMTime())
-					So(d.Data[0], ShouldResemble, &nem12.Interval{
-						Time:           time.Date(2004, 11, 2, 0, 15, 0, 0, nem12.NEMTime()),
-						IntervalLength: (15 * time.Minute),
-						Value: nem12.IntervalValue{
-							Value:             2.5690,
-							DecimalValue:      decimal.New(2569, -3),
-							QualityFlag:       nem12.QualityActual,
-							MethodFlag:        nil,
-							ReasonCode:        nil,
-							ReasonDescription: nil,
-							UpdateDateTime:    &ts,
-							MSATSLoadDateTime: nil,
-						},
-					})
-
-					ts = time.Date(2005, 5, 17, 12, 29, 48, 0, nem12.NEMTime())
-					So(d.Data[95], ShouldResemble, &nem12.Interval{
-						Time:           time.Date(2004, 11, 3, 0, 0, 0, 0, nem12.NEMTime()),
-						IntervalLength: (15 * time.Minute),
-						Value: nem12.IntervalValue{
-							Value:             2.601,
-							DecimalValue:      decimal.New(2601, -3),
-							QualityFlag:       nem12.QualityActual,
-							MethodFlag:        nil,
-							ReasonCode:        nil,
-							ReasonDescription: nil,
-							UpdateDateTime:    &ts,
-							MSATSLoadDateTime: nil,
-						},
-					})
+					ts := time.Date(2004, 11, 2, 0, 0, 0, 0, nem12.NEMTime())
+					updatedAt := time.Date(2005, 5, 17, 12, 29, 48, 0, nem12.NEMTime())
+					vals := []float64{
+						2.569, 2.442, 2.379, 2.347, 2.379, 2.284, 2.252, 2.315, 2.220, 2.220, 2.252, 2.188, 2.188, 2.252, 2.220, 2.220, 2.315, 2.284,
+						2.315, 2.410, 2.442, 2.506, 2.664, 2.696, 2.918, 3.076, 3.172, 3.267, 3.489, 3.552, 3.679, 3.806, 3.806, 3.838, 3.933, 3.901,
+						3.964, 4.060, 3.996, 4.028, 4.091, 4.060, 4.091, 4.155, 4.060, 4.060, 4.123, 4.028, 4.060, 4.091, 3.996, 3.996, 4.028, 3.933,
+						3.933, 3.964, 3.901, 3.869, 3.933, 3.838, 3.838, 3.869, 3.774, 3.774, 3.838, 3.742, 3.742, 3.806, 3.679, 3.679, 3.774, 3.711,
+						3.647, 3.679, 3.616, 3.584, 3.584, 3.489, 3.457, 3.457, 3.330, 3.298, 3.298, 3.203, 3.108, 3.140, 3.013, 2.950, 3.013, 3.013,
+						2.981, 3.013, 2.886, 2.791, 2.759, 2.601,
+					}
+					for i, val := range vals {
+						So(d.Data[i], ShouldResemble, &nem12.Interval{
+							Time:           ts.Add(time.Duration((i+1)*15) * time.Minute),
+							IntervalLength: (15 * time.Minute),
+							Value: nem12.IntervalValue{
+								Value:             val,
+								DecimalValue:      decimal.NewFromFloat(val),
+								QualityFlag:       nem12.QualityActual,
+								MethodFlag:        nil,
+								ReasonCode:        nil,
+								ReasonDescription: nil,
+								UpdateDateTime:    &updatedAt,
+								MSATSLoadDateTime: nil,
+							},
+						})
+					}
 
 					d, err = p.ReadDay()
 					So(d, ShouldNotBeNil)
@@ -179,7 +174,35 @@ func TestNewParser(t *testing.T) {
 					So(d.Metadata.Suffix.Type, ShouldEqual, nem12.SuffixExportWattHourMaster)
 					So(d.Metadata.UnitOfMeasure, ShouldNotBeNil)
 					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
+
 					So(d.Data, ShouldHaveLength, 96)
+					ts = time.Date(2004, 11, 2, 0, 0, 0, 0, nem12.NEMTime())
+					updatedAt = time.Date(2005, 5, 17, 12, 29, 49, 0, nem12.NEMTime())
+					vals = []float64{
+						33.600, 33.600, 32.400, 33.000, 34.200, 33.000, 32.400, 31.800, 31.800, 32.400, 33.600, 31.200, 30.600, 31.200,
+						30.600, 30.600, 30.000, 31.200, 30.600, 28.200, 28.200, 27.600, 27.600, 26.400, 27.600, 28.200, 28.200, 27.600,
+						28.200, 28.200, 27.600, 28.800, 28.800, 27.600, 28.800, 34.800, 34.200, 36.000, 36.000, 34.800, 34.800, 36.000,
+						34.200, 35.400, 36.000, 36.600, 36.600, 34.800, 36.000, 35.400, 35.400, 39.600, 41.400, 42.000, 43.200, 41.400,
+						42.000, 43.200, 42.600, 39.000, 34.800, 36.000, 33.600, 34.800, 34.200, 32.400, 31.800, 32.400, 32.400, 33.600,
+						33.000, 33.000, 31.800, 34.200, 30.600, 30.600, 30.600, 28.800, 27.600, 28.800, 29.400, 29.400, 29.400, 30.600,
+						29.400, 28.800, 29.400, 30.000, 28.800, 28.800, 29.400, 28.800, 29.400, 29.400, 29.400, 28.800,
+					}
+					for i, val := range vals {
+						So(d.Data[i], ShouldResemble, &nem12.Interval{
+							Time:           ts.Add(time.Duration((i+1)*15) * time.Minute),
+							IntervalLength: (15 * time.Minute),
+							Value: nem12.IntervalValue{
+								Value:             val,
+								DecimalValue:      decimal.NewFromFloat(val),
+								QualityFlag:       nem12.QualityActual,
+								MethodFlag:        nil,
+								ReasonCode:        nil,
+								ReasonDescription: nil,
+								UpdateDateTime:    &updatedAt,
+								MSATSLoadDateTime: nil,
+							},
+						})
+					}
 
 					d, err = p.ReadDay()
 					So(d, ShouldNotBeNil)
@@ -225,6 +248,146 @@ func TestNewParser(t *testing.T) {
 					So(d.Metadata.UnitOfMeasure, ShouldNotBeNil)
 					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
 					So(d.Data, ShouldHaveLength, 96)
+
+					d, err = p.ReadDay()
+					So(d, ShouldBeNil)
+					So(err, ShouldBeNil)
+
+					d, err = p.ReadDay()
+					So(d, ShouldBeNil)
+					So(err, ShouldBeError)
+					So(err, ShouldWrap, io.EOF)
+				},
+			},
+			"valid nem12 file with variable data quality for one meter at one nmi": {
+				reader: func() io.Reader {
+					filepath := "./testdata/valid/NEM12#Scenario04#ETSAMDP#NEMMCO.csv"
+					// 100,NEM12,200505231738,ETSAMDP,NEMMCO
+					// 200,NEM1314071,E1,E1,E1,,04071,KWH,30,20050601
+					// 300,20050101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,V,,,20050321164041,
+					// 400,1,20,F56,1,
+					// 400,21,48,E56,77,
+					// 500,G,SONEM1214071,20050101101523,001123.5
+					// 300,20050102,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,E56,77,Estimation Forecast,20050321000001,
+					// 300,20050103,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,4.583,E56,77,Estimation Forecast,20050321000001,
+					// 900
+
+					r, err := os.Open(filepath)
+					So(err, ShouldBeNil)
+
+					return r
+				},
+				assertions: func(r io.Reader, p nem12.Parser) {
+					qe := nem12.QualityValue["E"]
+					qf := nem12.QualityValue["F"]
+					m56 := nem12.Method(56)
+					r1 := nem12.Reason(1)
+					r77 := nem12.Reason(77)
+					r77Desc := "Estimation Forecast"
+					update1 := time.Date(2005, 3, 21, 16, 40, 41, 0, nem12.NEMTime()) // 20050321164041
+					update2 := time.Date(2005, 3, 21, 0, 0, 1, 0, nem12.NEMTime())    // 20050321000001
+
+					So(r, ShouldNotBeNil)
+
+					d, err := p.ReadDay()
+					So(d, ShouldNotBeNil)
+					So(err, ShouldBeNil)
+
+					So(d.Metadata, ShouldNotBeNil)
+					So(d.Metadata.Nmi, ShouldNotBeNil)
+					So(d.Metadata.Nmi.Identifier, ShouldEqual, "NEM1314071")
+					So(d.Metadata.Meter, ShouldNotBeNil)
+					So(d.Metadata.Meter.Identifier, ShouldEqual, "1")
+					So(d.Metadata.Suffix, ShouldNotBeNil)
+					So(d.Metadata.Suffix.Type, ShouldEqual, nem12.SuffixExportWattHourMaster)
+					So(d.Metadata.UnitOfMeasure, ShouldNotBeNil)
+					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
+
+					So(d.Data, ShouldHaveLength, 48)
+					ts := time.Date(2005, 1, 1, 0, 0, 0, 0, nem12.NEMTime())
+					vals := []float64{
+						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583,
+						4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583,
+						4.583, 4.583, 4.583, 4.583, 4.583,
+					}
+					qualities := []nem12.Quality{
+						qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf, qf,
+						qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe, qe,
+					}
+					reasons := []*nem12.Reason{
+						&r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1, &r1,
+						&r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77, &r77,
+					}
+
+					for i, val := range vals {
+						So(d.Data[i], ShouldResemble, &nem12.Interval{
+							Time:           ts.Add(time.Duration((i+1)*30) * time.Minute),
+							IntervalLength: (30 * time.Minute),
+							Value: nem12.IntervalValue{
+								Value:             val,
+								DecimalValue:      decimal.NewFromFloat(val),
+								QualityFlag:       qualities[i],
+								MethodFlag:        &m56,
+								ReasonCode:        reasons[i],
+								ReasonDescription: nil,
+								UpdateDateTime:    &update1,
+								MSATSLoadDateTime: nil,
+							},
+						})
+					}
+
+					d, err = p.ReadDay()
+					So(d, ShouldNotBeNil)
+					So(err, ShouldBeNil)
+
+					So(d.Metadata, ShouldNotBeNil)
+					So(d.Metadata.Nmi, ShouldNotBeNil)
+					So(d.Metadata.Nmi.Identifier, ShouldEqual, "NEM1314071")
+					So(d.Metadata.Meter, ShouldNotBeNil)
+					So(d.Metadata.Meter.Identifier, ShouldEqual, "1")
+					So(d.Metadata.Suffix, ShouldNotBeNil)
+					So(d.Metadata.Suffix.Type, ShouldEqual, nem12.SuffixExportWattHourMaster)
+					So(d.Metadata.UnitOfMeasure, ShouldNotBeNil)
+					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
+					So(d.Data, ShouldHaveLength, 48)
+
+					ts = time.Date(2005, 1, 2, 0, 0, 0, 0, nem12.NEMTime())
+					vals = []float64{
+						4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583,
+						4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583,
+						4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583, 4.583,
+					}
+					for i, val := range vals {
+						So(d.Data[i], ShouldResemble, &nem12.Interval{
+							Time:           ts.Add(time.Duration((i+1)*30) * time.Minute),
+							IntervalLength: (30 * time.Minute),
+							Value: nem12.IntervalValue{
+								Value:             val,
+								DecimalValue:      decimal.NewFromFloat(val),
+								QualityFlag:       qe,
+								MethodFlag:        &m56,
+								ReasonCode:        &r77,
+								ReasonDescription: &r77Desc,
+								UpdateDateTime:    &update2,
+								MSATSLoadDateTime: nil,
+							},
+						})
+					}
+
+					d, err = p.ReadDay()
+					So(d, ShouldNotBeNil)
+					So(err, ShouldBeNil)
+
+					So(d.Metadata, ShouldNotBeNil)
+					So(d.Metadata.Nmi, ShouldNotBeNil)
+					So(d.Metadata.Nmi.Identifier, ShouldEqual, "NEM1314071")
+					So(d.Metadata.Meter, ShouldNotBeNil)
+					So(d.Metadata.Meter.Identifier, ShouldEqual, "1")
+					So(d.Metadata.Suffix, ShouldNotBeNil)
+					So(d.Metadata.Suffix.Type, ShouldEqual, nem12.SuffixExportWattHourMaster)
+					So(d.Metadata.UnitOfMeasure, ShouldNotBeNil)
+					So(*d.Metadata.UnitOfMeasure, ShouldEqual, nem12.UnitKilowattHour)
+					So(d.Data, ShouldHaveLength, 48)
 
 					d, err = p.ReadDay()
 					So(d, ShouldBeNil)
