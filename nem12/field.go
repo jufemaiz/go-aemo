@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jufemaiz/go-aemo/nmi"
+	"github.com/shopspring/decimal"
 )
 
 const (
@@ -379,7 +380,7 @@ func validateFieldMDMDataStreamIdentifier(v string) error {
 
 func validateFieldMeterSerialNumber(v string) error {
 	if len(v) > 12 {
-		return fmt.Errorf("field register ID '%s': %w", v, ErrFieldMeterSerialNumberInvalid)
+		return fmt.Errorf("field meter serial number '%s': %w", v, ErrFieldMeterSerialNumberInvalid)
 	}
 
 	return nil
@@ -444,12 +445,12 @@ func validateFieldIntervalValue(v string) error {
 		return fmt.Errorf("field interval value: %w", ErrFieldNil)
 	}
 
-	val, err := strconv.ParseFloat(v, 64)
+	val, err := decimal.NewFromString(v)
 	if err != nil {
 		return fmt.Errorf("field interval value '%s': %w", v, err)
 	}
 
-	if val < 0.0 {
+	if val.LessThan(decimal.Zero) {
 		return fmt.Errorf("field interval value '%s': %w", v, ErrFieldIntervalValueNegative)
 	}
 
@@ -491,6 +492,10 @@ func validateFieldReasonDescription(v string) error {
 }
 
 func validateFieldUpdateDateTime(v string) error {
+	if v == "" {
+		return fmt.Errorf("field update date time: %w", ErrFieldNil)
+	}
+
 	if err := validateDateTime14(v); err != nil {
 		return fmt.Errorf("field update datetime '%s': %w", v, err)
 	}
@@ -524,6 +529,10 @@ func validateFieldStartInterval(v string) error {
 		return fmt.Errorf("field start interval '%s': %w", v, ErrFieldIntervalExceedsMaximum)
 	}
 
+	if il < 1 {
+		return fmt.Errorf("field start interval '%s': %w", v, ErrFieldIntervalNegativeInvalid)
+	}
+
 	return nil
 }
 
@@ -539,6 +548,10 @@ func validateFieldFinishInterval(v string) error {
 
 	if il > 288 {
 		return fmt.Errorf("field finish interval '%s': %w", v, ErrFieldIntervalExceedsMaximum)
+	}
+
+	if il < 1 {
+		return fmt.Errorf("field start interval '%s': %w", v, ErrFieldIntervalNegativeInvalid)
 	}
 
 	return nil
@@ -602,6 +615,7 @@ func validateDateTime14(v string) error {
 	return err
 }
 
+// chunkString returns a slice of strings from s.
 func chunkString(s string, n int) []string {
 	var chunks []string
 	runes := []rune(s)

@@ -1,0 +1,27 @@
+#!/bin/sh
+#-------------------------------------------------------
+# DO NOT MODIFY BELOW HERE
+#-------------------------------------------------------
+# used for versioning the containers
+# NEVER USE THIS ENV OUTSIDE OF PIPELINE.YML
+export BUILD_TIME=`date -u +"%Y%m%d%H%M%S"`
+echo "--- BUILD_TIME set to $BUILD_TIME"
+
+echo '--- :house_with_garden: setting the :buildkite: :scroll:'
+export BUILDKITE_S3_ACL="private"
+export BUILDKITE_S3_DEFAULT_REGION="ap-southeast-2"
+export BUILDKITE_S3_SSE_ENABLED="true"
+export BUILDKITE_ARTIFACT_S3_BUCKET="enosi-buildkite-artifacts"
+# If it is not tagged, use branch + commit + buildkit build number, otherwise use tag
+if [[ -z "$BUILDKITE_TAG" ]]; then
+  export BUILDKITE_ARTIFACT_S3_PATH="$BUILDKITE_PIPELINE_SLUG/$BUILDKITE_BRANCH/$BUILDKITE_COMMIT/$BUILDKITE_BUILD_NUMBER"
+else
+  export BUILDKITE_ARTIFACT_S3_PATH="$BUILDKITE_PIPELINE_SLUG/$BUILDKITE_TAG"
+fi
+export BUILDKITE_ARTIFACT_UPLOAD_DESTINATION="s3://$BUILDKITE_ARTIFACT_S3_BUCKET/$BUILDKITE_ARTIFACT_S3_PATH"
+echo "Artifacts to be uploaded to: $BUILDKITE_ARTIFACT_UPLOAD_DESTINATION"
+
+echo "doing the dodgy - ENVing 🔑"
+aws s3 cp s3://$BUILDKITE_SECRETS_BUCKET/private_ssh_key ./
+export ARG_SSH_KEY=$(cat private_ssh_key)
+rm private_ssh_key

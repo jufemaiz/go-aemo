@@ -24,6 +24,14 @@ func (is *IntervalSet) Normalize() (*IntervalSet, error) {
 		return nil, nil
 	}
 
+	if is.Metadata == nil {
+		return nil, ErrIntervalMetadataNil
+	}
+
+	if is.Metadata.UnitOfMeasure == nil {
+		return nil, ErrUnitOfMeasureNil
+	}
+
 	uomBase := is.Metadata.UnitOfMeasure.Base()
 
 	new := &IntervalSet{
@@ -39,6 +47,10 @@ func (is *IntervalSet) Normalize() (*IntervalSet, error) {
 	uom := is.Metadata.UnitOfMeasure
 
 	for _, v := range is.Data {
+		if v == nil {
+			continue
+		}
+
 		nv, err := v.Normalize(uom)
 		if err != nil {
 			return nil, err
@@ -63,6 +75,10 @@ type Interval struct {
 
 // Normalize returns the interval in SI units.
 func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
+	if i == nil {
+		return nil, ErrIntervalNil
+	}
+
 	new := &Interval{
 		Time:           i.Time,
 		IntervalLength: i.IntervalLength,
@@ -79,6 +95,10 @@ func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
 	}
 
 	if uom != nil {
+		if err := uom.Validate(); err != nil {
+			return nil, fmt.Errorf("unit of measurement: %w", err)
+		}
+
 		new.Value.Value = new.Value.Value * uom.Multiplier()
 		new.Value.DecimalValue = new.Value.DecimalValue.Mul(uom.DecimalMultiplier())
 	}

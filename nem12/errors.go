@@ -30,6 +30,8 @@ var (
 	ErrFieldIntervalExceedsMaximum = errors.New("field interval exceeds maximum value")
 	// ErrFieldIntervalLengthInvalid if field interval length is invalid.
 	ErrFieldIntervalLengthInvalid = fmt.Errorf("field interval %w", ErrLengthInvalid)
+	// ErrFieldIntervalNegativeInvalid if field interval negative is invalid.
+	ErrFieldIntervalNegativeInvalid = fmt.Errorf("field interval negative %w", ErrIsInvalid)
 	// ErrFieldIntervalValueNegative if field interval value negative.
 	ErrFieldIntervalValueNegative = fmt.Errorf("field interval value negative %w", ErrIsInvalid)
 	// ErrFieldMDMDataStreamIdentifierInvalid if field MDM data stream identifier invalid.
@@ -54,6 +56,10 @@ var (
 	ErrInstallNil = fmt.Errorf("install %w", ErrIsNil)
 	// ErrInstallInvalid if install is invalid.
 	ErrInstallInvalid = fmt.Errorf("install %w", ErrIsInvalid)
+	// ErrIntervalMetadataNil if interval metadata is nil.
+	ErrIntervalMetadataNil = fmt.Errorf("interval metadata %w", ErrIsNil)
+	// ErrIntervalNil if interval is nil.
+	ErrIntervalNil = fmt.Errorf("interval %w", ErrIsNil)
 	// ErrLengthInvalid if length is invalid.
 	ErrLengthInvalid = fmt.Errorf("length %w", ErrIsInvalid)
 	// ErrMethodNil if method flag is empty.
@@ -142,6 +148,10 @@ type ParseError struct {
 
 // Error to meet the error interface.
 func (e *ParseError) Error() string {
+	if e == nil {
+		return ""
+	}
+
 	if e.Err == ErrParseFieldCountInvalid {
 		return fmt.Sprintf("record on line %d: %v", e.Line, e.Err)
 	}
@@ -150,4 +160,10 @@ func (e *ParseError) Error() string {
 }
 
 // Unwrap for the interface.
-func (e *ParseError) Unwrap() error { return e.Err }
+func (e *ParseError) Unwrap() error {
+	if e == nil {
+		return nil
+	}
+
+	return e.Err
+}
