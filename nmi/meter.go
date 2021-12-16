@@ -10,14 +10,14 @@ type Meters map[string]*Meter
 
 // Meter for a NMI.
 type Meter struct {
-	Nmi                string           `json:"nmi"`
-	Identifier         string           `json:"idenifier"`
-	Registers          []*MeterRegister `json:"registers"`
-	SerialNumber       *string          `json:"serialNumber"`
-	FromDateTime       *time.Time       `json:"fromDateTime"`
-	ToDateTime         *time.Time       `json:"toDateTime"`
-	LastTestDate       *time.Time       `json:"lastTestDate"`
-	AdditionalSiteInfo *string          `json:"additionalSiteInformation"`
+	Nmi                string           `json:"nmi,omitempty"`
+	Identifier         string           `json:"identifier,omitempty"`
+	Registers          []*MeterRegister `json:"registers,omitempty"`
+	SerialNumber       *string          `json:"serialNumber,omitempty"`
+	FromDateTime       *time.Time       `json:"fromDateTime,omitempty"`
+	ToDateTime         *time.Time       `json:"toDateTime,omitempty"`
+	LastTestDate       *time.Time       `json:"lastTestDate,omitempty"`
+	AdditionalSiteInfo *string          `json:"additionalSiteInformation,omitempty"`
 	// Location                  string
 	// Point                     int
 	// Status                    Status
@@ -30,12 +30,12 @@ func (m *Meter) GoString() string {
 	}
 
 	str := fmt.Sprintf(
-		"Meter{Nmi: \"%s\", Identifier: \"%s\", Registers: %#v",
+		"Meter{Nmi: %q, Identifier: %q, Registers: %#v",
 		m.Nmi, m.Identifier, m.Registers,
 	)
 
 	if m.SerialNumber != nil {
-		str += fmt.Sprintf(", SerialNumber: \"%s\"", *m.SerialNumber)
+		str += fmt.Sprintf(", SerialNumber: %q", *m.SerialNumber)
 	}
 
 	str += "}"

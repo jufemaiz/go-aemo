@@ -451,7 +451,7 @@ func (p Participant) GoString() string {
 	}
 
 	return fmt.Sprintf(
-		"Participant{Participant: %d, ParticipantID: \"%s\", Region: %#v, LongName: \"%s\", ShortName: \"%s\", Energy: \"%s\", Allocations: %#v}",
+		"Participant{Participant: %d, ParticipantID: %q, Region: %#v, LongName: %q, ShortName: %q, Energy: %q, Allocations: %#v}",
 		p, p.ParticipantID(), p.Region(), p.LongName(), p.ShortName(), p.Energy().String(), p.Allocations(),
 	)
 }

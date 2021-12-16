@@ -28,16 +28,16 @@ var (
 // Ref:
 // - https://aemo.com.au/-/media/files/electricity/nem/retail_and_metering/metering-procedures/2016/0610-0008-pdf.pdf
 type Nmi struct {
-	Identifier                 string `json:"identifier"`
-	MSATSDetail                string `json:"msatsDetail"`
-	TransmissionNodeIdentifier TNI    `json:"tni"`
-	DistributionLossFactorCode DLFC   `json:"dlfc"`
-	CustomerClassificationCode string `json:"customerClassificationCode"`
-	CustomerThresholdCode      string `json:"customerThresholdCode"`
-	JurisdictionCode           string `json:"jurisdictionCode"`
-	ClassificationCode         string `json:"classificationCode"`
-	Meters                     Meters `json:"meters"`
-	DataStreams                string `json:"datastreams"`
+	Identifier                 string `json:"identifier,omitempty"`
+	MSATSDetail                string `json:"msatsDetail,omitempty"`
+	TransmissionNodeIdentifier TNI    `json:"tni,omitempty"`
+	DistributionLossFactorCode DLFC   `json:"dlfc,omitempty"`
+	CustomerClassificationCode string `json:"customerClassificationCode,omitempty"`
+	CustomerThresholdCode      string `json:"customerThresholdCode,omitempty"`
+	JurisdictionCode           string `json:"jurisdictionCode,omitempty"`
+	ClassificationCode         string `json:"classificationCode,omitempty"`
+	Meters                     Meters `json:"meters,omitempty"`
+	DataStreams                string `json:"datastreams,omitempty"`
 	// Address                    Address
 	// Status                     Status
 	// Roles       []*Role
@@ -65,7 +65,7 @@ func NewNmi(s string) (*Nmi, error) {
 
 // GoString meets the gostring interface.
 func (n *Nmi) GoString() string {
-	return fmt.Sprintf("Nmi{Identifier: \"%s\"}", n.Identifier)
+	return fmt.Sprintf("Nmi{Identifier: %q}", n.Identifier)
 }
 
 // String meets the stringer interface.
@@ -133,7 +133,7 @@ func (n *Nmi) Validate() error {
 		return fmt.Errorf("'%s': %w", n, ErrNmiInvalidLength)
 	}
 
-	if !NmiValidRegexp.Match([]byte(n.Identifier)) {
+	if !NmiValidRegexp.MatchString(n.Identifier) {
 		return fmt.Errorf("'%s': %w", n, ErrNmiInvalidChar)
 	}
 

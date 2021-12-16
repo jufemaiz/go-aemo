@@ -154,7 +154,7 @@ func Regions() []Region {
 // GoString meets the gostring interface.
 func (r Region) GoString() string {
 	return fmt.Sprintf(
-		"{Region: %d, MarketNode: \"%s\", Name: \"%s\", LongName: \"%s\", ISOCode: \"%s\"}",
+		"{Region: %d, MarketNode: %q, Name: %q, LongName: %q, ISOCode: %q}",
 		r, r.MarketNode().Name(), r.Name(), r.LongName(), r.ISOCode(),
 	)
 }
