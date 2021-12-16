@@ -16,6 +16,7 @@ install:
 - make dependencies dependencies-download
 - make coverage-install
 before_script:
+- make lint-install
 - make coverage-before
 script:
 - make test
