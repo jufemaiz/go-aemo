@@ -51,7 +51,7 @@ func NewEnergy(s string) (Energy, error) {
 
 // GoString satisfies the GoString interface.
 func (e Energy) GoString() string {
-	return fmt.Sprintf("\"%s\"", e.String())
+	return fmt.Sprintf("%q", e.String())
 }
 
 // String satisfies the stringer interface.

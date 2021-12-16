@@ -73,6 +73,11 @@ help: ## Show this help
 	@echo 'targets:'
 	@egrep '^(.+)\:\ .*##\ (.+)' ${MAKEFILE_LIST} | sed 's/:.*##/#/' | column -t -c 2 -s '#'
 
+.PHONY: lint-install
+lint-install:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+	golangci-lint --version
+
 .PHONY: lint
 lint: ## run go lint on the source files
 	@if ! [ -x "$$(command -v golangci-lint)" ]; then \

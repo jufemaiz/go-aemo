@@ -1,4 +1,4 @@
-FROM golang:1.16.5-alpine as builder
+FROM golang:1.17-alpine as builder
 
 ARG SSH_KEY
 
@@ -32,12 +32,12 @@ WORKDIR /app
 RUN make dependencies && make dependencies-download
 RUN make tools
 
-FROM golang:1.16.5-alpine
+FROM golang:1.17-alpine
 
 LABEL maintainer="Joel Courtney <euphemize@gmail.com>"
 LABEL application="go-aemo"
 
-ARG GOLANGCI_VERSION="v1.39.0"
+ARG GOLANGCI_VERSION="v1.43.0"
 ENV GOLANGCI_VERSION $GOLANGCI_VERSION
 
 RUN apk add bash build-base curl gcc git inotify-tools make openssh postgresql-client protobuf-dev tzdata zip

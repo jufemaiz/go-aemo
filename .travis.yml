@@ -1,0 +1,28 @@
+---
+env:
+  global:
+  - CC_TEST_REPORTER_ID=
+language: go
+go:
+- '1.17.x'
+- '1.16.x'
+- master
+matrix:
+  allow_failures:
+  - go: master
+  fast_finish: true
+install:
+- make clean
+- make clean-goimports
+- make dependencies
+- make dependencies-download
+before_script:
+- curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
+script:
+- make test
+- make lint
+after_script:
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
