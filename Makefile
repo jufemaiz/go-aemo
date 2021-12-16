@@ -45,7 +45,7 @@ clean-all: clean
 
 PHONY: codeclimate-after
 codeclimate-after:
-	./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+	./cc-test-reporter after-build --exit-code $(TRAVIS_TEST_RESULT)
 
 PHONY: codeclimate-before
 codeclimate-before:
@@ -58,7 +58,7 @@ codeclimate-install:
 
 PHONY: codeclimate-after
 codecov-after:
-	./codecov -t ${CODECOV_TOKEN}
+	./codecov -t $(CODECOV_TOKEN)
 
 .PHONY: codecov-install
 codecov-install:
@@ -72,7 +72,7 @@ codecov-install:
 
 .PHONY: codecov-upload
 codecov-upload:
-	./codecov -t ${CODECOV_TOKEN}
+	./codecov -t $(CODECOV_TOKEN)
 
 .PHONY: coverage-after
 coverage-after: codeclimate-after codecov-after
