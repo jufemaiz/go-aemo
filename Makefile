@@ -45,7 +45,8 @@ clean-all: clean
 
 PHONY: codeclimate-after
 codeclimate-after:
-	./cc-test-reporter after-build --exit-code $(TRAVIS_TEST_RESULT)
+  ./cc-test-reporter upload-coverage -i .coverage/coverage.out
+	return $(TRAVIS_TEST_RESULT)
 
 PHONY: codeclimate-before
 codeclimate-before:
