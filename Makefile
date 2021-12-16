@@ -45,7 +45,8 @@ clean-all: clean
 
 PHONY: codeclimate-after
 codeclimate-after:
-  ./cc-test-reporter upload-coverage -i .coverage/coverage.out
+	./cc-test-reporter format-coverage .coverage/coverage.out -t gocov -o .coverage/codeclimate.json -p github.com/jufemaiz/go-aemo
+	./cc-test-reporter upload-coverage -i .coverage/codeclimate.json
 	return $(TRAVIS_TEST_RESULT)
 
 PHONY: codeclimate-before
