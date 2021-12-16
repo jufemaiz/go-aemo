@@ -53,7 +53,6 @@ codeclimate-before:
 
 .PHONY: codeclimate-install
 codeclimate-install:
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 
