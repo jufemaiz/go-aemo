@@ -6,7 +6,7 @@
 //
 // The NMI is a ten (10) character identifier assigned by Local Network Service
 // Providers (LNSPs) in accordance with this procedure. The publication of this
-// procedure and assignment of NMIs is authorised by the National Electricity Rules
+// procedure and assignment of NMIs is authorized by the National Electricity Rules
 // at clause 7.3.1(d), (da), and (db).
 //
 // The NMI may be used in conjunction with other identifiers or suffixes. These

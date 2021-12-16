@@ -24,13 +24,13 @@ func NewQualityMethod(s string) (QualityMethod, error) {
 
 // Validate returns an error if a quality method is invalid.
 func (qm QualityMethod) Validate() error {
-	len := len(qm)
+	strLen := len(qm)
 
-	if len == 0 {
+	if strLen == 0 {
 		return ErrQualityMethodNil
 	}
 
-	if len != qualityLength && len != (qualityLength+methodLength) {
+	if strLen != qualityLength && strLen != (qualityLength+methodLength) {
 		return ErrQualityMethodLengthInvalid
 	}
 
@@ -39,11 +39,11 @@ func (qm QualityMethod) Validate() error {
 		return fmt.Errorf("validate '%s': %w", qm, err)
 	}
 
-	if len == qualityLength && (q == QualityActual || q == QualityNull || q == QualityVariable) {
+	if strLen == qualityLength && (q == QualityActual || q == QualityNull || q == QualityVariable) {
 		return nil
 	}
 
-	if len != (qualityLength + methodLength) {
+	if strLen != (qualityLength + methodLength) {
 		return fmt.Errorf("validate '%s': %w", qm, ErrQualityMissingMethod)
 	}
 
@@ -77,7 +77,10 @@ func (qm QualityMethod) Method() (Method, error) {
 			return MethodUndefined, nil
 
 		case QualityEstimated, QualitySubstituted, QualityFinal:
-			fallthrough
+			return MethodUndefined, ErrQualityMissingMethod
+
+		case QualityUndefined:
+			fallthrough //nolint:gocritic
 
 		default:
 			return MethodUndefined, ErrQualityMissingMethod

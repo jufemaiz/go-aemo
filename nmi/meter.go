@@ -30,12 +30,12 @@ func (m *Meter) GoString() string {
 	}
 
 	str := fmt.Sprintf(
-		"Meter{Nmi: \"%s\", Identifier: \"%s\", Registers: %#v",
+		"Meter{Nmi: %q, Identifier: %q, Registers: %#v",
 		m.Nmi, m.Identifier, m.Registers,
 	)
 
 	if m.SerialNumber != nil {
-		str += fmt.Sprintf(", SerialNumber: \"%s\"", *m.SerialNumber)
+		str += fmt.Sprintf(", SerialNumber: %q", *m.SerialNumber)
 	}
 
 	str += "}"

@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jufemaiz/go-aemo/nem12"
 	. "github.com/smartystreets/goconvey/convey"
+
+	"github.com/jufemaiz/go-aemo/nem12"
 )
 
 func TestParseErrorError(t *testing.T) {

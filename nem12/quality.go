@@ -122,7 +122,7 @@ func (q Quality) GoString() string {
 func (q Quality) String() string {
 	s, err := q.Description()
 	if err != nil {
-		return fmt.Sprintf("\"%s\"", q.Identifier())
+		return fmt.Sprintf("%q", q.Identifier())
 	}
 
 	return fmt.Sprintf("\"%s: %s\"", q.Identifier(), s)
@@ -147,7 +147,7 @@ func (q *Quality) MarshalJSON() ([]byte, error) {
 		return []byte(fmt.Sprintf("\"%d\"", *q)), nil
 	}
 
-	return []byte(fmt.Sprintf("\"%s\"", id)), nil
+	return []byte(fmt.Sprintf("%q", id)), nil
 }
 
 // UnmarshalJSON unmarshals json string.
@@ -173,7 +173,7 @@ func (q Quality) RequiresMethod() (b bool) {
 	case QualityEstimated, QualityFinal, QualitySubstituted:
 		b = true
 	case QualityActual, QualityNull, QualityVariable, QualityUndefined:
-		fallthrough
+		b = false
 	default:
 		b = false
 	}
@@ -187,7 +187,7 @@ func (q Quality) RequiresReason() (b bool) {
 	case QualityFinal, QualitySubstituted:
 		b = true
 	case QualityActual, QualityNull, QualityEstimated, QualityVariable, QualityUndefined:
-		fallthrough
+		b = false
 	default:
 		b = false
 	}

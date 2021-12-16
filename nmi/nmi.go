@@ -65,7 +65,7 @@ func NewNmi(s string) (*Nmi, error) {
 
 // GoString meets the gostring interface.
 func (n *Nmi) GoString() string {
-	return fmt.Sprintf("Nmi{Identifier: \"%s\"}", n.Identifier)
+	return fmt.Sprintf("Nmi{Identifier: %q}", n.Identifier)
 }
 
 // String meets the stringer interface.
@@ -133,7 +133,7 @@ func (n *Nmi) Validate() error {
 		return fmt.Errorf("'%s': %w", n, ErrNmiInvalidLength)
 	}
 
-	if !NmiValidRegexp.Match([]byte(n.Identifier)) {
+	if !NmiValidRegexp.MatchString(n.Identifier) {
 		return fmt.Errorf("'%s': %w", n, ErrNmiInvalidChar)
 	}
 

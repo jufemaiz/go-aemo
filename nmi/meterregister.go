@@ -24,9 +24,9 @@ func (mr *MeterRegister) GoString() string {
 
 	return fmt.Sprintf(
 		"MeterRegister{"+
-			"RegisterID: \"%s\", MeasurementStream: \"%s\", NetworkTariffCode: \"%s\", "+
-			"UnitOfMeasure: \"%s\", TimeOfDay: \"%s\", Multiplier: %d, "+
-			"DialFormat: \"%s\", ControlledLoad: %t, ConsumptionType: \"%s\", Status: \"%s\""+
+			"RegisterID: %q, MeasurementStream: %q, NetworkTariffCode: %q, "+
+			"UnitOfMeasure: %q, TimeOfDay: %q, Multiplier: %d, "+
+			"DialFormat: %q, ControlledLoad: %t, ConsumptionType: %q, Status: %q"+
 			"}",
 		mr.RegisterID, mr.MeasurementStream, mr.NetworkTariffCode, mr.UnitOfMeasure,
 		mr.TimeOfDay, mr.Multiplier, mr.DialFormat, mr.ControlledLoad, mr.ConsumptionType,

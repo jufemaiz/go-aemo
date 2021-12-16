@@ -8,8 +8,14 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jufemaiz/go-aemo/nmi"
 	"github.com/shopspring/decimal"
+
+	"github.com/jufemaiz/go-aemo/nmi"
+)
+
+const (
+	// base64 for base 64 numbers.
+	base64 = 64
 )
 
 const (
@@ -51,9 +57,9 @@ type ParseMode int
 // parser implements the Parser interface. See <https://golang.org/src/text/template/parse/parse.go>
 // for inspiration.
 type parser struct {
-	mode ParseMode      // Supports various levels of strictness.
-	r    *csv.Reader    // Source of nem12 file to be parsed.
-	loc  *time.Location // Configured for NEMTime.
+	// mode ParseMode      // Supports various levels of strictness.
+	r   *csv.Reader    // Source of nem12 file to be parsed.
+	loc *time.Location // Configured for NEMTime.
 	// Cached data.
 	header         *Record           // Contents of the Header record of the MDFF file.
 	nmiDataDetails *Record           // Contents of the most recently read NMI data details record.
@@ -71,7 +77,7 @@ type parser struct {
 	events     intervalEvents // The slice of interval events.
 }
 
-// parseState provides the states for
+// parseState provides the states for parsing steps.
 type parseState int
 
 // NewParser returns a new Parser that parses text read from r.
@@ -97,9 +103,10 @@ func (p *parser) ReadDay() (*IntervalSet, error) {
 
 // readDay implements the actual read day capability, making it commonly
 // available to the interface functions.
-func (p *parser) readDay() (set *IntervalSet, err error) {
+//nolint:gocognit,dupl,funlen
+func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyclo
 	defer func() {
-		if err != nil && err != io.EOF {
+		if err != nil && !errors.Is(err, io.EOF) {
 			err = p.error(err)
 		}
 	}()
@@ -122,7 +129,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 				return nil, fmt.Errorf("unexpected end of file: %w", ErrParseUnexpectedEOF)
 			}
 
-			switch p.state {
+			switch p.state { //nolint:exhaustive
 			case parseStateNeedIntervalData, parseStateNextIntervalData, parseStateNeedIntervalEvent, parseStateNeedB2BDetails:
 				// If there's a bad record, we should fast forward to the next nmi data details.
 				p.state = parseStateNextNMIDataDetails
@@ -133,7 +140,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 
 		ri := rec.Indicator()
 
-		switch p.state {
+		switch p.state { //nolint:exhaustive
 		// We start off needing a header.
 		case parseStateNeedHeader:
 			if ri == RecordHeader {
@@ -157,7 +164,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 			fallthrough
 
 		case parseStateNextNMIDataDetails:
-			switch ri {
+			switch ri { //nolint:exhaustive
 			case RecordNMIDataDetails:
 				if err = p.cacheNMIDataDetails(rec); err != nil {
 					// Recover onto the next set of nmi data details and interval data.
@@ -189,7 +196,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 			fallthrough
 
 		case parseStateNextIntervalData:
-			switch ri {
+			switch ri { //nolint:exhaustive
 			case RecordB2BDetails:
 				p.state = parseStateNextB2BDetails
 				p.backup()
@@ -284,7 +291,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 			continue
 
 		case parseStateNextIntervalEvent:
-			switch ri {
+			switch ri { //nolint:exhaustive
 			case RecordB2BDetails:
 				p.state = parseStateNextB2BDetails
 				p.backup()
@@ -369,7 +376,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) {
 			continue
 
 		case parseStateNextB2BDetails:
-			switch ri {
+			switch ri { //nolint:exhaustive
 			case RecordB2BDetails:
 				p.state = parseStateNeedB2BDetails
 				p.backup()
@@ -462,29 +469,32 @@ func (p *parser) backup() {
 	p.peekCount++
 }
 
-// peek returns but does not consume the next record.
-func (p *parser) peek() (Record, error) {
-	var err error
+// // peek returns but does not consume the next record.
+// func (p *parser) peek() (Record, error) {
+// 	var err error
 
-	if p.peekCount > 0 {
-		return p.record[p.peekCount-1], nil
-	}
+// 	if p.peekCount > 0 {
+// 		return p.record[p.peekCount-1], nil
+// 	}
 
-	p.peekCount = 1
-	p.record[0], err = p.readNextRecord()
-	if err != nil {
-		return nil, err
-	}
+// 	p.peekCount = 1
 
-	return p.record[0], nil
-}
+// 	p.record[0], err = p.readNextRecord()
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-// readNewRecord reads a new record and returns
+// 	return p.record[0], nil
+// }
+
+// readNewRecord reads a new record and returns the record.
 func (p *parser) readNextRecord() (Record, error) {
+	var e *csv.ParseError
+
 	cols, err := p.r.Read()
 	rec, recErr := NewRecord(cols)
 
-	e, isParseError := err.(*csv.ParseError)
+	isParseError := errors.As(err, &e)
 
 	// Ignore issues of differing field count - we are operating in the non-canonical
 	// world that is NEM12.
@@ -495,8 +505,8 @@ func (p *parser) readNextRecord() (Record, error) {
 	}
 
 	// End of the file. Doh.
-	if err == io.EOF {
-		return rec, io.EOF
+	if errors.Is(err, io.EOF) {
+		return rec, fmt.Errorf("%w", io.EOF)
 	}
 
 	if isParseError {
@@ -504,7 +514,7 @@ func (p *parser) readNextRecord() (Record, error) {
 		p.recCount++
 	}
 
-	return rec, err
+	return rec, err //nolint:wrapcheck
 }
 
 // line returns the current line, which is the rec count offset by the peek count.
@@ -554,7 +564,7 @@ func (p *parser) cacheNMIDataDetails(rec Record) (err error) {
 		return err
 	}
 
-	p.valueCount = int(time.Duration(hoursInDay*time.Hour) / *p.intervalLength)
+	p.valueCount = int((hoursInDay * time.Hour) / *p.intervalLength)
 
 	return nil
 }
@@ -563,7 +573,7 @@ func (p *parser) cacheNMIDataDetails(rec Record) (err error) {
 func (p *parser) setMetadata(rec Record) (err error) {
 	n, err := nmi.NewNmi(rec[1].Value)
 	if err != nil {
-		return err
+		return fmt.Errorf("nmi: %w", err)
 	}
 
 	s, err := NewSuffix(rec[4].Value)
@@ -597,7 +607,7 @@ func (p *parser) setMetadata(rec Record) (err error) {
 func (p *parser) setIntervalLength(rec Record) (err error) {
 	il, err := time.ParseDuration(fmt.Sprintf("%sm", rec[8].Value))
 	if err != nil {
-		return err
+		return fmt.Errorf("parse duration: %w", err)
 	}
 
 	p.intervalLength = &il
@@ -619,7 +629,7 @@ func (p *parser) setUnit(rec Record) (err error) {
 
 // cacheValues caches a record's values, to ensure any additional data can be
 // added if needed.
-func (p *parser) cacheValues(rec Record) (err error) {
+func (p *parser) cacheValues(rec Record) (err error) { //nolint:cyclop,funlen,gocognit,gocyclo
 	// Reset the values first.
 	p.resetDay()
 
@@ -635,17 +645,17 @@ func (p *parser) cacheValues(rec Record) (err error) {
 	vals := []float64{}
 
 	for _, field := range rec {
-		switch field.Type {
+		switch field.Type { //nolint:exhaustive
 		case FieldIntervalDate:
 			date, err = time.ParseInLocation(Date8Format, field.Value, p.loc)
 			if err != nil {
-				return err
+				return fmt.Errorf("parse time: %w", err)
 			}
 
 		case FieldIntervalValue:
-			v, err := strconv.ParseFloat(field.Value, 64)
+			v, err := strconv.ParseFloat(field.Value, base64)
 			if err != nil {
-				return err
+				return fmt.Errorf("parse float: %w", err)
 			}
 
 			vals = append(vals, v)
@@ -676,7 +686,7 @@ func (p *parser) cacheValues(rec Record) (err error) {
 		case FieldUpdateDateTime:
 			dt, err := time.ParseInLocation(DateTime14Format, field.Value, p.loc)
 			if err != nil {
-				return err
+				return fmt.Errorf("parse time: %w", err)
 			}
 
 			updatedAt = &dt
@@ -688,7 +698,7 @@ func (p *parser) cacheValues(rec Record) (err error) {
 
 			dt, err := time.ParseInLocation(DateTime14Format, field.Value, p.loc)
 			if err != nil {
-				return err
+				return fmt.Errorf("parse time: %w", err)
 			}
 
 			msatsLoadAt = &dt
@@ -720,7 +730,7 @@ func (p *parser) cacheValues(rec Record) (err error) {
 
 	for i, val := range vals {
 		interval := &Interval{
-			Time:           date.Add(time.Duration((i + 1) * int((*il).Nanoseconds()))),
+			Time:           date.Add(time.Duration((i + 1) * int(il.Nanoseconds()))),
 			IntervalLength: *il,
 			Value: IntervalValue{
 				Value:        val,
@@ -785,7 +795,7 @@ func (p *parser) intervalSet() (*IntervalSet, error) {
 		val := *v
 
 		ev, ok := im[i+1]
-		if ok {
+		if ok { //nolint:nestif
 			q, err := ev.QualityMethod.Quality()
 			if err != nil {
 				return nil, fmt.Errorf("interval %d: quality: %w", i+1, err)

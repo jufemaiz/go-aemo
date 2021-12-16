@@ -5,13 +5,28 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jufemaiz/go-aemo/nmi"
 	"github.com/shopspring/decimal"
+
+	"github.com/jufemaiz/go-aemo/nmi"
 )
 
 const (
 	// nem12Str is used in the version header of the header record.
 	nem12Str = "NEM12"
+	// fieldParticipantStrLen for the string length of the participant.
+	fieldParticipantStrLen = 10
+	// fieldRegisterIDStrLen for the string length of the register.
+	fieldRegisterIDStrLen = 10
+	// fieldMeterSerialNumberStrLen for the string length of the meter serial number.
+	fieldMeterSerialNumberStrLen = 12
+	// fieldReasonDescriptionStrLen for the string length of the reason description.
+	fieldReasonDescriptionStrLen = 240
+	// fieldIntervalMax maximum value of the field interval.
+	fieldIntervalMax = 288
+	// fieldRetServiceOrderStrLen for the string length of the ret service order.
+	fieldRetServiceOrderStrLen = 15
+	// fieldIndexReadStrLen for the string  length of the index read.
+	fieldIndexReadStrLen = 15
 )
 
 const (
@@ -156,12 +171,14 @@ func NewField(ft FieldType, v string) (f Field, err error) {
 	return f, err
 }
 
+// GoString provides go string.
 func (f Field) GoString() string {
-	return fmt.Sprintf("Field{Type: %s, Value: \"%s\"}", f.Type.GoString(), f.Value)
+	return fmt.Sprintf("Field{Type: %s, Value: %q}", f.Type.GoString(), f.Value)
 }
 
 // Validate returns any errors for the value of the field.
-func (f Field) Validate() error {
+//nolint:funlen
+func (f Field) Validate() error { //nolint:cyclop,gocyclo
 	switch f.Type {
 	case FieldRecordIndicator:
 		return validateFieldRecordIndicator(f.Value)
@@ -217,6 +234,8 @@ func (f Field) Validate() error {
 		return validateFieldReadDateTime(f.Value)
 	case FieldIndexRead:
 		return validateFieldIndexRead(f.Value)
+	case FieldUndefined:
+		fallthrough //nolint:gocritic
 	default:
 		return ErrFieldTypeInvalid
 	}
@@ -263,7 +282,7 @@ func validateFieldFromParticipant(v string) error {
 		return fmt.Errorf("field from participant: %w", ErrFieldNil)
 	}
 
-	if len(v) > 10 {
+	if len(v) > fieldParticipantStrLen {
 		return fmt.Errorf("field from participant '%s': %w", v, ErrFieldParticipantLengthInvalid)
 	}
 
@@ -275,12 +294,11 @@ func validateFieldToParticipant(v string) error {
 		return fmt.Errorf("field to participant: %w", ErrFieldNil)
 	}
 
-	if len(v) > 10 {
+	if len(v) > fieldParticipantStrLen {
 		return fmt.Errorf("field from participant '%s': %w", v, ErrFieldParticipantLengthInvalid)
 	}
 
 	return nil
-
 }
 
 func validateFieldNMI(v string) error {
@@ -300,7 +318,8 @@ func validateFieldNMIConfiguration(v string) error {
 		return fmt.Errorf("field nmi configuration: %w", ErrFieldNil)
 	}
 
-	pairs := chunkString(v, 2)
+	pairSize := 2
+	pairs := chunkString(v, pairSize)
 	exists := map[string]bool{}
 
 	for i, pair := range pairs {
@@ -320,7 +339,7 @@ func validateFieldNMIConfiguration(v string) error {
 }
 
 func validateFieldRegisterID(v string) error {
-	if len(v) > 10 {
+	if len(v) > fieldRegisterIDStrLen {
 		return fmt.Errorf("field register ID '%s': %w", v, ErrFieldRegisterIDInvalid)
 	}
 
@@ -332,8 +351,7 @@ func validateFieldNMISuffix(v string) error {
 		return fmt.Errorf("field nmi suffix: %w", ErrFieldNil)
 	}
 
-	_, err := NewSuffix(v)
-	if err != nil {
+	if _, err := NewSuffix(v); err != nil {
 		return fmt.Errorf("field nmi suffix '%s': %w", v, err)
 	}
 
@@ -353,10 +371,11 @@ func validateFieldNMISuffix(v string) error {
 // numeric.
 //
 // Ref:
+//nolint:lll
 // <https://www.aemo.com.au/-/media/Files/Electricity/NEM/Retail_and_Metering/Market_Settlement_And_Transfer_Solutions/2017/Standing-Data-for-MSATS.pdf>
 func validateFieldMDMDataStreamIdentifier(v string) error {
 	if v == "" {
-		// return fmt.Errorf("field MDM data stream identifier: %w", ErrFieldNil)
+		// No longer return an error. // return fmt.Errorf("field MDM data stream identifier: %w", ErrFieldNil)
 		return nil
 	}
 
@@ -379,7 +398,7 @@ func validateFieldMDMDataStreamIdentifier(v string) error {
 }
 
 func validateFieldMeterSerialNumber(v string) error {
-	if len(v) > 12 {
+	if len(v) > fieldMeterSerialNumberStrLen {
 		return fmt.Errorf("field meter serial number '%s': %w", v, ErrFieldMeterSerialNumberInvalid)
 	}
 
@@ -391,8 +410,7 @@ func validateFieldUnitOfMeasurement(v string) error {
 		return fmt.Errorf("field unit of measurement: %w", ErrFieldNil)
 	}
 
-	_, err := NewUnit(v)
-	if err != nil {
+	if _, err := NewUnit(v); err != nil {
 		return fmt.Errorf("field unit of measurement '%s': %w", v, err)
 	}
 
@@ -462,8 +480,7 @@ func validateFieldQualityMethod(v string) error {
 		return fmt.Errorf("field quality method: %w", ErrFieldNil)
 	}
 
-	_, err := NewQualityMethod(v)
-	if err != nil {
+	if _, err := NewQualityMethod(v); err != nil {
 		return fmt.Errorf("field quality method '%s': %w", v, err)
 	}
 
@@ -475,8 +492,7 @@ func validateFieldReasonCode(v string) error {
 		return nil
 	}
 
-	_, err := NewReason(v)
-	if err != nil {
+	if _, err := NewReason(v); err != nil {
 		return fmt.Errorf("field reason code '%s': %w", v, err)
 	}
 
@@ -484,7 +500,7 @@ func validateFieldReasonCode(v string) error {
 }
 
 func validateFieldReasonDescription(v string) error {
-	if len(v) > 240 {
+	if len(v) > fieldReasonDescriptionStrLen {
 		return fmt.Errorf("field reason description '%s': %w", v, ErrFieldReasonDescriptionLengthInvalid)
 	}
 
@@ -525,7 +541,7 @@ func validateFieldStartInterval(v string) error {
 		return fmt.Errorf("field start interval '%s': %w", v, err)
 	}
 
-	if il > 288 {
+	if il > fieldIntervalMax {
 		return fmt.Errorf("field start interval '%s': %w", v, ErrFieldIntervalExceedsMaximum)
 	}
 
@@ -546,7 +562,7 @@ func validateFieldFinishInterval(v string) error {
 		return fmt.Errorf("field finish interval '%s': %w", v, err)
 	}
 
-	if il > 288 {
+	if il > fieldIntervalMax {
 		return fmt.Errorf("field finish interval '%s': %w", v, ErrFieldIntervalExceedsMaximum)
 	}
 
@@ -570,7 +586,7 @@ func validateFieldTransactionCode(v string) error {
 }
 
 func validateFieldRetServiceOrder(v string) error {
-	if len(v) > 15 {
+	if len(v) > fieldRetServiceOrderStrLen {
 		return fmt.Errorf("field ret service order '%s': %w", v, ErrFieldRetServiceOrderLengthInvalid)
 	}
 
@@ -590,7 +606,7 @@ func validateFieldReadDateTime(v string) error {
 }
 
 func validateFieldIndexRead(v string) error {
-	if len(v) > 15 {
+	if len(v) > fieldIndexReadStrLen {
 		return fmt.Errorf("field index read '%s': %w", v, ErrFieldIndexReadLengthInvalid)
 	}
 
@@ -598,26 +614,33 @@ func validateFieldIndexRead(v string) error {
 }
 
 func validateDate8(v string) error {
-	_, err := time.Parse(Date8Format, v)
+	if _, err := time.Parse(Date8Format, v); err != nil {
+		return fmt.Errorf("%w", err)
+	}
 
-	return err
+	return nil
 }
 
 func validateDateTime12(v string) error {
-	_, err := time.Parse(DateTime12Format, v)
+	if _, err := time.Parse(DateTime12Format, v); err != nil {
+		return fmt.Errorf("%w", err)
+	}
 
-	return err
+	return nil
 }
 
 func validateDateTime14(v string) error {
-	_, err := time.Parse(DateTime14Format, v)
+	if _, err := time.Parse(DateTime14Format, v); err != nil {
+		return fmt.Errorf("%w", err)
+	}
 
-	return err
+	return nil
 }
 
 // chunkString returns a slice of strings from s.
 func chunkString(s string, n int) []string {
 	var chunks []string
+
 	runes := []rune(s)
 
 	if len(runes) == 0 {
@@ -662,6 +685,7 @@ func (f FieldType) Identifier() string {
 	return str
 }
 
+// GoString provides the go string.
 func (f FieldType) GoString() string {
 	return fmt.Sprintf("FieldType(%d)", f)
 }

@@ -39,5 +39,5 @@ func (p Pattern) Match(s string) bool {
 		return false
 	}
 
-	return regex.Match([]byte(s))
+	return regex.MatchString(s)
 }

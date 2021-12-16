@@ -8,65 +8,65 @@ const (
 	// MethodUndefined for undefined methods.
 	MethodUndefined = Method(0)
 	// Method11Check for check.
-	Method11Check = Method(11) //nolint:gomnd
+	Method11Check = Method(11)
 	// Method12Calculated for calculated.
-	Method12Calculated = Method(12) //nolint:gomnd
+	Method12Calculated = Method(12)
 	// Method13SCADA for scada.
-	Method13SCADA = Method(13) //nolint:gomnd
+	Method13SCADA = Method(13)
 	// Method14LikeDay for like day.
-	Method14LikeDay = Method(14) //nolint:gomnd
+	Method14LikeDay = Method(14)
 	// Method15AverageLikeDay for average like day.
-	Method15AverageLikeDay = Method(15) //nolint:gomnd
+	Method15AverageLikeDay = Method(15)
 	// Method16Agreed for agreed.
-	Method16Agreed = Method(16) //nolint:gomnd
+	Method16Agreed = Method(16)
 	// Method17Linear for linear.
-	Method17Linear = Method(17) //nolint:gomnd
+	Method17Linear = Method(17)
 	// Method18Alternate for alternate.
-	Method18Alternate = Method(18) //nolint:gomnd
+	Method18Alternate = Method(18)
 	// Method19Zero for zero.
-	Method19Zero = Method(19) //nolint:gomnd
+	Method19Zero = Method(19)
 	// Method51PreviousYear for previous year.
-	Method51PreviousYear = Method(51) //nolint:gomnd
+	Method51PreviousYear = Method(51)
 	// Method52PreviousRead for previous read.
-	Method52PreviousRead = Method(52) //nolint:gomnd
+	Method52PreviousRead = Method(52)
 	// Method53Revision for revision.
-	Method53Revision = Method(53) //nolint:gomnd
+	Method53Revision = Method(53)
 	// Method54Linear for linear.
-	Method54Linear = Method(54) //nolint:gomnd
+	Method54Linear = Method(54)
 	// Method55Agreed for agreed.
-	Method55Agreed = Method(55) //nolint:gomnd
+	Method55Agreed = Method(55)
 	// Method56PriortoFirstReadAgreed for prior to first read - agreed.
-	Method56PriortoFirstReadAgreed = Method(56) //nolint:gomnd
+	Method56PriortoFirstReadAgreed = Method(56)
 	// Method57CustomerClass for customer class.
-	Method57CustomerClass = Method(57) //nolint:gomnd
+	Method57CustomerClass = Method(57)
 	// Method58Zero for zero.
-	Method58Zero = Method(58) //nolint:gomnd
+	Method58Zero = Method(58)
 	// Method61PreviousYear for previous year.
-	Method61PreviousYear = Method(61) //nolint:gomnd
+	Method61PreviousYear = Method(61)
 	// Method62PreviousRead for previous read.
-	Method62PreviousRead = Method(62) //nolint:gomnd
+	Method62PreviousRead = Method(62)
 	// Method63CustomerClass for customer class.
-	Method63CustomerClass = Method(63) //nolint:gomnd
+	Method63CustomerClass = Method(63)
 	// Method64Agreed for agreed.
-	Method64Agreed = Method(64) //nolint:gomnd
+	Method64Agreed = Method(64)
 	// Method65ADL for adl.
-	Method65ADL = Method(65) //nolint:gomnd
+	Method65ADL = Method(65)
 	// Method66Revision for revision.
-	Method66Revision = Method(66) //nolint:gomnd
+	Method66Revision = Method(66)
 	// Method67CustomerRead for customer read.
-	Method67CustomerRead = Method(67) //nolint:gomnd
+	Method67CustomerRead = Method(67)
 	// Method68Zero for zero.
-	Method68Zero = Method(68) //nolint:gomnd
+	Method68Zero = Method(68)
 	// Method71Recalculation for recalculation.
-	Method71Recalculation = Method(71) //nolint:gomnd
+	Method71Recalculation = Method(71)
 	// Method72RevisedTable for revised table.
-	Method72RevisedTable = Method(72) //nolint:gomnd
+	Method72RevisedTable = Method(72)
 	// Method73RevisedAlgorithm for revised algorithm.
-	Method73RevisedAlgorithm = Method(73) //nolint:gomnd
+	Method73RevisedAlgorithm = Method(73)
 	// Method74Agreed for agreed.
-	Method74Agreed = Method(74) //nolint:gomnd
+	Method74Agreed = Method(74)
 	// Method75ExistingTable for existing table.
-	Method75ExistingTable = Method(75) //nolint:gomnd
+	Method75ExistingTable = Method(75)
 )
 
 var (
@@ -351,7 +351,7 @@ func (m Method) InstallationTypes() []Install {
 func (m Method) String() string {
 	s, err := m.Description()
 	if err != nil {
-		return fmt.Sprintf("\"%s\"", m.Identifier())
+		return fmt.Sprintf("%q", m.Identifier())
 	}
 
 	return fmt.Sprintf("\"%s: %s\"", m.Identifier(), s)

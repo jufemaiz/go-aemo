@@ -13,8 +13,11 @@ matrix:
   - rvm: ruby-head
   fast_finish: true
 install:
-- gem install bundler
-- bundle install
+- make lint-install
+- make clean
+- make clean-goimports
+- make dependencies
+- make dependencies-download
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 - chmod +x ./cc-test-reporter

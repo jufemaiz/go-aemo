@@ -17,322 +17,322 @@ const (
 	ReasonMeterEquipmentChanged = Reason(1)
 	// ReasonExtremeWeatherConditions where the reason is extreme weather conditions.
 	// Extreme weather conditions have prevented metering data collection.
-	ReasonExtremeWeatherConditions = Reason(2) //nolint:gomnd
+	ReasonExtremeWeatherConditions = Reason(2)
 	// ReasonQuarantinedPremises where the reason is quarantined premises.
 	// Site under quarantine preventing access to metering installation.
-	ReasonQuarantinedPremises = Reason(3) //nolint:gomnd
+	ReasonQuarantinedPremises = Reason(3)
 	// ReasonDangerousDog where the reason is dangerous dog.
 	// Dog has been identified as posing an immediate hazard to metering installation
 	// access.
-	ReasonDangerousDog = Reason(4) //nolint:gomnd
+	ReasonDangerousDog = Reason(4)
 	// ReasonBlankScreen where the reason is blank screen.
 	// Electronic meter has blank display, could be powered off or faulty display
 	// but unable to determine.
-	ReasonBlankScreen = Reason(5) //nolint:gomnd
+	ReasonBlankScreen = Reason(5)
 	// ReasonDeEnergisedPremises where the reason is de-energised premises.
 	// Blank screen on an electronic meter where the meter reader can determine that
 	// the Site is de-energised or an Interval Metered Site where the MDP is providing
 	// substituted metering data for a Site that is de-energised but Datastreams are
 	// left active.
-	ReasonDeEnergisedPremises = Reason(6) //nolint:gomnd
+	ReasonDeEnergisedPremises = Reason(6)
 	// ReasonUnableToLocateMeter where the reason is unable to locate meter.
 	// The Site was found, but unable to locate the metering installation.
-	ReasonUnableToLocateMeter = Reason(7) //nolint:gomnd
+	ReasonUnableToLocateMeter = Reason(7)
 	// ReasonVacantPremises where the reason is vacant premises. Meter reader believes
 	// the Site is vacant.
-	ReasonVacantPremises = Reason(8) //nolint:gomnd
+	ReasonVacantPremises = Reason(8)
 	// ReasonUnderInvestigation where the reason is under investigation. An issue
 	// with the metering installation has been identified and is under investigation.
-	ReasonUnderInvestigation = Reason(9) //nolint:gomnd
+	ReasonUnderInvestigation = Reason(9)
 	// ReasonLockDamagedUnableToOpen where the reason is lock damaged unable to open.
 	// Unable to open lock due to damage and the lock is preventing access to the
 	// metering installation.
-	ReasonLockDamagedUnableToOpen = Reason(10) //nolint:gomnd
+	ReasonLockDamagedUnableToOpen = Reason(10)
 	// ReasonInWrongRoute where the reason is in wrong route. Unable to obtain reading
 	// due to the metering installation being in the wrong route.
-	ReasonInWrongRoute = Reason(11) //nolint:gomnd
+	ReasonInWrongRoute = Reason(11)
 	// ReasonLockedPremises where the reason is locked premises. Unable to obtain
 	// access to metering installation due to Site being locked.
-	ReasonLockedPremises = Reason(12) //nolint:gomnd
+	ReasonLockedPremises = Reason(12)
 	// ReasonLockedGate where the reason is locked gate. Locked gate at Site is
 	// preventing access to metering installation.
-	ReasonLockedGate = Reason(13) //nolint:gomnd
+	ReasonLockedGate = Reason(13)
 	// ReasonLockedMeterBox where the reason is locked meter box. Locked meter box
 	// is preventing access to metering installation.
-	ReasonLockedMeterBox = Reason(14) //nolint:gomnd
+	ReasonLockedMeterBox = Reason(14)
 	// ReasonOvergrownVegetation where the reason is overgrown vegetation. Overgrown
 	// vegetation at Site is preventing access to metering installation.
-	ReasonOvergrownVegetation = Reason(15) //nolint:gomnd
+	ReasonOvergrownVegetation = Reason(15)
 	// ReasonNoxiousWeeds where the reason is noxious weeds. Noxious weeds at Site
 	// are preventing access to metering installation.
-	ReasonNoxiousWeeds = Reason(16) //nolint:gomnd
+	ReasonNoxiousWeeds = Reason(16)
 	// ReasonUnsafeEquipmentLocation where the reason is unsafe equipment/location.
 	// The equipment or the location of the metering installation has been identified
 	// as unsafe (other than meter being high).
-	ReasonUnsafeEquipmentLocation = Reason(17) //nolint:gomnd
+	ReasonUnsafeEquipmentLocation = Reason(17)
 	// ReasonReadLessThanPrevious where the reason is read less than previous.
 	// Current Meter Reading obtained is less than previous Meter Reading, no evidence
 	// of tampering and no reverse energy observed.
-	ReasonReadLessThanPrevious = Reason(18) //nolint:gomnd
+	ReasonReadLessThanPrevious = Reason(18)
 	// ReasonConsumerWanted where the reason is consumer wantedvconsumer
 	// wanted.
-	ReasonConsumerWanted = Reason(19) //nolint:gomnd
+	ReasonConsumerWanted = Reason(19)
 	// ReasonDamagedEquipmentPanel where the reason is damaged equipment/panel.
 	// The equipment or the panel of the metering installation has been damaged
 	// but has not been identified as unsafe.
-	ReasonDamagedEquipmentPanel = Reason(20) //nolint:gomnd
+	ReasonDamagedEquipmentPanel = Reason(20)
 	// ReasonMainSwitchOff where the reason is main switch off. Blank screen on an
 	// electronic meter where the meter reader can determine that the main switch
 	// has been turned off or Interval Metered Site where the MDP is providing
 	// substituted metering data for a Site that the main switch is off but
 	// Datastreams are left active.
-	ReasonMainSwitchOff = Reason(21) //nolint:gomnd
+	ReasonMainSwitchOff = Reason(21)
 	// ReasonMeterEquipmentSealsMissing where the reason is meter/equipment seals
 	// missing. One or more seals are missing from the metering installation, no
 	// tampering has been identified.
-	ReasonMeterEquipmentSealsMissing = Reason(22) //nolint:gomnd
+	ReasonMeterEquipmentSealsMissing = Reason(22)
 	// ReasonReaderError where the reason is reader error. MDP identified that
 	// Meter Reading provided by the meter reader was incorrect.
-	ReasonReaderError = Reason(23) //nolint:gomnd
+	ReasonReaderError = Reason(23)
 	// ReasonSubstitutedReplacedDataDataCorrection where the reason is
 	// substituted/replaced data (data correction). Interval Meter Reading – MDP
 	// replaced erroneous data for specific Intervals.
-	ReasonSubstitutedReplacedDataDataCorrection = Reason(24) //nolint:gomnd
+	ReasonSubstitutedReplacedDataDataCorrection = Reason(24)
 	// ReasonUnableToLocatePremises where the reason is unable to locate premises.
 	// Unable to locate Site.
-	ReasonUnableToLocatePremises = Reason(25) //nolint:gomnd
+	ReasonUnableToLocatePremises = Reason(25)
 	// ReasonNegativeConsumptionGeneration where the reason is negative
 	// consumption (generation). Accumulation Meter where the previous Meter
 	// Reading is higher than the current Meter Reading, generally Site will have
 	// generation.
-	ReasonNegativeConsumptionGeneration = Reason(26) //nolint:gomnd
+	ReasonNegativeConsumptionGeneration = Reason(26)
 	// ReasonRolr where the reason is rolr. To be used when transferring End User
 	// as a result of a RoLR Event.
-	ReasonRolr = Reason(27) //nolint:gomnd
+	ReasonRolr = Reason(27)
 	// ReasonCtVtFault where the reason is ct/vt fault. MDP has corrected data due
 	// to a known instrument transformer (CT/VT) fault.
-	ReasonCtVtFault = Reason(28) //nolint:gomnd
+	ReasonCtVtFault = Reason(28)
 	// ReasonRelayFaultyDamaged where the reason is relay faulty/damaged. Meter
 	// reader has identified the relay device within the metering installation is
 	// faulty.
-	ReasonRelayFaultyDamaged = Reason(29) //nolint:gomnd
+	ReasonRelayFaultyDamaged = Reason(29)
 	// ReasonMeterStopSwitchOn where the reason is meter stop switch on.
 	// (DEPRECATED).
-	ReasonMeterStopSwitchOn = Reason(30) //nolint:gomnd
+	ReasonMeterStopSwitchOn = Reason(30)
 	// ReasonNotAllMetersRead where the reason is not all meters read. Readings
 	// for all meters linked to the Site have not been received by the MDP
 	// (typically as a result of a non-Scheduled Meter Reading).
-	ReasonNotAllMetersRead = Reason(31) //nolint:gomnd
+	ReasonNotAllMetersRead = Reason(31)
 	// ReasonReEnergisedWithoutReadings where the reason is re-energised without
 	// readings. Unable to obtain Meter Readings due to exceptional circumstances
 	// when the Site is re-energised outside of standard practice.
-	ReasonReEnergisedWithoutReadings = Reason(32) //nolint:gomnd
+	ReasonReEnergisedWithoutReadings = Reason(32)
 	// ReasonDeEnergisedWithoutReadings where the reason is de-energised without
 	// readings. Unable to obtain Meter Readings at the time of de-energisation
 	// including disconnection for non-payment.
-	ReasonDeEnergisedWithoutReadings = Reason(33) //nolint:gomnd
+	ReasonDeEnergisedWithoutReadings = Reason(33)
 	// ReasonMeterNotInHandheld where the reason is meter not in handheld.
 	// Unexpected meter found on Site (new meter or additional meter).
-	ReasonMeterNotInHandheld = Reason(34) //nolint:gomnd
+	ReasonMeterNotInHandheld = Reason(34)
 	// ReasonTimeswitchFaultyResetRequired where the reason is timeswitch
 	// faulty/reset required. Meter reader has identified the time switching
 	// device within the metering installation is faulty and required resetting.
-	ReasonTimeswitchFaultyResetRequired = Reason(35) //nolint:gomnd
+	ReasonTimeswitchFaultyResetRequired = Reason(35)
 	// ReasonMeterHighLadderRequired where the reason is meter high/ladder
 	// required. Meter in a high position requiring a ladder to obtain Meter
 	// Reading.
-	ReasonMeterHighLadderRequired = Reason(36) //nolint:gomnd
+	ReasonMeterHighLadderRequired = Reason(36)
 	// ReasonMeterUnderChurn where the reason is meter under churn. MDP has
 	// Substituted data based on metering data not being received from relevant
 	// MDP.
-	ReasonMeterUnderChurn = Reason(37) //nolint:gomnd
+	ReasonMeterUnderChurn = Reason(37)
 	// ReasonUnmarriedLock where the reason is unmarried lock. Site has two or
 	// more locks, one of which is a power industry lock and they have not been
 	// interlocked together correctly to allow access to the Site.
-	ReasonUnmarriedLock = Reason(38) //nolint:gomnd
+	ReasonUnmarriedLock = Reason(38)
 	// ReasonReverseEnergyObserved where the reason is reverse energy observed.
 	// Reverse energy observed where Site isn’t expected to have reverse energy.
-	ReasonReverseEnergyObserved = Reason(39) //nolint:gomnd
+	ReasonReverseEnergyObserved = Reason(39)
 	// ReasonUnrestrainedLivestock where the reason is unrestrained livestock.
 	// Meter reader observed that livestock is roaming free on Site and could
 	// potentially be hazardous, or access wasn’t obtained due to potential for
 	// livestock to escape.
-	ReasonUnrestrainedLivestock = Reason(40) //nolint:gomnd
+	ReasonUnrestrainedLivestock = Reason(40)
 	// ReasonFaultyMeterDisplayDials where the reason is faulty meter
 	// display/dials. Display or dials on the meter are faulty and Site is not
 	// de-energised nor is the display blank on an electronic meter.
-	ReasonFaultyMeterDisplayDials = Reason(41) //nolint:gomnd
+	ReasonFaultyMeterDisplayDials = Reason(41)
 	// ReasonChannelAddedRemoved where the reason is channel added/removed. MDP
 	// obtained metering data for a channel that has been added or substituted
 	// metering data where a channel has been removed but the Datastream is still
 	// active in MSATS.
-	ReasonChannelAddedRemoved = Reason(42) //nolint:gomnd
+	ReasonChannelAddedRemoved = Reason(42)
 	// ReasonPowerOutage where the reason is power outage. Interval Meter –
 	// Metering data for Intervals have been Substituted due to power not being
 	// available at the metering installation.
-	ReasonPowerOutage = Reason(43) //nolint:gomnd
+	ReasonPowerOutage = Reason(43)
 	// ReasonMeterTesting where the reason is meter testing. MDP identifies meter
 	// has been under testing regime and has provided substituted metering data to
 	// reflect energy consumption during testing period.
-	ReasonMeterTesting = Reason(44) //nolint:gomnd
+	ReasonMeterTesting = Reason(44)
 	// ReasonReadingsFailedToValidate where the reason is readings failed to
 	// validate. Meter Readings have been loaded into MDP’s system, but have
 	// failed Validation and have been Substituted.
-	ReasonReadingsFailedToValidate = Reason(45) //nolint:gomnd
+	ReasonReadingsFailedToValidate = Reason(45)
 	// ReasonExtremeWeatherHot where the reason is extreme weather/hot.
-	ReasonExtremeWeatherHot = Reason(46) //nolint:gomnd
+	ReasonExtremeWeatherHot = Reason(46)
 	// ReasonRefusedAccess where the reason is refused access. The End User
 	// refused to provide access when requested.
-	ReasonRefusedAccess = Reason(47) //nolint:gomnd
+	ReasonRefusedAccess = Reason(47)
 	// ReasonDogOnPremises where the reason is dog on premises. Meter reader has
 	// identified that there is a dog on the Site but has been unable to determine
 	// if the dog is dangerous.
-	ReasonDogOnPremises = Reason(48) //nolint:gomnd
+	ReasonDogOnPremises = Reason(48)
 	// ReasonWetPaint where the reason is wet paint (DEPRECATED).
-	ReasonWetPaint = Reason(49) //nolint:gomnd
+	ReasonWetPaint = Reason(49)
 	// ReasonWrongTarif where the reason is wrong tarif (DEPRECATED).
-	ReasonWrongTarif = Reason(50) //nolint:gomnd
+	ReasonWrongTarif = Reason(50)
 	// ReasonInstallationDemolished where the reason is installation demolished.
 	// Metering installation no longer exists at the Site.
-	ReasonInstallationDemolished = Reason(51) //nolint:gomnd
+	ReasonInstallationDemolished = Reason(51)
 	// ReasonAccessBlocked where the reason is access – blocked. Used when there
 	// are items blocking safe access to the meter or Site.
-	ReasonAccessBlocked = Reason(52) //nolint:gomnd
+	ReasonAccessBlocked = Reason(52)
 	// ReasonPestsInMeterBox where the reason is pests in meter box. Pests have
 	// been identified within the meter box that poses a risk to metering data
 	// accuracy, safety of the metering installation or a hazard to the meter
 	// reader.
-	ReasonPestsInMeterBox = Reason(53) //nolint:gomnd
+	ReasonPestsInMeterBox = Reason(53)
 	// ReasonMeterBoxDamagedFaulty where the reason is meter box damaged/faulty.
 	// Meter reader identifies that the meter box is damaged or faulty and the
 	// mechanical protection or weather proofing of the metering installation is
 	// compromised as a result.
-	ReasonMeterBoxDamagedFaulty = Reason(54) //nolint:gomnd
+	ReasonMeterBoxDamagedFaulty = Reason(54)
 	// ReasonDialsObscured where the reason is dials obscured. Meter reader unable
 	// to obtain Meter Reading due to meter dials being obscured, meter face
 	// painted over, viewing panel in locked meter box with pvc panel misted
 	// over/faded/mouldy etc. No evidence of tampering.
-	ReasonDialsObscured = Reason(55) //nolint:gomnd
+	ReasonDialsObscured = Reason(55)
 	// ReasonMeterOkSupplyFailure where the reason is meter ok – supply failure.
 	// (DEPRECATED).
-	ReasonMeterOkSupplyFailure = Reason(58) //nolint:gomnd
+	ReasonMeterOkSupplyFailure = Reason(58)
 	// ReasonIllegalConnection where the reason is illegal connection. Meter
 	// reader has identified that the Site has been illegally connected.
-	ReasonIllegalConnection = Reason(60) //nolint:gomnd
+	ReasonIllegalConnection = Reason(60)
 	// ReasonEquipmentTampered where the reason is equipment tampered. Meter
 	// reader identified that the metering installation has been tampered with and
 	// the recording of energy consumption may have been affected as a result.
-	ReasonEquipmentTampered = Reason(61) //nolint:gomnd
+	ReasonEquipmentTampered = Reason(61)
 	// ReasonNsrdWindowExpired where the reason is nsrd window expired. Where the
 	// NSRD window has expired and the meter reader has been unable to deliver
 	// Actual Meter Readings.
-	ReasonNsrdWindowExpired = Reason(62) //nolint:gomnd
+	ReasonNsrdWindowExpired = Reason(62)
 	// ReasonKeyRequired where the reason is key required. Meter reader typically
 	// has access to the key but was unable to obtain/locate the key at the time
 	// of Meter Reading.
-	ReasonKeyRequired = Reason(64) //nolint:gomnd
+	ReasonKeyRequired = Reason(64)
 	// ReasonWrongKeyProvided where the reason is wrong key provided. Meter reader
 	// has been provided with a key but the key no longer opens the lock.
-	ReasonWrongKeyProvided = Reason(65) //nolint:gomnd
+	ReasonWrongKeyProvided = Reason(65)
 	// ReasonZeroConsumption where the reason is zero consumption. Where a Site
 	// has known zero consumption and the Site is not deenergised in MSATS but no
 	// energy is flowing to the meter.
-	ReasonZeroConsumption = Reason(68) //nolint:gomnd
+	ReasonZeroConsumption = Reason(68)
 	// ReasonReadingExceedsSubstitute where the reason is reading exceeds
 	// substitute. Re-Substituted data that has been modified to improve the
 	// smoothing of energy to align with the next Actual Meter Reading.
-	ReasonReadingExceedsSubstitute = Reason(69) //nolint:gomnd
+	ReasonReadingExceedsSubstitute = Reason(69)
 	// ReasonProbeReportsTampering where the reason is probe reports tampering.
 	// (DEPRECATED).
-	ReasonProbeReportsTampering = Reason(70) //nolint:gomnd
+	ReasonProbeReportsTampering = Reason(70)
 	// ReasonProbeReadError where the reason is probe read error. Data collector
 	// unable to collect the metering data due to the meter probe being unable to
 	// extract the metering data.
-	ReasonProbeReadError = Reason(71) //nolint:gomnd
+	ReasonProbeReadError = Reason(71)
 	// ReasonReCalculatedBasedOnActualMeteringData where the reason is
 	// re-calculated based on actual metering data. MDP received Actual Meter
 	// Readings and prior Substitutes have been amended.
-	ReasonReCalculatedBasedOnActualMeteringData = Reason(72) //nolint:gomnd
+	ReasonReCalculatedBasedOnActualMeteringData = Reason(72)
 	// ReasonLowConsumption where the reason is low consumption. Meter Reading
 	// failed Validation as being too low based on Historical Data and has been
 	// either left as an actual or replaced by a Substitute.
-	ReasonLowConsumption = Reason(73) //nolint:gomnd
+	ReasonLowConsumption = Reason(73)
 	// ReasonHighConsumption where the reason is high consumption. Meter Reading
 	// failed Validation as being too high based on Historical Data and has been
 	// either left as an actual or replaced by a Substitute.
-	ReasonHighConsumption = Reason(74) //nolint:gomnd
+	ReasonHighConsumption = Reason(74)
 	// ReasonCustomerRead where the reason is customer read. Meter Reading
 	// provided to the MDP by the End User. (Only applicable in Jurisdictions
 	// where End User Meter Readings are allowed).
-	ReasonCustomerRead = Reason(75) //nolint:gomnd
+	ReasonCustomerRead = Reason(75)
 	// ReasonCommunicationsFault where the reason is communications fault. Meter
 	// reader attempted to read the meter but was unable due to not being able to
 	// remotely communicate with the meter.
-	ReasonCommunicationsFault = Reason(76) //nolint:gomnd
+	ReasonCommunicationsFault = Reason(76)
 	// ReasonEstimationForecast where the reason is estimation forecast. Optional
 	// reason code that can be applied to Estimations.
-	ReasonEstimationForecast = Reason(77) //nolint:gomnd
+	ReasonEstimationForecast = Reason(77)
 	// ReasonNullData where the reason is null data. For Interval Meters where no
 	// metering data was received and Substitutes created to cover this period.
-	ReasonNullData = Reason(78) //nolint:gomnd
+	ReasonNullData = Reason(78)
 	// ReasonPowerOutageAlarm where the reason is power outage alarm. For Interval
 	// Meters where a power outage has been detected by the meter.
-	ReasonPowerOutageAlarm = Reason(79) //nolint:gomnd
+	ReasonPowerOutageAlarm = Reason(79)
 	// ReasonShortIntervalAlarm where the reason is short interval alarm. For
 	// Interval Meters where the time in the meter is slow and has now been
 	// corrected, resulting in the interval metering data not being a full 15 or
 	// 30 minutes in length.
-	ReasonShortIntervalAlarm = Reason(80) //nolint:gomnd
+	ReasonShortIntervalAlarm = Reason(80)
 	// ReasonLongIntervalAlarm where the reason is long interval alarm. For
 	// Interval Meters where the time in the meter is fast and has now been
 	// corrected, resulting in the interval metering data exceeding a full 15 or
 	// 30 minutes in length.
-	ReasonLongIntervalAlarm = Reason(81) //nolint:gomnd
+	ReasonLongIntervalAlarm = Reason(81)
 	// ReasonCrcError where the reason is crc error (DEPRECATED).
-	ReasonCrcError = Reason(82) //nolint:gomnd
+	ReasonCrcError = Reason(82)
 	// ReasonRAMChecksumError where the reason is ram checksum error (DEPRECATED).
-	ReasonRAMChecksumError = Reason(83) //nolint:gomnd
+	ReasonRAMChecksumError = Reason(83)
 	// ReasonROMChecksumError where the reason is rom checksum error (DEPRECATED).
-	ReasonROMChecksumError = Reason(84) //nolint:gomnd
+	ReasonROMChecksumError = Reason(84)
 	// ReasonDataMissingAlarm where the reason is data missing alarm (DEPRECATED).
-	ReasonDataMissingAlarm = Reason(85) //nolint:gomnd
+	ReasonDataMissingAlarm = Reason(85)
 	// ReasonClockErrorAlarm where the reason is clock error alarm (DEPRECATED).
-	ReasonClockErrorAlarm = Reason(86) //nolint:gomnd
+	ReasonClockErrorAlarm = Reason(86)
 	// ReasonResetOccurred where the reason is reset occurred. Resetting of the
 	// meter due to re-programming, change of configuration or firmware upgrade
 	// etc.
-	ReasonResetOccurred = Reason(87) //nolint:gomnd
+	ReasonResetOccurred = Reason(87)
 	// ReasonWatchdogTimeoutAlarm where the reason is watchdog timeout alarm.
 	// (DEPRECATED).
-	ReasonWatchdogTimeoutAlarm = Reason(88) //nolint:gomnd
+	ReasonWatchdogTimeoutAlarm = Reason(88)
 	// ReasonTimeResetOccurred where the reason is time reset occurred. Where a
 	// time reset has occurred within the metering installation.
-	ReasonTimeResetOccurred = Reason(89) //nolint:gomnd
+	ReasonTimeResetOccurred = Reason(89)
 	// ReasonTestMode where the reason is test mode (DEPRECATED).
-	ReasonTestMode = Reason(90) //nolint:gomnd
+	ReasonTestMode = Reason(90)
 	// ReasonLoadControl where the reason is load control (DEPRECATED).
-	ReasonLoadControl = Reason(91) //nolint:gomnd
+	ReasonLoadControl = Reason(91)
 	// ReasonAddedIntervalDataCorrection where the reason is added interval (data
 	// correction) (DEPRECATED).
-	ReasonAddedIntervalDataCorrection = Reason(92) //nolint:gomnd
+	ReasonAddedIntervalDataCorrection = Reason(92)
 	// ReasonReplacedIntervalDataCorrection where the reason is replaced interval
 	// (data correction) (DEPRECATED).
-	ReasonReplacedIntervalDataCorrection = Reason(93) //nolint:gomnd
+	ReasonReplacedIntervalDataCorrection = Reason(93)
 	// ReasonEstimatedIntervalDataCorrection where the reason is estimated
 	// interval (data correction) (DEPRECATED).
-	ReasonEstimatedIntervalDataCorrection = Reason(94) //nolint:gomnd
+	ReasonEstimatedIntervalDataCorrection = Reason(94)
 	// ReasonPulseOverflowAlarm where the reason is pulse overflow alarm.
 	// (DEPRECATED).
-	ReasonPulseOverflowAlarm = Reason(95) //nolint:gomnd
+	ReasonPulseOverflowAlarm = Reason(95)
 	// ReasonDataOutOfLimits where the reason is data out of limits (DEPRECATED).
-	ReasonDataOutOfLimits = Reason(96) //nolint:gomnd
+	ReasonDataOutOfLimits = Reason(96)
 	// ReasonExcludedData where the reason is excluded data (DEPRECATED).
-	ReasonExcludedData = Reason(97) //nolint:gomnd
+	ReasonExcludedData = Reason(97)
 	// ReasonParityError where the reason is parity error (DEPRECATED).
-	ReasonParityError = Reason(98) //nolint:gomnd
+	ReasonParityError = Reason(98)
 	// ReasonEnergyTypeRegisterChanged where the reason is energy type (register
 	// changed) (DEPRECATED).
-	ReasonEnergyTypeRegisterChanged = Reason(99) //nolint:gomnd
+	ReasonEnergyTypeRegisterChanged = Reason(99)
 )
 
 var (

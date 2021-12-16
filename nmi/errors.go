@@ -14,7 +14,7 @@ var (
 	ErrIsMissing = errors.New("is missing")
 	// ErrIsNil if is nil.
 	ErrIsNil = errors.New("is nil")
-	// ErrParseFailure if parse has failed.
+	// ErrParseFailed if parse has failed.
 	ErrParseFailed = errors.New("parse has failed")
 
 	// ErrEnergyInvalid if energy is invalid.

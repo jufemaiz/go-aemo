@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jufemaiz/go-aemo/nmi"
 	. "github.com/smartystreets/goconvey/convey"
+
+	"github.com/jufemaiz/go-aemo/nmi"
 )
 
 func TestFields(t *testing.T) {
@@ -281,15 +282,15 @@ func TestField_validateFieldDateTime(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field date time 'NOT A DATE': parsing time \"NOT A DATE\" as \"200601021504\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field date time 'NOT A DATE': parsing time \"NOT A DATE\" as \"200601021504\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "20211010",
-				err: errors.New("field date time '20211010': parsing time \"20211010\" as \"200601021504\": cannot parse \"\" as \"15\""),
+				err: fmt.Errorf("field date time '20211010': parsing time \"20211010\" as \"200601021504\": cannot parse \"\" as \"15\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "999999999999",
-				err: errors.New("field date time '999999999999': parsing time \"999999999999\": month out of range"),
+				err: fmt.Errorf("field date time '999999999999': parsing time \"999999999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "202112011234",
@@ -441,7 +442,7 @@ func TestField_validateFieldNMIConfiguration(t *testing.T) {
 			},
 			"invalid length": {
 				val: "E1B1K1Q1E2B2K2Q2E3B3K3Q3E4B4K4Q4E5B5K5Q5E6B6K6Q6E7B7K7Q7E8B8K8Q8E9B9K9Q9EABAKAQAEBBBKBQBECBCKCQCEDBDKDQDEEBEKEQEEFBFKFQFEGBGKGQGEHBHKHQHEJBJKJQJEKBKKKQKELBLKLQLEMBMKMQMENBNKNQNEPBPKPQPEQBQKQQQERBRKRQRESBSKSQSETBTKTQTEUBUKUQUEVBVKVQVEWBWKWQWEXBXKXQXEYBYKYQYEZBZKZQZ",
-				// err: ErrIsInvalid, // is currently being accepted as it is an artifact limit.
+				// err: ErrIsInvalid, // is currently being accepted as it is an artefact limit.
 			},
 			"valid value of 'E1B1E2B2K2Q2'": {
 				val: "E1B1E2B2K2Q2",
@@ -645,7 +646,7 @@ func TestField_validateFieldIntervalLength(t *testing.T) {
 			},
 			"invalid type": {
 				val: "NOTANUMBER",
-				err: errors.New("field interval length 'NOTANUMBER': strconv.Atoi: parsing \"NOTANUMBER\": invalid syntax"),
+				err: fmt.Errorf("field interval length 'NOTANUMBER': strconv.Atoi: parsing \"NOTANUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid value": {
 				val:        "42",
@@ -687,15 +688,15 @@ func TestField_validateFieldNextScheduledReadDate(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field next scheduled read date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field next scheduled read date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: errors.New("field next scheduled read date '202110101234': parsing time \"202110101234\": extra text: \"1234\""),
+				err: fmt.Errorf("field next scheduled read date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: errors.New("field next scheduled read date '99999999': parsing time \"99999999\": month out of range"),
+				err: fmt.Errorf("field next scheduled read date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201",
@@ -735,15 +736,15 @@ func TestField_validateFieldIntervalDate(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field interval date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field interval date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: errors.New("field interval date '202110101234': parsing time \"202110101234\": extra text: \"1234\""),
+				err: fmt.Errorf("field interval date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: errors.New("field interval date '99999999': parsing time \"99999999\": month out of range"),
+				err: fmt.Errorf("field interval date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201",
@@ -783,7 +784,7 @@ func TestField_validateFieldIntervalValue(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A VALUE",
-				err: errors.New("field interval value 'NOT A VALUE': can't convert NOT A VALUE to decimal: exponent is not numeric"),
+				err: fmt.Errorf("field interval value 'NOT A VALUE': can't convert NOT A VALUE to decimal: exponent is not numeric"), //nolint:goerr113
 			},
 			"invalid when negative": {
 				val:        "-1.23456789",
@@ -913,7 +914,7 @@ func TestField_validateFieldReasonDescription(t *testing.T) {
 		}{
 			"empty": {},
 			"invalid length": {
-				val: "A REALLY LONG STRING OVER TWO HUNDRED AND FOURTY CHARACTERS IS NOT PERMISSIBLE UNDER AEMO'S METER DATA FILE FORMAT SPECIFICATION NEM12 & NEM13 AS AT THE FIRST OF OCTOBER 2021 WHICH IS VERSION 2.4 OF THE SPECIFICATION. SO NOW WE JUST NEED TO FILL IN A WHOLE HEAP MORE CHARACTERS",
+				val: "A REALLY LONG STRING OVER TWO HUNDRED AND FOURTY CHARACTERS IS NOT PERMISSIBLE UNDER AEMO'S METER DATA FILE FORMAT SPECIFICATION NEM12 & NEM13 AS AT THE FIRST OF OCTOBER 2021 WHICH IS VERSION 2.4 OF THE SPECIFICATION. SO NOW WE JUST NEED TO FILL IN A WHOLE HEAP MORE CHARACTERS", //nolint:misspell
 				err: ErrIsInvalid,
 			},
 			"valid": {
@@ -950,15 +951,15 @@ func TestField_validateFieldUpdateDateTime(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: errors.New("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""),
+				err: fmt.Errorf("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: errors.New("field update datetime '99999999': parsing time \"99999999\": month out of range"),
+				err: fmt.Errorf("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",
@@ -995,15 +996,15 @@ func TestField_validateFieldMSATSLoadDateTime(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: errors.New("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""),
+				err: fmt.Errorf("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: errors.New("field update datetime '99999999': parsing time \"99999999\": month out of range"),
+				err: fmt.Errorf("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",
@@ -1043,7 +1044,7 @@ func TestField_validateFieldStartInterval(t *testing.T) {
 			},
 			"invalid not a number": {
 				val: "NOT A NUMBER",
-				err: errors.New("field start interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"),
+				err: fmt.Errorf("field start interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid negative number": {
 				val:        "-48",
@@ -1094,7 +1095,7 @@ func TestField_validateFieldFinishInterval(t *testing.T) {
 			},
 			"invalid not a number": {
 				val: "NOT A NUMBER",
-				err: errors.New("field finish interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"),
+				err: fmt.Errorf("field finish interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid negative number": {
 				val:        "-48",
@@ -1208,15 +1209,15 @@ func TestField_validateFieldReadDateTime(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: errors.New("field read datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""),
+				err: fmt.Errorf("field read datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: errors.New("field read datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""),
+				err: fmt.Errorf("field read datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: errors.New("field read datetime '99999999': parsing time \"99999999\": month out of range"),
+				err: fmt.Errorf("field read datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",

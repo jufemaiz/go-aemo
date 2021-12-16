@@ -69,6 +69,7 @@ var (
 	}
 
 	// transactionDescriptions provides the descriptions for the transaction flags.
+	//nolint:lll
 	transactionDescriptions = map[TransactionCode]string{ //nolint:gochecknoglobals
 		TransactionAlteration:           "Alteration. Any action involving the alteration of the metering installation at a Site. This includes a removal of one meter and replacing it with another and all new connections and ‘Add/Alts’ Service Orders.",
 		TransactionMeterReconfiguration: "Meter Reconfiguration Service Order. This includes off-peak (Controlled Load) timing changes. This does not apply to the removal of the meter.",
@@ -124,7 +125,7 @@ func (t TransactionCode) GoString() string {
 func (t TransactionCode) String() string {
 	s, err := t.Description()
 	if err != nil {
-		return fmt.Sprintf("\"%s\"", t.Identifier())
+		return fmt.Sprintf("%q", t.Identifier())
 	}
 
 	return fmt.Sprintf("\"%s: %s\"", t.Identifier(), s)

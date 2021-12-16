@@ -15,7 +15,7 @@ var (
 	ErrIsMissing = errors.New("is missing")
 	// ErrIsNil if is nil.
 	ErrIsNil = errors.New("is nil")
-	// ErrParseFailure if parse has failed.
+	// ErrParseFailed if parse has failed.
 	ErrParseFailed = errors.New("parse has failed")
 
 	// ErrFieldNil if field is empty.
@@ -70,7 +70,7 @@ var (
 	ErrMethodTypeNil = fmt.Errorf("method type %w", ErrIsNil)
 	// ErrMethodTypeInvalid if method type is invalid.
 	ErrMethodTypeInvalid = fmt.Errorf("method type %w", ErrIsInvalid)
-	// ErrParseFieldCount if wrong number of fields.
+	// ErrParseFieldCountInvalid if wrong number of fields.
 	ErrParseFieldCountInvalid = fmt.Errorf("parse fields count %w", ErrIsInvalid)
 	// ErrParseIntervalDataLengthInvalid if parse error: interval data length invalid.
 	ErrParseIntervalDataLengthInvalid = fmt.Errorf("interval data length invalid: %w", ErrParseFailed)
@@ -152,7 +152,7 @@ func (e *ParseError) Error() string {
 		return ""
 	}
 
-	if e.Err == ErrParseFieldCountInvalid {
+	if errors.Is(e.Err, ErrParseFieldCountInvalid) {
 		return fmt.Sprintf("record on line %d: %v", e.Line, e.Err)
 	}
 

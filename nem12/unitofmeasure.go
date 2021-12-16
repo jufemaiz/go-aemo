@@ -319,7 +319,7 @@ func (u *UnitOfMeasure) MarshalJSON() ([]byte, error) {
 		return []byte(fmt.Sprintf("\"%d\"", *u)), nil
 	}
 
-	return []byte(fmt.Sprintf("\"%s\"", id)), nil
+	return []byte(fmt.Sprintf("%q", id)), nil
 }
 
 // UnmarshalJSON unmarshals json string.
@@ -382,7 +382,7 @@ func (u UnitOfMeasure) DecimalMultiplier() decimal.Decimal {
 
 // Base returns the base unit in SI for a unit of measure.
 func (u UnitOfMeasure) Base() UnitOfMeasure {
-	switch u {
+	switch u { //nolint:exhaustive
 	case UnitAmpere, UnitKiloampere:
 		return UnitAmpere
 	case UnitVolt, UnitKilovolt:

@@ -3,30 +3,55 @@ package nem12
 import "fmt"
 
 const (
+	// SuffixUndefined if suffix is undefined.
 	SuffixUndefined SuffixType = iota
+	// SuffixImportWattHourAverage is for SuffixImportWattHourAverage.
 	SuffixImportWattHourAverage
+	// SuffixImportWattHourMaster is for SuffixImportWattHourMaster.
 	SuffixImportWattHourMaster
+	// SuffixImportWattHourCheck is for SuffixImportWattHourCheck.
 	SuffixImportWattHourCheck
+	// SuffixExportWattHourAverage is for SuffixExportWattHourAverage.
 	SuffixExportWattHourAverage
+	// SuffixExportWattHourMaster is for SuffixExportWattHourMaster.
 	SuffixExportWattHourMaster
+	// SuffixExportWattHourCheck is for SuffixExportWattHourCheck.
 	SuffixExportWattHourCheck
+	// SuffixWattHourNet is for SuffixWattHourNet.
 	SuffixWattHourNet
+	// SuffixImportVoltAmpReactiveHourAverage is for SuffixImportVoltAmpReactiveHourAverage.
 	SuffixImportVoltAmpReactiveHourAverage
+	// SuffixImportVoltAmpReactiveHourMaster is for SuffixImportVoltAmpReactiveHourMaster.
 	SuffixImportVoltAmpReactiveHourMaster
+	// SuffixImportVoltAmpReactiveHourCheck is for SuffixImportVoltAmpReactiveHourCheck.
 	SuffixImportVoltAmpReactiveHourCheck
+	// SuffixExportVoltAmpReactiveHourAverage is for SuffixExportVoltAmpReactiveHourAverage.
 	SuffixExportVoltAmpReactiveHourAverage
+	// SuffixExportVoltAmpReactiveHourMaster is for SuffixExportVoltAmpReactiveHourMaster.
 	SuffixExportVoltAmpReactiveHourMaster
+	// SuffixExportVoltAmpReactiveHourCheck is for SuffixExportVoltAmpReactiveHourCheck.
 	SuffixExportVoltAmpReactiveHourCheck
+	// SuffixVoltAmpReactiveHourNet is for SuffixVoltAmpReactiveHourNet.
 	SuffixVoltAmpReactiveHourNet
+	// SuffixVoltAmpHourAverage is for SuffixVoltAmpHourAverage.
 	SuffixVoltAmpHourAverage
+	// SuffixVoltAmpHourMaster is for SuffixVoltAmpHourMaster.
 	SuffixVoltAmpHourMaster
+	// SuffixVoltAmpHourCheck is for SuffixVoltAmpHourCheck.
 	SuffixVoltAmpHourCheck
+	// SuffixPowerFactorMaster is for SuffixPowerFactorMaster.
 	SuffixPowerFactorMaster
+	// SuffixQMeteringMaster is for SuffixQMeteringMaster.
 	SuffixQMeteringMaster
+	// SuffixQMeteringCheck is for SuffixQMeteringCheck.
 	SuffixQMeteringCheck
+	// SuffixParMeteringMaster is for SuffixParMeteringMaster.
 	SuffixParMeteringMaster
+	// SuffixParMeteringCheck is for SuffixParMeteringCheck.
 	SuffixParMeteringCheck
+	// SuffixVoltsOrAmpsMaster is for SuffixVoltsOrAmpsMaster.
 	SuffixVoltsOrAmpsMaster
+	// SuffixVoltsOrAmpsCheck is for SuffixVoltsOrAmpsCheck.
 	SuffixVoltsOrAmpsCheck
 )
 
@@ -58,6 +83,7 @@ var (
 		SuffixVoltsOrAmpsCheck,
 	}
 
+	// SuffixValue maps the string value to the suffix.
 	SuffixValue = map[string]SuffixType{ //nolint:gochecknoglobals
 		"A": SuffixImportWattHourAverage,
 		"B": SuffixImportWattHourMaster,
@@ -85,6 +111,7 @@ var (
 		"Z": SuffixVoltsOrAmpsCheck,
 	}
 
+	// SuffixName maps the suffix to its string value.
 	SuffixName = map[SuffixType]string{ //nolint:gochecknoglobals
 		SuffixImportWattHourAverage:            "A",
 		SuffixImportWattHourMaster:             "B",
@@ -193,12 +220,15 @@ var (
 	}
 )
 
+// SuffixType for suffix types.
 type SuffixType int
 
+// SuffixTypes returns all suffixes.
 func SuffixTypes() []SuffixType {
 	return suffixes
 }
 
+// NewSuffixType to create a new suffix from the string value.
 func NewSuffixType(s string) (SuffixType, error) {
 	if s == "" {
 		return SuffixUndefined, ErrSuffixTypeNil
@@ -224,7 +254,7 @@ func (s SuffixType) Identifier() string {
 
 // String returns a text representation of the reason.
 func (s SuffixType) String() string {
-	return fmt.Sprintf("\"%s\"", s.Identifier())
+	return fmt.Sprintf("%q", s.Identifier())
 }
 
 // GoString returns a text representation of the reason to satisfy the GoStringer
@@ -245,10 +275,10 @@ func (s *SuffixType) MarshalJSON() ([]byte, error) {
 		return []byte(fmt.Sprintf("\"%d\"", *s)), nil
 	}
 
-	return []byte(fmt.Sprintf("\"%s\"", id)), nil
+	return []byte(fmt.Sprintf("%q", id)), nil
 }
 
-// UnmarshalJSON
+// UnmarshalJSON unmarshals the JSON data to a suffix type.
 func (s *SuffixType) UnmarshalJSON(data []byte) error {
 	v, ok := SuffixValue[string(data)]
 	if !ok {
@@ -311,7 +341,7 @@ func NewSuffix(s string) (Suffix, error) {
 		return sfx, ErrSuffixNil
 	}
 
-	if len(runes) != 2 {
+	if pairCount := 2; len(runes) != pairCount {
 		return sfx, fmt.Errorf("suffix '%s': %w", s, ErrSuffixLengthInvalid)
 	}
 

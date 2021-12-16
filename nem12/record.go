@@ -191,6 +191,8 @@ func NewRecord(vals []string) (r Record, err error) {
 		err = validateRecordB2BDetails(r)
 	case RecordEnd:
 		err = validateRecordEnd(r)
+	case RecordUndefined:
+		fallthrough //nolint:gocritic
 	default:
 		return r, ErrRecordIndicatorInvalid
 	}
@@ -220,7 +222,7 @@ func NewRecordIntervalData(n int, vals []string) (Record, error) {
 		return nil, err
 	}
 
-	if err = validateRecordIntervalData(r); err != nil {
+	if err := validateRecordIntervalData(r); err != nil {
 		return nil, err
 	}
 
@@ -265,7 +267,8 @@ func validateRecordHeader(r Record) error {
 
 // validateRecordNMIDataDetails validates cross reference field dependencies within a row.
 func validateRecordNMIDataDetails(r Record) error {
-	pairs := chunkString(r[2].Value, 2)
+	pairCount := 2
+	pairs := chunkString(r[2].Value, pairCount)
 	found := false
 
 	for _, pair := range pairs {

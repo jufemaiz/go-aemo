@@ -5,8 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jufemaiz/go-aemo/nmi"
 	"github.com/shopspring/decimal"
+
+	"github.com/jufemaiz/go-aemo/nmi"
 )
 
 // IntervalSet is a set of intervals, with reference to metadata.
@@ -18,8 +19,9 @@ type IntervalSet struct {
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
+//nolint:misspell
 // Normalize returns the interval set in SI units.
-func (is *IntervalSet) Normalize() (*IntervalSet, error) {
+func (is *IntervalSet) Normalize() (*IntervalSet, error) { //nolint:misspell
 	if is == nil {
 		return nil, nil
 	}
@@ -34,7 +36,7 @@ func (is *IntervalSet) Normalize() (*IntervalSet, error) {
 
 	uomBase := is.Metadata.UnitOfMeasure.Base()
 
-	new := &IntervalSet{
+	norm := &IntervalSet{
 		Metadata: &IntervalMetadata{
 			Nmi:           is.Metadata.Nmi,
 			Meter:         is.Metadata.Meter,
@@ -56,10 +58,10 @@ func (is *IntervalSet) Normalize() (*IntervalSet, error) {
 			return nil, err
 		}
 
-		new.Data = append(new.Data, nv)
+		norm.Data = append(norm.Data, nv)
 	}
 
-	return new, nil
+	return norm, nil
 }
 
 // Interval is duration of time from a start to a finish, with a value.
@@ -73,13 +75,14 @@ type Interval struct {
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
+//nolint:misspell
 // Normalize returns the interval in SI units.
-func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
+func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) { //nolint:misspell
 	if i == nil {
 		return nil, ErrIntervalNil
 	}
 
-	new := &Interval{
+	norm := &Interval{
 		Time:           i.Time,
 		IntervalLength: i.IntervalLength,
 		Value: IntervalValue{
@@ -99,11 +102,11 @@ func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
 			return nil, fmt.Errorf("unit of measurement: %w", err)
 		}
 
-		new.Value.Value = new.Value.Value * uom.Multiplier()
-		new.Value.DecimalValue = new.Value.DecimalValue.Mul(uom.DecimalMultiplier())
+		norm.Value.Value *= uom.Multiplier()
+		norm.Value.DecimalValue = norm.Value.DecimalValue.Mul(uom.DecimalMultiplier())
 	}
 
-	return new, nil
+	return norm, nil
 }
 
 // Intervals is a slice of Interval.
@@ -114,6 +117,7 @@ type IntervalLength time.Duration
 
 // An IntervalValue represents a single meter interval value as presented by an
 // NEM12 file.
+//nolint:lll
 type IntervalValue struct {
 	Value             float64         `json:"value"`                       // Value of the interval in the SI unit of measure.
 	DecimalValue      decimal.Decimal `json:"decimalValue"`                // Value of the interval in SI unit of measure as a decimal.
@@ -143,6 +147,7 @@ type intervalEvent struct {
 }
 
 // newIntervalEvent returns a new interval event for a record.
+//nolint:funlen
 func newIntervalEvent(rec Record) (*intervalEvent, error) {
 	var (
 		start      int
@@ -154,7 +159,7 @@ func newIntervalEvent(rec Record) (*intervalEvent, error) {
 	)
 
 	for _, field := range rec {
-		switch field.Type {
+		switch field.Type { //nolint:exhaustive
 		case FieldRecordIndicator:
 			ri, err := NewRecordIndicator(field.Value)
 			if err != nil {

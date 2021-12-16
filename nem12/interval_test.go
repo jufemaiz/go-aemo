@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jufemaiz/go-aemo/nem12"
-	"github.com/jufemaiz/go-aemo/nmi"
 	"github.com/shopspring/decimal"
 	. "github.com/smartystreets/goconvey/convey"
+
+	"github.com/jufemaiz/go-aemo/nem12"
+	"github.com/jufemaiz/go-aemo/nmi"
 )
 
-func TestIntervalSet_Normalize(t *testing.T) {
+func TestIntervalSet_Normalize(t *testing.T) { //nolint:misspell
 	Convey("nem12/IntervalSet.Normalize", t, func() {
 		tests := map[string]struct {
 			set        func() *nem12.IntervalSet
@@ -346,7 +347,7 @@ func TestIntervalSet_Normalize(t *testing.T) {
 	})
 }
 
-func TestInterval_Normalize(t *testing.T) {
+func TestInterval_Normalize(t *testing.T) { //nolint:misspell
 	Convey("nem12/Interval.Normalize", t, func() {
 		tests := map[string]struct {
 			interval   func() *nem12.Interval
