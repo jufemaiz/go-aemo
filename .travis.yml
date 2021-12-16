@@ -6,9 +6,10 @@ language: go
 go:
 - '1.17.x'
 - '1.16.x'
-- '1.15.x'
 - master
 matrix:
+  allow_failures:
+  - go: master
   fast_finish: true
 install:
 - make clean
