@@ -43,6 +43,47 @@ clean-goimports: ## needed to deal with <https://github.com/facebook/ent/issues/
 .PHONY: clean-all
 clean-all: clean
 
+PHONY: codeclimate-after
+codeclimate-after:
+	./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+PHONY: codeclimate-before
+codeclimate-before:
+	./cc-test-reporter before-build
+
+.PHONY: codeclimate-install
+codeclimate-install:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+	chmod +x ./cc-test-reporter
+
+PHONY: codeclimate-after
+codecov-after:
+	./codecov -t ${CODECOV_TOKEN}
+
+.PHONY: codecov-install
+codecov-install:
+	curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
+	curl -Os https://uploader.codecov.io/latest/linux/codecov
+	curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+	curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+	gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+	shasum -a 256 -c codecov.SHA256SUM
+	chmod +x codecov
+
+.PHONY: codecov-upload
+codecov-upload:
+	./codecov -t ${CODECOV_TOKEN}
+
+.PHONY: coverage-after
+coverage-after: codeclimate-after codecov-after
+
+.PHONY: coverage-before
+coverage-before: codeclimate-before
+
+.PHONY: coverage-install
+coverage-install: codeclimate-install codecov-install
+
 .PHONY: dependencies
 dependencies:
 	go mod tidy

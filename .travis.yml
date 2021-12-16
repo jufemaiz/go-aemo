@@ -12,17 +12,13 @@ matrix:
   - go: master
   fast_finish: true
 install:
-- make clean
-- make clean-goimports
-- make dependencies
-- make dependencies-download
+- make clean clean-goimports
+- make dependencies dependencies-download
+- make coverage-install
 before_script:
-- curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
-- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-- chmod +x ./cc-test-reporter
-- ./cc-test-reporter before-build
+- make coverage-before
 script:
 - make test
 - make lint
 after_script:
-- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+- make coverage-after
