@@ -1,6 +1,6 @@
 # go-aemo changelog
 
-## [UNRELEASED] (UNRELEASED)
+## [v0.1.0] (2021-12-17)
 
 Initial release of the `go-aemo` package.
 
