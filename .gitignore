@@ -16,3 +16,4 @@
 
 # Test coverage
 .coverage/
+cc-test-reporter
