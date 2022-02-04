@@ -46,5 +46,6 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: <code_climate_reporter_id>
       with:
-       coverageLocations: |
-        ${{github.workspace}}/.coverage/coverage.out:gocov
+        coverageLocations: |
+          ${{github.workspace}}/.coverage/coverage.out:gocov
+        prefix: 'github.com/jufemaiz/go-aemo'
