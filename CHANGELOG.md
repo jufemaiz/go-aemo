@@ -4,9 +4,13 @@
 
 ### Fixed
 
-*   `MDMDataStreamIdentifier` field updated due to variation by AEMO in their documenation.
-    (Ref: <https://www.aemo.com.au/-/media/files/stakeholder_consultation/consultations/nem-consultations/2019/5ms-metering-package-3/final/standing-data-for-msats-final-clean.pdf>)
+*   `MDMDataStreamIdentifier` field updated due to variation by AEMO in their documenation
+    (Ref: <https://www.aemo.com.au/-/media/files/stakeholder_consultation/consultations/nem-consultations/2019/5ms-metering-package-3/final/standing-data-for-msats-final-clean.pdf>) 
     (#4).
+
+### Changed
+
+*   CI moved from Travis to Github Actions (#6)
 
 ## [v0.1.0] (2021-12-17)
 
