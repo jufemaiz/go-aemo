@@ -142,7 +142,7 @@ list:
 .PHONY: test
 test: ## run short tests
 	mkdir -p .coverage
-	go test -race -v ./... -timeout 60m -short -coverprofile .coverage/coverage.out
+	go test -race -v ./... -timeout 60m -short -coverprofile .coverage/coverage.out -covermode=atomic
 	go tool cover -func .coverage/coverage.out | grep ^total:
 	go tool cover -html=.coverage/coverage.out -o .coverage/coverage.html
 
