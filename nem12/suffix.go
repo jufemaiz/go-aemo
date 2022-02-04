@@ -260,8 +260,7 @@ func (s SuffixType) String() string {
 // GoString returns a text representation of the reason to satisfy the GoStringer
 // interface.
 func (s SuffixType) GoString() string {
-	_, ok := SuffixName[s]
-	if !ok {
+	if _, ok := SuffixName[s]; !ok {
 		return fmt.Sprintf("%%!SuffixType(%d)", s)
 	}
 

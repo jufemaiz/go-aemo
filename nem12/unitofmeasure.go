@@ -352,8 +352,7 @@ func (u UnitOfMeasure) String() string {
 // GoString returns a text representation of the reason to satisfy the GoStringer
 // interface.
 func (u UnitOfMeasure) GoString() string {
-	_, ok := UnitName[u]
-	if !ok {
+	if _, ok := UnitName[u]; !ok {
 		return fmt.Sprintf("%%!UnitOfMeasure(%d)", u)
 	}
 
