@@ -41,7 +41,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: 'Test'
       run: 'make test'
-    - name: 'Publish code coverage'
+    - name: 'Publish to code climate'
       uses: 'paambaati/codeclimate-action@v3.0.0'
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
@@ -49,3 +49,9 @@ jobs:
         coverageLocations: |
           ${{github.workspace}}/.coverage/coverage.out:gocov
         prefix: 'github.com/jufemaiz/go-aemo'
+    - name: 'Publish to codecov'
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        files: ${{github.workspace}}/.coverage/coverage.out
+        verbose: true # optional (default = false)
