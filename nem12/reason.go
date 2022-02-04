@@ -806,8 +806,7 @@ func NewReason(s string) (Reason, error) {
 
 // Validate ensures a reason is valid.
 func (r Reason) Validate() error {
-	_, ok := ReasonName[r]
-	if !ok {
+	if _, ok := ReasonName[r]; !ok {
 		return ErrReasonCodeInvalid
 	}
 
