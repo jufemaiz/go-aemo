@@ -360,38 +360,27 @@ func validateFieldNMISuffix(v string) error {
 
 // Standing Data details:
 //
-// Metering Datastream identifier (for MDM). Identifies the Datastream as
-// delivered to AEMO for settlements purposes. The value must be a valid suffix
-// for this NMI and is active for this date range. The value must comply with
-// requirements of the NMI Procedure.
+// The Metering Datastream identifier (for MDM). Identifies the ElectricityDataStream
+// Suffix as delivered to AEMO for NEM Settlement calculations, profile peeloff,
+// UFE analysis and Vic TUOS sites.
 //
-// If the MeterInstallCode is COMMSn, MRIM, MRAM, VICAMI or UMCP, the Suffix
-// value must be in the form `Nx` where DataStreamType is I or P for an interval
-// Datastream. If the MeterInstallCode is BASIC, the Suffix value must be
-// numeric.
+// The value must be a valid as per Datastream suffix details specified in the
+// NMI Procedure.
+//
+// The value must match the MDMContributorySuffix value provided in an MDFF File.
 //
 // Ref:
 //nolint:lll
-// <https://www.aemo.com.au/-/media/Files/Electricity/NEM/Retail_and_Metering/Market_Settlement_And_Transfer_Solutions/2017/Standing-Data-for-MSATS.pdf>
+// <https://www.aemo.com.au/-/media/files/stakeholder_consultation/consultations/nem-consultations/2019/5ms-metering-package-3/final/standing-data-for-msats-final-clean.pdf>
+// Table 15, pg 32.
 func validateFieldMDMDataStreamIdentifier(v string) error {
 	if v == "" {
 		// No longer return an error. // return fmt.Errorf("field MDM data stream identifier: %w", ErrFieldNil)
 		return nil
 	}
 
-	runes := []rune(v)
-
-	for i, r := range runes {
-		switch i {
-		case 0:
-			if string(r) != "N" {
-				return fmt.Errorf("field MDM data stream identifier '%s': %w", v, ErrFieldMDMDataStreamIdentifierInvalid)
-			}
-		case 1:
-			if err := ValidateSuffixMeter(string(r)); err != nil {
-				return fmt.Errorf("field MDM data stream identifier '%s': %w", v, err)
-			}
-		}
+	if _, err := NewSuffix(v); err != nil {
+		return fmt.Errorf("field mdm data stream identifier '%s': %w", v, err)
 	}
 
 	return nil

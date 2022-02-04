@@ -542,9 +542,8 @@ func TestField_validateFieldMDMDataStreamIdentifier(t *testing.T) {
 				val: "NOT A DATA STREAM",
 				err: ErrIsInvalid,
 			},
-			"invalid value of 'E1'": {
+			"valid value of 'E1'": {
 				val: "E1",
-				err: ErrIsInvalid,
 			},
 			"valid value of 'NA'": {
 				val: "NA",
