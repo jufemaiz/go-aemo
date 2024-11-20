@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -72,7 +71,7 @@ func TestNewParticipant(t *testing.T) {
 
 			So(p, ShouldEqual, ParticipantUndefined)
 			So(err, ShouldBeError)
-			So(errors.As(err, &ErrParticipantInvalid), ShouldBeTrue)
+			So(err, ShouldWrap, ErrParticipantInvalid)
 		})
 	})
 }
@@ -179,7 +178,7 @@ func TestParticipantInfo(t *testing.T) {
 				if tc.err != nil {
 					So(got, ShouldBeNil)
 					So(err, ShouldBeError)
-					So(errors.As(err, &ErrParticipantInvalid), ShouldBeTrue)
+					So(err, ShouldWrap, ErrParticipantInvalid)
 				} else {
 					So(*got, ShouldResemble, tc.expected)
 					So(err, ShouldBeNil)

@@ -196,6 +196,10 @@ func (n *Nmi) RemoveMeter(m *Meter) error {
 		return fmt.Errorf("RemoveMeter: %w", ErrMeterNil)
 	}
 
+	if m.Identifier == "" {
+		return fmt.Errorf("removing meter '%s': %w", m.Identifier, ErrNmiMeterIdentifierEmpty)
+	}
+
 	if _, ok := n.Meters[m.Identifier]; !ok {
 		return fmt.Errorf("removing meter '%s': %w", m.Identifier, ErrNmiMeterNotFound)
 	}

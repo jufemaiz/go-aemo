@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 	"testing"
@@ -50,7 +49,7 @@ func TestNewEnergy(t *testing.T) {
 
 				if tc.err != nil {
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(resp.String(), ShouldEqual, strings.ToUpper(tc.s))

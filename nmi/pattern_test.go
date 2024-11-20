@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -31,7 +30,7 @@ func TestNewPattern(t *testing.T) {
 
 				if tc.err != nil {
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(string(p), ShouldEqual, tc.p)

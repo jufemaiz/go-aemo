@@ -141,7 +141,7 @@ func TestMethodString(t *testing.T) {
 			},
 			"14": {
 				arg:      Method14LikeDay,
-				expected: "\"14: like day\"",
+				expected: "\"14: retrospective like day\"",
 			},
 		}
 

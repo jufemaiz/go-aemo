@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -28,6 +27,6 @@ func TestAllocationsCompile(t *testing.T) {
 		resp, err := a.Compile()
 		So(resp, ShouldBeEmpty)
 		So(err, ShouldBeError)
-		So(errors.As(err, &ErrPatternInvalid), ShouldBeTrue)
+		So(err, ShouldWrap, ErrPatternInvalid)
 	})
 }
