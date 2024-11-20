@@ -850,8 +850,9 @@ func (r Reason) GoString() string {
 	return fmt.Sprintf("%%!Reason(%d)", r)
 }
 
-//nolint:gocritic
 // Deprecated indicates if this method is a deprecated method.
+//
+//nolint:gocritic
 func (r Reason) Deprecated() bool {
 	dep, ok := reasonsDeprecated[r]
 	if !ok {

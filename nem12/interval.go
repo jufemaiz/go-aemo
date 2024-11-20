@@ -19,8 +19,9 @@ type IntervalSet struct {
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
-//nolint:misspell
 // Normalize returns the interval set in SI units.
+//
+//nolint:misspell
 func (is *IntervalSet) Normalize() (*IntervalSet, error) { //nolint:misspell
 	if is == nil {
 		return nil, nil
@@ -75,8 +76,9 @@ type Interval struct {
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
-//nolint:misspell
 // Normalize returns the interval in SI units.
+//
+//nolint:misspell
 func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) { //nolint:misspell
 	if i == nil {
 		return nil, ErrIntervalNil
@@ -117,6 +119,7 @@ type IntervalLength time.Duration
 
 // An IntervalValue represents a single meter interval value as presented by an
 // NEM12 file.
+//
 //nolint:lll
 type IntervalValue struct {
 	Value             float64         `json:"value"`                       // Value of the interval in the SI unit of measure.
@@ -147,6 +150,7 @@ type intervalEvent struct {
 }
 
 // newIntervalEvent returns a new interval event for a record.
+//
 //nolint:funlen
 func newIntervalEvent(rec Record) (*intervalEvent, error) {
 	var (

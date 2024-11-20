@@ -103,6 +103,7 @@ func (p *parser) ReadDay() (*IntervalSet, error) {
 
 // readDay implements the actual read day capability, making it commonly
 // available to the interface functions.
+//
 //nolint:gocognit,dupl,funlen
 func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyclo
 	defer func() {

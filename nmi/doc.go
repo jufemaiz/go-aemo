@@ -2,7 +2,7 @@
 //
 // From: https://aemo.com.au/-/media/files/electricity/nem/retail_and_metering/metering-procedures/2016/0610-0008-pdf.pdf
 //
-// NMI Structure
+// # NMI Structure
 //
 // The NMI is a ten (10) character identifier assigned by Local Network Service
 // Providers (LNSPs) in accordance with this procedure. The publication of this
