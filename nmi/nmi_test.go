@@ -86,7 +86,7 @@ func TestNewNmi(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewNmi(tc.arg)
 
 				if tc.err != nil {
@@ -122,7 +122,7 @@ func TestNmiGoString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.GoString()
 
 				So(got, ShouldEqual, tc.expected)
@@ -150,7 +150,7 @@ func TestNmiString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.String()
 				So(got, ShouldEqual, tc.expected)
 			})
@@ -320,6 +320,7 @@ func TestNmiAddMeter(t *testing.T) {
 			nmi   *Nmi
 			meter *Meter
 		}
+
 		tests := map[string]struct {
 			arg      arg
 			expected Meters
@@ -411,6 +412,7 @@ func TestNmiRemoveMeter(t *testing.T) {
 			nmi   *Nmi
 			meter *Meter
 		}
+
 		tests := map[string]struct {
 			arg      arg
 			expected Meters

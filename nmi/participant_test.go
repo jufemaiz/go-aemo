@@ -99,7 +99,7 @@ func TestParticipantGoString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.GoString()
 
 				So(got, ShouldEqual, tc.expected)
@@ -131,7 +131,7 @@ func TestParticipantString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.String()
 				So(got, ShouldEqual, tc.expected)
 			})
@@ -173,7 +173,7 @@ func TestParticipantInfo(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := tc.arg.Info()
 				if tc.err != nil {
 					So(got, ShouldBeNil)

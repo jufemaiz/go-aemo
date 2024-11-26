@@ -20,9 +20,7 @@ type IntervalSet struct {
 }
 
 // Normalize returns the interval set in SI units.
-//
-//nolint:misspell
-func (is *IntervalSet) Normalize() (*IntervalSet, error) { //nolint:misspell
+func (is *IntervalSet) Normalize() (*IntervalSet, error) {
 	if is == nil {
 		return nil, nil
 	}
@@ -68,18 +66,16 @@ func (is *IntervalSet) Normalize() (*IntervalSet, error) { //nolint:misspell
 // Interval is duration of time from a start to a finish, with a value.
 type Interval struct {
 	// Data.
-	Time           time.Time     `json:"datetime"`
+	Time           time.Time     `json:"datetime"` //nolint:tagliatelle
 	IntervalLength time.Duration `json:"intervalLength"`
-	Value          IntervalValue `json:"intervalValue"`
+	Value          IntervalValue `json:"intervalValue"` //nolint:tagliatelle
 
 	// Metadata, shared.
 	Metadata *IntervalMetadata `json:"metadata,omitempty"`
 }
 
 // Normalize returns the interval in SI units.
-//
-//nolint:misspell
-func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) { //nolint:misspell
+func (i *Interval) Normalize(uom *UnitOfMeasure) (*Interval, error) {
 	if i == nil {
 		return nil, ErrIntervalNil
 	}
@@ -119,17 +115,18 @@ type IntervalLength time.Duration
 
 // An IntervalValue represents a single meter interval value as presented by an
 // NEM12 file.
-//
-//nolint:lll
 type IntervalValue struct {
-	Value             float64         `json:"value"`                       // Value of the interval in the SI unit of measure.
-	DecimalValue      decimal.Decimal `json:"decimalValue"`                // Value of the interval in SI unit of measure as a decimal.
-	QualityFlag       Quality         `json:"quality"`                     // Quality flag applicable to this value.
-	MethodFlag        *Method         `json:"method,omitempty"`            // Method flag applicable to this value.
-	ReasonCode        *Reason         `json:"reason,omitempty"`            // ReasonCode applicable to this value.
-	ReasonDescription *string         `json:"reasonDescription,omitempty"` // Text describing the reason for when ReasonCode equals FreeTextDescription.
-	UpdateDateTime    *time.Time      `json:"updateDateTime,omitempty"`    // Time that the metering data was created or updated as reported by the MDP.
-	MSATSLoadDateTime *time.Time      `json:"msatsLoadDateTime,omitempty"` // Time that the metering data was loaded into MSATS.
+	Value        float64         `json:"value"`        // Value of the interval in the SI unit of measure.
+	DecimalValue decimal.Decimal `json:"decimalValue"` // Value of the interval in SI unit of measure as a decimal.
+	// Quality flag applicable to this value.
+	QualityFlag Quality `json:"quality"` //nolint:tagliatelle
+	// Method flag applicable to this value.
+	MethodFlag *Method `json:"method,omitempty"` //nolint:tagliatelle
+	// ReasonCode applicable to this value.
+	ReasonCode        *Reason    `json:"reason,omitempty"`            //nolint:tagliatelle
+	ReasonDescription *string    `json:"reasonDescription,omitempty"` // Text describing the reason for when ReasonCode equals FreeTextDescription.
+	UpdateDateTime    *time.Time `json:"updateDateTime,omitempty"`    // Time that the metering data was created or updated as reported by the MDP.
+	MSATSLoadDateTime *time.Time `json:"msatsLoadDateTime,omitempty"` // Time that the metering data was loaded into MSATS.
 }
 
 // IntervalMetadata holds the metadata for an interval.
@@ -137,7 +134,7 @@ type IntervalMetadata struct {
 	Nmi           *nmi.Nmi       `json:"nmi,omitempty"`
 	Meter         *nmi.Meter     `json:"meter,omitempty"`
 	Suffix        *Suffix        `json:"suffix,omitempty"`
-	UnitOfMeasure *UnitOfMeasure `json:"unit,omitempty"`
+	UnitOfMeasure *UnitOfMeasure `json:"unit,omitempty"` //nolint:tagliatelle
 }
 
 // intervalEvent captures an interval event record.
@@ -150,8 +147,6 @@ type intervalEvent struct {
 }
 
 // newIntervalEvent returns a new interval event for a record.
-//
-//nolint:funlen
 func newIntervalEvent(rec Record) (*intervalEvent, error) {
 	var (
 		start      int
@@ -163,7 +158,7 @@ func newIntervalEvent(rec Record) (*intervalEvent, error) {
 	)
 
 	for _, field := range rec {
-		switch field.Type { //nolint:exhaustive
+		switch field.Type {
 		case FieldRecordIndicator:
 			ri, err := NewRecordIndicator(field.Value)
 			if err != nil {

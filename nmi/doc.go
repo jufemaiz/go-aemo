@@ -57,10 +57,10 @@
 //
 // AEMO may allocate blocks of NMIs to LNSPs from any unused range.
 //
-// The range 5 XXX XXX XXX has been reserved for use within the gas industry. To
+// The range 5XXXXXXXXX has been reserved for use within the gas industry. To
 // avoid the risk of confusion, AEMO has agreed not to issue NMIs commencing
 // with 5.
 //
-// The range 9 XXX XXX XXX has been reserved as a “break-out” if it becomes
+// The range 9XXXXXXXXX has been reserved as a “break-out” if it becomes
 // necessary to move to an 11 character NMI.
 package nmi

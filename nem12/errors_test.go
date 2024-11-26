@@ -1,7 +1,6 @@
 package nem12_test
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -36,7 +35,7 @@ func TestParseErrorError(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				pe := tc.parseErr
 
 				err := pe.Error()
@@ -71,7 +70,7 @@ func TestParseErrorUnwrap(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				pe := tc.parseErr
 
 				err := pe.Unwrap()

@@ -103,9 +103,7 @@ func (p *parser) ReadDay() (*IntervalSet, error) {
 
 // readDay implements the actual read day capability, making it commonly
 // available to the interface functions.
-//
-//nolint:gocognit,dupl,funlen
-func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyclo
+func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,funlen,gocognit,gocyclo,maintidx
 	defer func() {
 		if err != nil && !errors.Is(err, io.EOF) {
 			err = p.error(err)
@@ -141,7 +139,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyc
 
 		ri := rec.Indicator()
 
-		switch p.state { //nolint:exhaustive
+		switch p.state {
 		// We start off needing a header.
 		case parseStateNeedHeader:
 			if ri == RecordHeader {
@@ -197,7 +195,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyc
 			fallthrough
 
 		case parseStateNextIntervalData:
-			switch ri { //nolint:exhaustive
+			switch ri {
 			case RecordB2BDetails:
 				p.state = parseStateNextB2BDetails
 				p.backup()
@@ -292,7 +290,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyc
 			continue
 
 		case parseStateNextIntervalEvent:
-			switch ri { //nolint:exhaustive
+			switch ri {
 			case RecordB2BDetails:
 				p.state = parseStateNextB2BDetails
 				p.backup()
@@ -377,7 +375,7 @@ func (p *parser) readDay() (set *IntervalSet, err error) { //nolint:cyclop,gocyc
 			continue
 
 		case parseStateNextB2BDetails:
-			switch ri { //nolint:exhaustive
+			switch ri {
 			case RecordB2BDetails:
 				p.state = parseStateNeedB2BDetails
 				p.backup()
@@ -606,7 +604,7 @@ func (p *parser) setMetadata(rec Record) (err error) {
 
 // setIntervalLength sets the interval length from the record.
 func (p *parser) setIntervalLength(rec Record) (err error) {
-	il, err := time.ParseDuration(fmt.Sprintf("%sm", rec[8].Value))
+	il, err := time.ParseDuration(rec[8].Value + "m")
 	if err != nil {
 		return fmt.Errorf("parse duration: %w", err)
 	}
@@ -630,7 +628,7 @@ func (p *parser) setUnit(rec Record) (err error) {
 
 // cacheValues caches a record's values, to ensure any additional data can be
 // added if needed.
-func (p *parser) cacheValues(rec Record) (err error) { //nolint:cyclop,funlen,gocognit,gocyclo
+func (p *parser) cacheValues(rec Record) (err error) { //nolint:cyclop,gocyclo
 	// Reset the values first.
 	p.resetDay()
 

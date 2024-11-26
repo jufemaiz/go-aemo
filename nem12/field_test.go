@@ -2,7 +2,6 @@ package nem12
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -50,7 +49,7 @@ func TestNewField(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewField(tc.ft, tc.val)
 
 				So(got, ShouldResemble, tc.expected)
@@ -100,7 +99,7 @@ func TestField_GoString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				f := tc.field()
 				resp := f.GoString()
 
@@ -129,7 +128,7 @@ func TestFieldType_Identifier(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				ft := tc.ft
 				resp := ft.Identifier()
 
@@ -172,7 +171,7 @@ func TestField_Validate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				f := tc.field()
 				err := f.Validate()
 
@@ -222,7 +221,7 @@ func TestField_validateFieldRecordIndicator(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldRecordIndicator(tc.val)
 
 				if tc.err != nil {
@@ -256,7 +255,7 @@ func TestField_validateFieldVersionHeader(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldVersionHeader(tc.val)
 
 				if tc.err != nil {
@@ -282,15 +281,15 @@ func TestField_validateFieldDateTime(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field date time 'NOT A DATE': parsing time \"NOT A DATE\" as \"200601021504\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field date time 'NOT A DATE': parsing time \"NOT A DATE\" as \"200601021504\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "20211010",
-				err: fmt.Errorf("field date time '20211010': parsing time \"20211010\" as \"200601021504\": cannot parse \"\" as \"15\""), //nolint:goerr113
+				err: errors.New("field date time '20211010': parsing time \"20211010\" as \"200601021504\": cannot parse \"\" as \"15\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "999999999999",
-				err: fmt.Errorf("field date time '999999999999': parsing time \"999999999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field date time '999999999999': parsing time \"999999999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "202112011234",
@@ -300,7 +299,7 @@ func TestField_validateFieldDateTime(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldDateTime(tc.val)
 
 				if tc.err != nil {
@@ -338,7 +337,7 @@ func TestField_validateFieldFromParticipant(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldFromParticipant(tc.val)
 
 				if tc.err != nil {
@@ -372,7 +371,7 @@ func TestField_validateFieldToParticipant(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldToParticipant(tc.val)
 
 				if tc.err != nil {
@@ -410,7 +409,7 @@ func TestField_validateFieldNMI(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldNMI(tc.val)
 
 				if tc.err != nil {
@@ -452,7 +451,7 @@ func TestField_validateFieldNMIConfiguration(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldNMIConfiguration(tc.val)
 
 				if tc.err != nil {
@@ -484,7 +483,7 @@ func TestField_validateFieldRegisterID(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldRegisterID(tc.val)
 
 				if tc.err != nil {
@@ -518,7 +517,7 @@ func TestField_validateFieldNMISuffix(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldNMISuffix(tc.val)
 
 				if tc.err != nil {
@@ -553,7 +552,7 @@ func TestField_validateFieldMDMDataStreamIdentifier(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldMDMDataStreamIdentifier(tc.val)
 
 				if tc.err != nil {
@@ -585,7 +584,7 @@ func TestField_validateFieldMeterSerialNumber(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldMeterSerialNumber(tc.val)
 
 				if tc.err != nil {
@@ -619,7 +618,7 @@ func TestField_validateFieldUnitOfMeasurement(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldUnitOfMeasurement(tc.val)
 
 				if tc.err != nil {
@@ -645,7 +644,7 @@ func TestField_validateFieldIntervalLength(t *testing.T) {
 			},
 			"invalid type": {
 				val: "NOTANUMBER",
-				err: fmt.Errorf("field interval length 'NOTANUMBER': strconv.Atoi: parsing \"NOTANUMBER\": invalid syntax"), //nolint:goerr113
+				err: errors.New("field interval length 'NOTANUMBER': strconv.Atoi: parsing \"NOTANUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid value": {
 				val:        "42",
@@ -660,7 +659,7 @@ func TestField_validateFieldIntervalLength(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldIntervalLength(tc.val)
 
 				if tc.err != nil {
@@ -687,15 +686,15 @@ func TestField_validateFieldNextScheduledReadDate(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field next scheduled read date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field next scheduled read date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: fmt.Errorf("field next scheduled read date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
+				err: errors.New("field next scheduled read date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: fmt.Errorf("field next scheduled read date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field next scheduled read date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201",
@@ -705,7 +704,7 @@ func TestField_validateFieldNextScheduledReadDate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldNextScheduledReadDate(tc.val)
 
 				if tc.err != nil {
@@ -735,15 +734,15 @@ func TestField_validateFieldIntervalDate(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field interval date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field interval date 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: fmt.Errorf("field interval date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
+				err: errors.New("field interval date '202110101234': parsing time \"202110101234\": extra text: \"1234\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: fmt.Errorf("field interval date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field interval date '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201",
@@ -753,7 +752,7 @@ func TestField_validateFieldIntervalDate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldIntervalDate(tc.val)
 
 				if tc.err != nil {
@@ -783,7 +782,7 @@ func TestField_validateFieldIntervalValue(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A VALUE",
-				err: fmt.Errorf("field interval value 'NOT A VALUE': can't convert NOT A VALUE to decimal: exponent is not numeric"), //nolint:goerr113
+				err: errors.New("field interval value 'NOT A VALUE': can't convert NOT A VALUE to decimal: exponent is not numeric"), //nolint:goerr113
 			},
 			"invalid when negative": {
 				val:        "-1.23456789",
@@ -798,7 +797,7 @@ func TestField_validateFieldIntervalValue(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldIntervalValue(tc.val)
 
 				if tc.err != nil {
@@ -860,7 +859,7 @@ func TestField_validateFieldQualityMethod(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldQualityMethod(tc.val)
 
 				if tc.err != nil {
@@ -892,7 +891,7 @@ func TestField_validateFieldReasonCode(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldReasonCode(tc.val)
 
 				if tc.err != nil {
@@ -924,7 +923,7 @@ func TestField_validateFieldReasonDescription(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldReasonDescription(tc.val)
 
 				if tc.err != nil {
@@ -950,15 +949,15 @@ func TestField_validateFieldUpdateDateTime(t *testing.T) {
 			},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: fmt.Errorf("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
+				err: errors.New("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: fmt.Errorf("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",
@@ -968,7 +967,7 @@ func TestField_validateFieldUpdateDateTime(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldUpdateDateTime(tc.val)
 
 				if tc.err != nil {
@@ -995,15 +994,15 @@ func TestField_validateFieldMSATSLoadDateTime(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field update datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: fmt.Errorf("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
+				err: errors.New("field update datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: fmt.Errorf("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field update datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",
@@ -1013,7 +1012,7 @@ func TestField_validateFieldMSATSLoadDateTime(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldMSATSLoadDateTime(tc.val)
 
 				if tc.err != nil {
@@ -1043,7 +1042,7 @@ func TestField_validateFieldStartInterval(t *testing.T) {
 			},
 			"invalid not a number": {
 				val: "NOT A NUMBER",
-				err: fmt.Errorf("field start interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
+				err: errors.New("field start interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid negative number": {
 				val:        "-48",
@@ -1063,11 +1062,12 @@ func TestField_validateFieldStartInterval(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldStartInterval(tc.val)
 
 				if tc.err != nil {
 					So(err, ShouldNotBeNil)
+
 					if tc.shouldWrap {
 						So(err, ShouldWrap, tc.err)
 					} else {
@@ -1094,7 +1094,7 @@ func TestField_validateFieldFinishInterval(t *testing.T) {
 			},
 			"invalid not a number": {
 				val: "NOT A NUMBER",
-				err: fmt.Errorf("field finish interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
+				err: errors.New("field finish interval 'NOT A NUMBER': strconv.Atoi: parsing \"NOT A NUMBER\": invalid syntax"), //nolint:goerr113
 			},
 			"invalid negative number": {
 				val:        "-48",
@@ -1114,11 +1114,12 @@ func TestField_validateFieldFinishInterval(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldFinishInterval(tc.val)
 
 				if tc.err != nil {
 					So(err, ShouldNotBeNil)
+
 					if tc.shouldWrap {
 						So(err, ShouldWrap, tc.err)
 					} else {
@@ -1153,7 +1154,7 @@ func TestField_validateFieldTransactionCode(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldTransactionCode(tc.val)
 
 				if tc.err != nil {
@@ -1185,7 +1186,7 @@ func TestField_validateFieldRetServiceOrder(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldRetServiceOrder(tc.val)
 
 				if tc.err != nil {
@@ -1208,15 +1209,15 @@ func TestField_validateFieldReadDateTime(t *testing.T) {
 			"empty": {},
 			"invalid": {
 				val: "NOT A DATE",
-				err: fmt.Errorf("field read datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
+				err: errors.New("field read datetime 'NOT A DATE': parsing time \"NOT A DATE\" as \"20060102150405\": cannot parse \"NOT A DATE\" as \"2006\""), //nolint:goerr113
 			},
 			"invalid length": {
 				val: "202110101234",
-				err: fmt.Errorf("field read datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
+				err: errors.New("field read datetime '202110101234': parsing time \"202110101234\" as \"20060102150405\": cannot parse \"\" as \"05\""), //nolint:goerr113
 			},
 			"invalid numbers": {
 				val: "99999999",
-				err: fmt.Errorf("field read datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
+				err: errors.New("field read datetime '99999999': parsing time \"99999999\": month out of range"), //nolint:goerr113
 			},
 			"valid": {
 				val: "20211201123456",
@@ -1226,11 +1227,12 @@ func TestField_validateFieldReadDateTime(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldReadDateTime(tc.val)
 
 				if tc.err != nil {
 					So(err, ShouldNotBeNil)
+
 					if tc.shouldWrap {
 						So(err, ShouldWrap, tc.err)
 					} else {
@@ -1263,7 +1265,7 @@ func TestField_validateFieldIndexRead(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := validateFieldIndexRead(tc.val)
 
 				if tc.err != nil {
@@ -1299,7 +1301,7 @@ func Test_chunkString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				resp := chunkString(tc.arg, 1)
 
 				So(resp, ShouldResemble, tc.resp)

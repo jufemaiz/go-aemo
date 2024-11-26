@@ -3,7 +3,7 @@ FROM golang:1.17-alpine
 LABEL maintainer="Joel Courtney <euphemize@gmail.com>"
 LABEL application="go-aemo"
 
-ARG GOLANGCI_VERSION="v1.43.0"
+ARG GOLANGCI_VERSION="v1.62.0"
 ENV GOLANGCI_VERSION $GOLANGCI_VERSION
 
 RUN apk add bash build-base curl gcc git inotify-tools make openssh postgresql-client protobuf-dev tzdata zip

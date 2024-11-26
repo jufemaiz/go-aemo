@@ -17,10 +17,7 @@ type Meter struct {
 	FromDateTime       *time.Time       `json:"fromDateTime,omitempty"`
 	ToDateTime         *time.Time       `json:"toDateTime,omitempty"`
 	LastTestDate       *time.Time       `json:"lastTestDate,omitempty"`
-	AdditionalSiteInfo *string          `json:"additionalSiteInformation,omitempty"`
-	// Location                  string
-	// Point                     int
-	// Status                    Status
+	AdditionalSiteInfo *string          `json:"additionalSiteInformation,omitempty"` //nolint:tagliatelle
 }
 
 // GoString meets the gostring interface.

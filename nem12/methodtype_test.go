@@ -53,7 +53,7 @@ func TestNewMethodType(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewMethodType(tc.arg)
 
 				if tc.err != nil {
@@ -96,7 +96,7 @@ func TestMethodTypeValidate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := tc.arg.Validate()
 
 				if tc.err != nil {

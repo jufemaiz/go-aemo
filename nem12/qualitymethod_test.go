@@ -2,7 +2,6 @@ package nem12
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -59,7 +58,7 @@ func TestNewQualityMethod(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewQualityMethod(tc.arg)
 
 				if tc.err != nil {
@@ -118,7 +117,7 @@ func TestQualityMethod_Validate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := tc.arg.Validate()
 
 				if tc.err != nil {
@@ -166,7 +165,7 @@ func TestQualityMethod_Method(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				arg := tc.arg()
 
 				res, err := arg.Method()

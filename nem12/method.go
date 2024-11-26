@@ -72,7 +72,7 @@ const (
 	// Method68Zero for zero.
 	Method68Zero = Method(68)
 	// Method69LinearExtrapolation for linear extrapolation.
-	MetMethod69LinearExtrapolation = Method(69)
+	Method69LinearExtrapolation = Method(69)
 	// Method71Recalculation for recalculation.
 	Method71Recalculation = Method(71)
 	// Method72RevisedTable for revised table.
@@ -120,7 +120,7 @@ var (
 		Method66Revision,
 		Method67CustomerRead,
 		Method68Zero,
-		MetMethod69LinearExtrapolation,
+		Method69LinearExtrapolation,
 		Method71Recalculation,
 		Method72RevisedTable,
 		Method73RevisedAlgorithm,
@@ -162,7 +162,7 @@ var (
 		Method66Revision:                   "66",
 		Method67CustomerRead:               "67",
 		Method68Zero:                       "68",
-		MetMethod69LinearExtrapolation:     "69",
+		Method69LinearExtrapolation:        "69",
 		Method71Recalculation:              "71",
 		Method72RevisedTable:               "72",
 		Method73RevisedAlgorithm:           "73",
@@ -204,7 +204,7 @@ var (
 		"66": Method66Revision,
 		"67": Method67CustomerRead,
 		"68": Method68Zero,
-		"69": MetMethod69LinearExtrapolation,
+		"69": Method69LinearExtrapolation,
 		"71": Method71Recalculation,
 		"72": Method72RevisedTable,
 		"73": Method73RevisedAlgorithm,
@@ -246,7 +246,7 @@ var (
 		Method66Revision:                   "revision",
 		Method67CustomerRead:               "customer read",
 		Method68Zero:                       "zero",
-		MetMethod69LinearExtrapolation:     "linear extrapolation",
+		Method69LinearExtrapolation:        "linear extrapolation",
 		Method71Recalculation:              "recalculation",
 		Method72RevisedTable:               "revised table",
 		Method73RevisedAlgorithm:           "revised algorithm",
@@ -288,7 +288,7 @@ var (
 		Method66Revision:                   {InstallBasic},
 		Method67CustomerRead:               {InstallBasic},
 		Method68Zero:                       {InstallBasic},
-		MetMethod69LinearExtrapolation:     {InstallBasic},
+		Method69LinearExtrapolation:        {InstallBasic},
 		Method71Recalculation:              {InstallUnmetered},
 		Method72RevisedTable:               {InstallUnmetered},
 		Method73RevisedAlgorithm:           {InstallUnmetered},
@@ -329,7 +329,7 @@ var (
 		Method66Revision:                   {MethodTypeSubstituted},
 		Method67CustomerRead:               {MethodTypeSubstituted},
 		Method68Zero:                       {MethodTypeEstimated, MethodTypeSubstituted},
-		MetMethod69LinearExtrapolation:     {MethodTypeSubstituted},
+		Method69LinearExtrapolation:        {MethodTypeSubstituted},
 		Method71Recalculation:              {MethodTypeSubstituted},
 		Method72RevisedTable:               {MethodTypeSubstituted},
 		Method73RevisedAlgorithm:           {MethodTypeSubstituted},

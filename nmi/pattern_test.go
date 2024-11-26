@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -25,7 +24,7 @@ func TestNewPattern(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("When %s", name), func() {
+			Convey("Given "+name, func() {
 				p, err := NewPattern(tc.p)
 
 				if tc.err != nil {
@@ -67,7 +66,7 @@ func TestPatternMatch(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.p.Match(tc.s)
 
 				So(got, ShouldEqual, tc.expected)
