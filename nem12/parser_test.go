@@ -1,7 +1,6 @@
 package nem12_test
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"testing"
@@ -404,7 +403,7 @@ func TestNewParser(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				r := tc.reader()
 
 				p := nem12.NewParser(r)

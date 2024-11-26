@@ -61,7 +61,7 @@ func TestNewReason(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewReason(tc.arg)
 
 				if tc.err != nil {
@@ -104,7 +104,7 @@ func TestReasonValidate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := tc.arg.Validate()
 
 				if tc.err != nil {

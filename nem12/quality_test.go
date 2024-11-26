@@ -45,7 +45,7 @@ func TestNewQuality(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewQualityFlag(tc.arg)
 
 				if tc.err != nil {
@@ -88,7 +88,7 @@ func TestQualityValidate(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				err := tc.arg.Validate()
 
 				if tc.err != nil {

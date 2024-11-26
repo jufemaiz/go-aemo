@@ -177,8 +177,7 @@ func (f Field) GoString() string {
 }
 
 // Validate returns any errors for the value of the field.
-//nolint:funlen
-func (f Field) Validate() error { //nolint:cyclop,gocyclo
+func (f Field) Validate() error {
 	switch f.Type {
 	case FieldRecordIndicator:
 		return validateFieldRecordIndicator(f.Value)
@@ -370,7 +369,6 @@ func validateFieldNMISuffix(v string) error {
 // The value must match the MDMContributorySuffix value provided in an MDFF File.
 //
 // Ref:
-//nolint:lll
 // <https://www.aemo.com.au/-/media/files/stakeholder_consultation/consultations/nem-consultations/2019/5ms-metering-package-3/final/standing-data-for-msats-final-clean.pdf>
 // Table 15, pg 32.
 func validateFieldMDMDataStreamIdentifier(v string) error {

@@ -18,7 +18,7 @@ const (
 	// Method15AverageLikeDay for average like day.
 	Method15AverageLikeDay = Method(15)
 	// Method16Agreed for agreed.
-	Method16Agreed = Method(16)
+	Method16Agreed = Method(16) // [OBSOLETE]
 	// Method17Linear for linear.
 	Method17Linear = Method(17)
 	// Method18Alternate for alternate.
@@ -29,6 +29,14 @@ const (
 	Method20ChurnCorrection = Method(20)
 	// Method21FiveMinuteNoHistoricalData for five-minute no historical data.
 	Method21FiveMinuteNoHistoricalData = Method(21)
+	// Method22ProspectiveAverageDay for prospective average day.
+	Method22ProspectiveAverageDay = Method(22)
+	// Method23PreviousYear for use of previous year.
+	Method23PreviousYear = Method(23)
+	// Method24DataScaling for data  scaling.
+	Method24DataScaling = Method(24)
+	// Method25ADL for average daily load.
+	Method25ADL = Method(25)
 	// Method51PreviousYear for previous year.
 	Method51PreviousYear = Method(51)
 	// Method52PreviousRead for previous read.
@@ -64,7 +72,7 @@ const (
 	// Method68Zero for zero.
 	Method68Zero = Method(68)
 	// Method69LinearExtrapolation for linear extrapolation.
-	MetMethod69LinearExtrapolation = Method(69)
+	Method69LinearExtrapolation = Method(69)
 	// Method71Recalculation for recalculation.
 	Method71Recalculation = Method(71)
 	// Method72RevisedTable for revised table.
@@ -91,6 +99,10 @@ var (
 		Method19Zero,
 		Method20ChurnCorrection,
 		Method21FiveMinuteNoHistoricalData,
+		Method22ProspectiveAverageDay,
+		Method23PreviousYear,
+		Method24DataScaling,
+		Method25ADL,
 		Method51PreviousYear,
 		Method52PreviousRead,
 		Method53Revision,
@@ -108,7 +120,7 @@ var (
 		Method66Revision,
 		Method67CustomerRead,
 		Method68Zero,
-		MetMethod69LinearExtrapolation,
+		Method69LinearExtrapolation,
 		Method71Recalculation,
 		Method72RevisedTable,
 		Method73RevisedAlgorithm,
@@ -129,6 +141,10 @@ var (
 		Method19Zero:                       "19",
 		Method20ChurnCorrection:            "20",
 		Method21FiveMinuteNoHistoricalData: "21",
+		Method22ProspectiveAverageDay:      "22",
+		Method23PreviousYear:               "23",
+		Method24DataScaling:                "24",
+		Method25ADL:                        "25",
 		Method51PreviousYear:               "51",
 		Method52PreviousRead:               "52",
 		Method53Revision:                   "53",
@@ -146,7 +162,7 @@ var (
 		Method66Revision:                   "66",
 		Method67CustomerRead:               "67",
 		Method68Zero:                       "68",
-		MetMethod69LinearExtrapolation:     "69",
+		Method69LinearExtrapolation:        "69",
 		Method71Recalculation:              "71",
 		Method72RevisedTable:               "72",
 		Method73RevisedAlgorithm:           "73",
@@ -167,6 +183,10 @@ var (
 		"19": Method19Zero,
 		"20": Method20ChurnCorrection,
 		"21": Method21FiveMinuteNoHistoricalData,
+		"22": Method22ProspectiveAverageDay,
+		"23": Method23PreviousYear,
+		"24": Method24DataScaling,
+		"25": Method25ADL,
 		"51": Method51PreviousYear,
 		"52": Method52PreviousRead,
 		"53": Method53Revision,
@@ -184,7 +204,7 @@ var (
 		"66": Method66Revision,
 		"67": Method67CustomerRead,
 		"68": Method68Zero,
-		"69": MetMethod69LinearExtrapolation,
+		"69": Method69LinearExtrapolation,
 		"71": Method71Recalculation,
 		"72": Method72RevisedTable,
 		"73": Method73RevisedAlgorithm,
@@ -197,14 +217,18 @@ var (
 		Method11Check:                      "check",
 		Method12Calculated:                 "calculated",
 		Method13SCADA:                      "scada",
-		Method14LikeDay:                    "like day",
-		Method15AverageLikeDay:             "average like day",
-		Method16Agreed:                     "agreed",
+		Method14LikeDay:                    "retrospective like day",
+		Method15AverageLikeDay:             "retrospective average like day",
+		Method16Agreed:                     "[OBSOLETE] agreed",
 		Method17Linear:                     "linear",
 		Method18Alternate:                  "alternate",
 		Method19Zero:                       "zero",
-		Method20ChurnCorrection:            "churn correction (like day)",
+		Method20ChurnCorrection:            "prospective like day",
 		Method21FiveMinuteNoHistoricalData: "five-minute no historical data",
+		Method22ProspectiveAverageDay:      "prospective average day",
+		Method23PreviousYear:               "previous year",
+		Method24DataScaling:                "data scaling",
+		Method25ADL:                        "adl",
 		Method51PreviousYear:               "previous year",
 		Method52PreviousRead:               "previous read",
 		Method53Revision:                   "revision",
@@ -222,7 +246,7 @@ var (
 		Method66Revision:                   "revision",
 		Method67CustomerRead:               "customer read",
 		Method68Zero:                       "zero",
-		MetMethod69LinearExtrapolation:     "linear extrapolation",
+		Method69LinearExtrapolation:        "linear extrapolation",
 		Method71Recalculation:              "recalculation",
 		Method72RevisedTable:               "revised table",
 		Method73RevisedAlgorithm:           "revised algorithm",
@@ -243,6 +267,10 @@ var (
 		Method19Zero:                       {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
 		Method20ChurnCorrection:            {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
 		Method21FiveMinuteNoHistoricalData: {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
+		Method22ProspectiveAverageDay:      {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
+		Method23PreviousYear:               {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
+		Method24DataScaling:                {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
+		Method25ADL:                        {InstallComms1, InstallComms2, InstallComms3, InstallComms4},
 		Method51PreviousYear:               {InstallMRIM},
 		Method52PreviousRead:               {InstallMRIM},
 		Method53Revision:                   {InstallMRIM},
@@ -260,7 +288,7 @@ var (
 		Method66Revision:                   {InstallBasic},
 		Method67CustomerRead:               {InstallBasic},
 		Method68Zero:                       {InstallBasic},
-		MetMethod69LinearExtrapolation:     {InstallBasic},
+		Method69LinearExtrapolation:        {InstallBasic},
 		Method71Recalculation:              {InstallUnmetered},
 		Method72RevisedTable:               {InstallUnmetered},
 		Method73RevisedAlgorithm:           {InstallUnmetered},
@@ -280,6 +308,10 @@ var (
 		Method19Zero:                       {MethodTypeSubstituted},
 		Method20ChurnCorrection:            {MethodTypeSubstituted},
 		Method21FiveMinuteNoHistoricalData: {MethodTypeSubstituted},
+		Method22ProspectiveAverageDay:      {MethodTypeSubstituted},
+		Method23PreviousYear:               {MethodTypeSubstituted},
+		Method24DataScaling:                {MethodTypeSubstituted},
+		Method25ADL:                        {MethodTypeSubstituted},
 		Method51PreviousYear:               {MethodTypeEstimated, MethodTypeSubstituted},
 		Method52PreviousRead:               {MethodTypeEstimated, MethodTypeSubstituted},
 		Method53Revision:                   {MethodTypeSubstituted},
@@ -297,7 +329,7 @@ var (
 		Method66Revision:                   {MethodTypeSubstituted},
 		Method67CustomerRead:               {MethodTypeSubstituted},
 		Method68Zero:                       {MethodTypeEstimated, MethodTypeSubstituted},
-		MetMethod69LinearExtrapolation:     {MethodTypeSubstituted},
+		Method69LinearExtrapolation:        {MethodTypeSubstituted},
 		Method71Recalculation:              {MethodTypeSubstituted},
 		Method72RevisedTable:               {MethodTypeSubstituted},
 		Method73RevisedAlgorithm:           {MethodTypeSubstituted},

@@ -399,7 +399,7 @@ type Participant int32
 // ParticipantInfo provides structure for participant information.
 type ParticipantInfo struct {
 	Participant   Participant   `json:"participant"`
-	ParticipantID string        `json:"participantID"`
+	ParticipantID string        `json:"participantID"` //nolint:tagliatelle
 	Region        region.Region `json:"region"`
 	LongName      string        `json:"longName"`
 	ShortName     string        `json:"shortName"`

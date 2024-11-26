@@ -1,11 +1,21 @@
 ---
 linters-settings:
   cyclop:
-    max-complexity: 17
+    max-complexity: 30
+  dupl:
+    threshold: 500
   exhaustive:
-    default-signifies-exhaustive: false
+    default-signifies-exhaustive: true
+  funlen:
+    lines: 267 # revert to 100
+    statements: 150 # revert to 50
   gci:
-    local-prefixes: github.com/jufemaiz/go-aemo
+    sections:
+      - standard
+      - default
+      - prefix(github.com/jufemaiz/go-aemo)
+  gocognit:
+    min-complexity: 50
   goconst:
     min-len: 2
     min-occurrences: 2
@@ -18,136 +28,440 @@ linters-settings:
       - style
     disabled-checks:
       - dupImport # https://github.com/go-critic/go-critic/issues/845
-      - ifElseChain # ref: https://golang.org/doc/effective_go#switch
+      - ifElseChain
       - octalLiteral
       - whyNoLint
       - wrapperFunc
   gocyclo:
-    min-complexity: 17
-  goimports:
-    local-prefixes: github.com/jufemaiz/go-aemo
-  golint:
-    min-confidence: 0.8
-  gomnd:
-    settings:
-      mnd:
-        # don't include the "operation" and "assign"
-        checks:
-          - argument
-          - case
-          - condition
-          - return
+    min-complexity: 30
+  gofmt:
+    simplify: true
+  gomoddirectives:
+    replace-allow-list:
+      - github.com/vektah/gqlparser/v2
   govet:
-    check-shadowing: true
+    enable-all: true
+    disable:
+      - fieldalignment
+    settings:
+      shadow:
+        # Whether to be strict about shadowing; can be noisy.
+        strict: false
+  importas:
+    # Do not allow unaliased imports of aliased packages.
+    # Default: false
+    no-unaliased: true
+    # Do not allow non-required aliases.
+    # Default: false
+    no-extra-aliases: false
+  inamedparam:
+    skip-single-param: true
   lll:
-    line-length: 140
+    line-length: 300
   misspell:
     locale: UK
+    ignore-words:
+      - amortized
+      - apologize
+      - apologizing
+      - artifact
+      - artifacts
+      - authorized
+      - authorizes
+      - behavior
+      - behavioral
+      - behaviors
+      - capitalize
+      - capitalized
+      - capitalizes
+      - categorize
+      - categorized
+      - categorizes
+      - centralize
+      - centralized
+      - centralizes
+      - characterized
+      - color
+      - colored
+      - colorful
+      - coloring
+      - colorize
+      - colorized
+      - colorizing
+      - contextualize
+      - contextualized
+      - contextualizes
+      - customize
+      - customized
+      - customizes
+      - customizing
+      - decentralized
+      - disorganized
+      - emphasize
+      - emphasized
+      - emphasizes
+      - emphasizing
+      - equalization
+      - equalize
+      - equalizer
+      - externalize
+      - externalized
+      - externalizes
+      - externalizing
+      - factorize
+      - factorizing
+      - familiarize
+      - familiarized
+      - favor
+      - favoring
+      - favorite
+      - favorites
+      - favors
+      - finalization
+      - finalize
+      - finalized
+      - finalizes
+      - finalizing
+      - flavor
+      - flavored
+      - flavors
+      - formalization
+      - formalize
+      - formalized
+      - generalization
+      - generalize
+      - generalized
+      - globalize
+      - globalized
+      - harmonized
+      - horiztonal
+      - humanize
+      - humanized
+      - humanizing
+      - initalization
+      - initalizing
+      - initialize
+      - initialized
+      - initializes
+      - initializing
+      - internalization
+      - internalize
+      - italicized
+      - itemize
+      - localize
+      - localized
+      - localizes
+      - localizing
+      - marginalize
+      - materialize
+      - materialized
+      - materializing
+      - maximize
+      - maximized
+      - maximizes
+      - maximizing
+      - memorize
+      - memorized
+      - minimize
+      - minimized
+      - minimizes
+      - minimizing
+      - modernize
+      - modernized
+      - neighbor
+      - neighborhood
+      - neighboring
+      - neighbors
+      - neutralized
+      - normalization
+      - normalize
+      - normalized
+      - normalizes
+      - normalizing
+      - optimize
+      - optimized
+      - optimizes
+      - optimizing
+      - organization
+      - organizational
+      - organizations
+      - organize
+      - organized
+      - organizer
+      - organizes
+      - organizing
+      - penalize
+      - penalized
+      - personalize
+      - personalized
+      - popularized
+      - popularizing
+      - prioritization
+      - prioritize
+      - prioritized
+      - prioritizes
+      - prioritizing
+      - publicize
+      - publicized
+      - randomize
+      - randomized
+      - randomizes
+      - realize
+      - realized
+      - realizes
+      - recognizable
+      - recognizably
+      - recognize
+      - recognized
+      - recognizes
+      - recognizing
+      - recongized
+      - reorganization
+      - reorganize
+      - reorganized
+      - sanitize
+      - sanitized
+      - sanitizes
+      - sanitizing
+      - serialization
+      - serializations
+      - serialize
+      - serialized
+      - serializes
+      - serializing
+      - signalize
+      - specialization
+      - specialize
+      - specialized
+      - stabilize
+      - stabilized
+      - stabilizes
+      - standardization
+      - standardize
+      - standardized
+      - standardizes
+      - standardizing
+      - summarize
+      - summarized
+      - summarizes
+      - summarizing
+      - symbolize
+      - synchronization
+      - synchronize
+      - synchronized
+      - synchronizes
+      - synchronizing
+      - synthesized
+      - synthesizes
+      - synthesizing
+      - systematization
+      - unauthorized
+      - unrecognizable
+      - unrecognized
+      - utilization
+      - utilize
+      - utilized
+      - utilizes
+      - utilizing
+      - visualization
+      - visualizations
+      - visualize
+      - visualized
+      - visualizes
+      - visualizing
+  mnd:
+    # don't include the "operation" and "assign"
+    checks:
+      - argument
+      - case
+      - condition
+      - return
   nolintlint:
-    allow-leading-space: true # don't require machine-readable nolint directives (i.e. with no leading space)
     allow-unused: false # report any unused nolint directives
     require-explanation: false # don't require an explanation for nolint directives
     require-specific: false # don't require nolint directives to be specific about which linter is being skipped
+  revive:
+    severity: warning
+    confidence: 0.8
+    rules:
+      - name: exported
+        arguments:
+          - disableStutteringCheck
+  tagliatelle:
+    # check the struck tag name case
+    case:
+      # use the struct field name to check the name of the struct tag
+      use-field-name: true
+      rules:
+        # any struct tag type can be used.
+        # support string case: 'camel', 'pascal', 'kebab', 'snake', 'goCamel', 'goPascal', 'goKebab', 'goSnake', 'upper', 'lower'
+        json: camel
+        yaml: camel
+        xml: camel
+        bson: camel
+        avro: snake
+        mapstructure: kebab
+  wrapcheck:
+    ignorePackageGlobs:
+      - github.com/storozhukBM/verifier*
 
 linters:
-  # please, do not use `enable-all`: it's deprecated and will be removed soon.
-  # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
+  # please, do not use 'enable-all': it's deprecated and will be removed soon.
+  # inverted configuration with 'enable-all' and 'disable' is not scalable during updates of golangci-lint
   disable-all: true
   enable:
+    - asasalint
+    # - asciicheck # TODO: determine if ASCII should be allowed.
+    - bidichk
     - bodyclose
-    - cyclop # alternative to gocyclo
-    - deadcode
-    - depguard
+    - containedctx
+    - contextcheck
+    # - copyloopvar # Requires as yet unreleased 1.57 of golangci-lint
+    - cyclop
+    # - deadcode # Deprecated since v1.49.0: The owner seems to have abandoned the linter. Replaced by unused.
+    - decorder
+    # - depguard # Too onerous in the common package.
     - dogsled
     - dupl
+    - dupword
     - durationcheck
+    - err113
     - errcheck
+    - errchkjson
+    - errname
     - errorlint
+    # - execinquery # Deprecated (since v1.58.0) due to: The repository of the linter has been archived by the owner.
     - exhaustive
+    # - exhaustivestruct # Deprecated since v1.46.0: The owner seems to have abandoned the linter. Replaced by exhaustruct.
+    # - exhaustruct # TODO: determine if we should implement.
     - exportloopref
     - forbidigo
     - forcetypeassert
     - funlen
     - gci
+    - ginkgolinter
+    - gocheckcompilerdirectives
     - gochecknoglobals
     - gochecknoinits
+    - gochecksumtype
     - gocognit
     - goconst
     - gocritic
     - gocyclo
     - godot
     - godox
-    - goerr113
     - gofmt
+    # - gofumpt # TODO: determine how we should implement.
     - goheader
     - goimports
-    - golint
-    - gomnd
+    # - golint # Deprecated since v1.41.0: The repository of the linter has been archived by the owner. Replaced by revive.
     - gomoddirectives
     - gomodguard
     - goprintffuncname
     - gosec
     - gosimple
+    - gosmopolitan
     - govet
-    - ifshort
-    - importas # deprecated
+    - grouper
+    # - ifshort # Deprecated.
+    - importas
+    # - inamedparam # Disabled for now - too noisy for little value
     - ineffassign
+    - interfacebloat
+    # - interfacer # Deprecated since v1.38.0: The repository of the linter has been archived by the owner.
+    # - intrange # Requires as yet unreleased 1.57 of golangci-lint
+    # - ireturn # Do not enable. As per Rob Pike <https://github.com/go-proverbs/go-proverbs.github.io/issues/37#issuecomment-571288298>.
     - lll
+    - loggercheck
+    - maintidx
     - makezero
+    # - maligned # Deprecated since v1.38.0: The repository of the linter has been archived by the owner. Replaced by govet 'fieldalignment'.
+    - mirror
     - misspell
+    - mnd
+    - musttag
     - nakedret
     - nestif
     - nilerr
+    # - nilnil # TODO: determine if we should implement.
     - nlreturn
     - noctx
     - nolintlint
+    # - nonamedreturns # Do not enable. Bad opinion.
+    # - nosnakecase # Deprecated since v1.48.1: The repository of the linter has been deprecated by the owner. Replaced by revive(var-naming).
+    - nosprintfhostport
+    # - paralleltest # TODO: determine if we should implement.
+    - perfsprint
     - prealloc
     - predeclared
+    - promlinter
+    - protogetter
+    - reassign
     - revive
     - rowserrcheck
+    # - scopelint # Deprecated since v1.39.0: The repository of the linter has been deprecated by the owner. Replaced by exportloopref.
+    - sloglint
+    # - spancheck # Disabled until gobserver is running under go v1.22 so we can regenerate the observers.
     - sqlclosecheck
     - staticcheck
-    - structcheck
+    # - structcheck # Deprecated since v1.49.0: The owner seems to have abandoned the linter. Replaced by unused.
     - stylecheck
+    - tagalign
+    - tagliatelle
+    - tenv
+    - testableexamples
+    - testifylint
+    # - testpackage # TODO: should a separate test package be used? :thinking_face:
     - thelper
     - tparallel
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
+    - usestdlibvars
+    # - varcheck # Deprecated since v1.49.0: The owner seems to have abandoned the linter. Replaced by unused.
+    # - varnamelen # TODO: review the configuration options.
     - wastedassign
     - whitespace
     - wrapcheck
     - wsl
-
-  # don't enable:
-  # - asciicheck
-  # - exhaustivestruct # TODO: determine how we should implement
-  # - gofumpt # TODO: determine how we should implement
-  # - paralleltest # TODO: determine how we should implement
-  # - testpackage # TODO: should a separate test package be used? :thinking_face:
+    - zerologlint
 
 issues:
   # List of regexps of issue texts to exclude, empty list by default.
   # But independently from this option we use default exclude patterns,
-  # it can be disabled by `exclude-use-default: false`. To list all
-  # excluded by default patterns execute `golangci-lint run --help`
+  # it can be disabled by 'exclude-use-default: false'. To list all
+  # excluded by default patterns execute 'golangci-lint run --help'
   exclude:
-  - 'declaration of "(err|ctx)" shadows declaration at'
+    - 'declaration of "(err|ctx)" shadows declaration at'
+  include:
+    - EXC0012  # EXC0012 revive: should have comment( \(or a comment on this block\))? or be unexported
+    - EXC0014  # EXC0014 revive: comment on exported (.+) should be of the form "(.+)..."
 
   # Excluding configuration per-path, per-linter, per-text and per-source
   exclude-rules:
     - path: _test\.go
       linters:
-        - gomnd
-        - funlen
-        - gocyclo
-        - errcheck
+        - containedctx
+        - contextcheck
+        - cyclop
         - dupl
+        - dupword
+        - err113
+        - errcheck
+        - exhaustive
+        - funlen
+        - gocognit
+        - goconst
+        - gocyclo
         - gosec
         - lll
-        - goconst
+        - maintidx
+        - mnd
+        - wrapcheck
+    - path: .*observer_impl\.go
+      linters:
+        - unparam
 
     # Exclude known linters from partially hard-vendored code,
     # which is impossible to exclude via "nolint" comments.
@@ -171,20 +485,12 @@ issues:
         - gocritic
       text: 'unnecessaryDefer:'
 
-run:
-  timeout: 5m
-  skip-dirs:
+  exclude-dirs:
     - test/testdata_etc
     - internal/cache
     - internal/renameio
     - internal/robustio
-
-# golangci.com configuration
-# https://github.com/golangci/golangci/wiki/Configuration
-service:
-  golangci-lint-version: 1.43.x # use the fixed version to not introduce new linters unexpectedly
-  prepare:
-    - echo "here I can run custom commands, but no preparation needed for this repo"
+    - vendor
 
 severity:
   # Default value is empty string.

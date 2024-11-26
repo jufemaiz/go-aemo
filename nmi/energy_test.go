@@ -1,8 +1,6 @@
 package nmi
 
 import (
-	"errors"
-	"fmt"
 	"strings"
 	"testing"
 
@@ -45,12 +43,12 @@ func TestNewEnergy(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("When %s", name), func() {
+			Convey("Given "+name, func() {
 				resp, err := NewEnergy(tc.s)
 
 				if tc.err != nil {
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(resp.String(), ShouldEqual, strings.ToUpper(tc.s))
@@ -83,7 +81,7 @@ func TestEnergyGoString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("When %s", name), func() {
+			Convey("Given "+name, func() {
 				resp := tc.e.GoString()
 
 				So(resp, ShouldEqual, tc.s)
@@ -115,7 +113,7 @@ func TestEnergyString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("When %s", name), func() {
+			Convey("Given "+name, func() {
 				resp := tc.e.String()
 
 				So(resp, ShouldEqual, tc.s)

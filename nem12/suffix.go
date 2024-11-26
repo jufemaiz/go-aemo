@@ -322,7 +322,7 @@ func (s SuffixType) Unit() UnitOfMeasure {
 // Suffix is a datastream suffix, made up first of a single character flag for
 // the type of datastream, and a second character flag for a meter.
 type Suffix struct {
-	Type  SuffixType `json:"suffixType,omitempty"`
+	Type  SuffixType `json:"suffixType,omitempty"` //nolint:tagliatelle
 	Meter rune       `json:"meter,omitempty"`
 }
 

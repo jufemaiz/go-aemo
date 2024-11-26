@@ -1,7 +1,6 @@
 package nem12_test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -12,7 +11,7 @@ import (
 	"github.com/jufemaiz/go-aemo/nmi"
 )
 
-func TestIntervalSet_Normalize(t *testing.T) { //nolint:misspell
+func TestIntervalSet_Normalize(t *testing.T) {
 	Convey("nem12/IntervalSet.Normalize", t, func() {
 		tests := map[string]struct {
 			set        func() *nem12.IntervalSet
@@ -329,7 +328,7 @@ func TestIntervalSet_Normalize(t *testing.T) { //nolint:misspell
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				set := tc.set()
 
 				resp, err := set.Normalize()
@@ -347,7 +346,7 @@ func TestIntervalSet_Normalize(t *testing.T) { //nolint:misspell
 	})
 }
 
-func TestInterval_Normalize(t *testing.T) { //nolint:misspell
+func TestInterval_Normalize(t *testing.T) {
 	Convey("nem12/Interval.Normalize", t, func() {
 		tests := map[string]struct {
 			interval   func() *nem12.Interval
@@ -465,7 +464,7 @@ func TestInterval_Normalize(t *testing.T) { //nolint:misspell
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				interval := tc.interval()
 
 				arg := tc.arg()

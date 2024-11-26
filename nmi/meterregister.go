@@ -4,7 +4,7 @@ import "fmt"
 
 // MeterRegister for a Meter for a NMI.
 type MeterRegister struct {
-	RegisterID        string `json:"registerID,omitempty"`
+	RegisterID        string `json:"registerID,omitempty"` //nolint:tagliatelle
 	MeasurementStream string `json:"measurementStream,omitempty"`
 	NetworkTariffCode string `json:"networkTariffCode,omitempty"`
 	UnitOfMeasure     string `json:"unitOfMeasure,omitempty"`

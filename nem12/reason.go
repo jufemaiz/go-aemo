@@ -434,7 +434,7 @@ var (
 	}
 
 	// ReasonName a mapping of the reason to the string of the reason.
-	ReasonName = map[Reason]string{ //nolint:dupl,gochecknoglobals
+	ReasonName = map[Reason]string{ //nolint:gochecknoglobals
 		ReasonFreeTextDescription:                   "0",
 		ReasonMeterEquipmentChanged:                 "1",
 		ReasonExtremeWeatherConditions:              "2",
@@ -630,7 +630,7 @@ var (
 	}
 
 	// reasonDescriptions maps reasons to descriptions.
-	reasonDescriptions = map[Reason]string{ //nolint:dupl,gochecknoglobals
+	reasonDescriptions = map[Reason]string{ //nolint:gochecknoglobals
 		ReasonFreeTextDescription:                   "Free text description",
 		ReasonMeterEquipmentChanged:                 "Meter/equipment changed",
 		ReasonExtremeWeatherConditions:              "Extreme weather conditions",
@@ -850,8 +850,9 @@ func (r Reason) GoString() string {
 	return fmt.Sprintf("%%!Reason(%d)", r)
 }
 
-//nolint:gocritic
 // Deprecated indicates if this method is a deprecated method.
+//
+//nolint:gocritic
 func (r Reason) Deprecated() bool {
 	dep, ok := reasonsDeprecated[r]
 	if !ok {

@@ -53,7 +53,7 @@ func TestNewInstall(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewInstall(tc.arg)
 
 				if tc.err != nil {

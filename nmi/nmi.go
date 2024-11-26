@@ -30,17 +30,14 @@ var (
 type Nmi struct {
 	Identifier                 string `json:"identifier,omitempty"`
 	MSATSDetail                string `json:"msatsDetail,omitempty"`
-	TransmissionNodeIdentifier TNI    `json:"tni,omitempty"`
-	DistributionLossFactorCode DLFC   `json:"dlfc,omitempty"`
+	TransmissionNodeIdentifier TNI    `json:"tni,omitempty"`  //nolint:tagliatelle
+	DistributionLossFactorCode DLFC   `json:"dlfc,omitempty"` //nolint:tagliatelle
 	CustomerClassificationCode string `json:"customerClassificationCode,omitempty"`
 	CustomerThresholdCode      string `json:"customerThresholdCode,omitempty"`
 	JurisdictionCode           string `json:"jurisdictionCode,omitempty"`
 	ClassificationCode         string `json:"classificationCode,omitempty"`
 	Meters                     Meters `json:"meters,omitempty"`
-	DataStreams                string `json:"datastreams,omitempty"`
-	// Address                    Address
-	// Status                     Status
-	// Roles       []*Role
+	DataStreams                string `json:"datastreams,omitempty"` //nolint:tagliatelle
 }
 
 // Checksum calculates a Nmi's checksum.
@@ -194,6 +191,10 @@ func (n *Nmi) RemoveMeter(m *Meter) error {
 
 	if m == nil {
 		return fmt.Errorf("RemoveMeter: %w", ErrMeterNil)
+	}
+
+	if m.Identifier == "" {
+		return fmt.Errorf("removing meter '%s': %w", m.Identifier, ErrNmiMeterIdentifierEmpty)
 	}
 
 	if _, ok := n.Meters[m.Identifier]; !ok {

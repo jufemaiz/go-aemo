@@ -1,7 +1,6 @@
 package nmi
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -87,13 +86,13 @@ func TestNewNmi(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got, err := NewNmi(tc.arg)
 
 				if tc.err != nil {
 					So(got, ShouldBeNil)
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(got, ShouldNotBeNil)
@@ -123,7 +122,7 @@ func TestNmiGoString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.GoString()
 
 				So(got, ShouldEqual, tc.expected)
@@ -151,7 +150,7 @@ func TestNmiString(t *testing.T) {
 		for name, tc := range tests {
 			tc := tc
 
-			Convey(fmt.Sprintf("Given %s", name), func() {
+			Convey("Given "+name, func() {
 				got := tc.arg.String()
 				So(got, ShouldEqual, tc.expected)
 			})
@@ -301,7 +300,7 @@ func TestNmiAllMeters(t *testing.T) {
 				if tc.err != nil {
 					So(got, ShouldBeZeroValue)
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					t.Log("")
 					t.Logf("expected: %#v", tc.expected)
@@ -321,6 +320,7 @@ func TestNmiAddMeter(t *testing.T) {
 			nmi   *Nmi
 			meter *Meter
 		}
+
 		tests := map[string]struct {
 			arg      arg
 			expected Meters
@@ -396,7 +396,7 @@ func TestNmiAddMeter(t *testing.T) {
 				err := nmi.AddMeter(tc.arg.meter)
 				if tc.err != nil {
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(nmi.Meters, ShouldResemble, tc.expected)
@@ -412,6 +412,7 @@ func TestNmiRemoveMeter(t *testing.T) {
 			nmi   *Nmi
 			meter *Meter
 		}
+
 		tests := map[string]struct {
 			arg      arg
 			expected Meters
@@ -485,7 +486,7 @@ func TestNmiRemoveMeter(t *testing.T) {
 				err := nmi.RemoveMeter(tc.arg.meter)
 				if tc.err != nil {
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(nmi.Meters, ShouldResemble, tc.expected)
@@ -516,7 +517,7 @@ func TestNmiParticipant(t *testing.T) {
 				if tc.err != nil {
 					So(got, ShouldBeZeroValue)
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(got, ShouldEqual, tc.expected)
@@ -547,7 +548,7 @@ func TestNmiRegion(t *testing.T) {
 				if tc.err != nil {
 					So(got, ShouldBeZeroValue)
 					So(err, ShouldBeError)
-					So(errors.As(err, &tc.err), ShouldBeTrue)
+					So(err, ShouldWrap, tc.err)
 				} else {
 					So(err, ShouldBeNil)
 					So(got, ShouldEqual, tc.expected)

@@ -381,7 +381,7 @@ func (u UnitOfMeasure) DecimalMultiplier() decimal.Decimal {
 
 // Base returns the base unit in SI for a unit of measure.
 func (u UnitOfMeasure) Base() UnitOfMeasure {
-	switch u { //nolint:exhaustive
+	switch u {
 	case UnitAmpere, UnitKiloampere:
 		return UnitAmpere
 	case UnitVolt, UnitKilovolt:
